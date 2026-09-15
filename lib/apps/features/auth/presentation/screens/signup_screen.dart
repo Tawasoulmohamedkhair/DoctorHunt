@@ -4,6 +4,7 @@ import 'package:doctor_hunt/apps/features/auth/presentation/widgets/app_text_fie
 import 'package:doctor_hunt/apps/features/auth/presentation/widgets/auth_title_widget.dart';
 import 'package:doctor_hunt/apps/features/auth/presentation/widgets/rich_text_widget.dart';
 import 'package:doctor_hunt/apps/features/auth/presentation/widgets/social_media_widget.dart';
+import 'package:doctor_hunt/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -12,6 +13,7 @@ class SignupScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = context.t.auth;
     return Scaffold(
       body: Container(
         padding: EdgeInsets.symmetric(horizontal: 20.w),
@@ -25,17 +27,68 @@ class SignupScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(height: 100.h),
+            //SizedBox(height: 100.h),
             Container(
               decoration: BoxDecoration(),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20.r),
+                        border: Border.all(
+                          color: const Color(0xff0EBE7F),
+                          width: 1,
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withValues(alpha: 0.06),
+                            blurRadius: 8,
+                            offset: const Offset(0, 3),
+                          ),
+                        ],
+                      ),
+                      child: TextButton.icon(
+                        onPressed: () {
+                          if (LocaleSettings.currentLocale == AppLocale.en) {
+                            LocaleSettings.setLocale(AppLocale.ar);
+                          } else {
+                            LocaleSettings.setLocale(AppLocale.en);
+                          }
+                        },
+                        icon: const Icon(
+                          Icons.language_rounded,
+                          color: Color(0xff0EBE7F),
+                          size: 18,
+                        ),
+                        label: Text(
+                          LocaleSettings.currentLocale == AppLocale.en
+                              ? 'العربية'
+                              : 'English',
+                          style: TextStyle(
+                            color: const Color(0xff0EBE7F),
+                            fontSize: 13.sp,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        style: TextButton.styleFrom(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 12.w,
+                            vertical: 6.h,
+                          ),
+                          minimumSize: Size.zero,
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        ),
+                      ),
+                    ),
+                  ),
                   AuthTitleWidget(
-                    title: 'Join us to start searching',
-                    description:
-                        'You can search c ourse, apply course and find scholarship for abroad studies',
+                    title: t.signUpTitle,
+                    description: t.createAccountDescription,
                   ),
                   SizedBox(height: 67.h),
 
@@ -43,23 +96,23 @@ class SignupScreen extends StatelessWidget {
                     children: [
                       SocialMediaWidget(
                         image: Image.asset('assets/images/google.png'),
-                        text: 'Google',
+                        text: t.google,
                       ),
                       SizedBox(width: 12.w),
                       SocialMediaWidget(
                         image: Image.asset('assets/images/facebook.png'),
-                        text: 'Facebook',
+                        text: t.facebook,
                       ),
                     ],
                   ),
                   SizedBox(height: 34.h),
 
                   AppTextField(
-                    hintText: 'Name',
+                    hintText: t.name,
 
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Please enter your name';
+                        return t.entername;
                       }
                       return null;
                     },
@@ -67,11 +120,11 @@ class SignupScreen extends StatelessWidget {
                   SizedBox(height: 18.h),
 
                   AppTextField(
-                    hintText: 'Email',
+                    hintText: t.email,
 
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Please enter your email';
+                        return t.enterEmail;
                       }
                       return null;
                     },
@@ -79,14 +132,14 @@ class SignupScreen extends StatelessWidget {
                   SizedBox(height: 18.h),
 
                   AppTextField(
-                    hintText: 'Password',
+                    hintText: t.password,
                     type: AppTextFieldType.password,
 
                     suffixIcon: Icon(Icons.visibility_off),
 
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Please enter your password';
+                        return t.enterPassword;
                       }
                       return null;
                     },
@@ -110,11 +163,7 @@ class SignupScreen extends StatelessWidget {
                         ),
                       ),
                       SizedBox(width: 11.w),
-                      Expanded(
-                        child: Text(
-                          'I agree with the Terms of Service & Privacy Policy',
-                        ),
-                      ),
+                      Expanded(child: Text(t.agreeAndPrivacy)),
                     ],
                   ),
                 ],
@@ -123,12 +172,12 @@ class SignupScreen extends StatelessWidget {
 
             SizedBox(height: 10.h),
             CustomElevatedButton(
-              label: Text('Sign Up'),
+              label: Text(t.signUp),
               onPressed: () => const LoginRoute().go(context),
             ),
             RichTextWidget(
-              text1: 'Have an account?',
-              text2: ' Log in',
+              text1: t.haveAccount,
+              text2: t.logIn,
               onTap: () => const LoginRoute().go(context),
             ),
           ],

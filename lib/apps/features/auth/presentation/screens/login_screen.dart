@@ -8,6 +8,7 @@ import 'package:doctor_hunt/apps/features/auth/presentation/widgets/rich_text_wi
 import 'package:doctor_hunt/apps/features/auth/presentation/widgets/social_media_widget.dart';
 import 'package:doctor_hunt/apps/features/auth/presentation/widgets/verify_code_bottom_sheet.dart';
 import 'package:doctor_hunt/apps/features/auth/presentation/widgets/reset_password_bottom_sheet.dart';
+import 'package:doctor_hunt/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -17,6 +18,8 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = context.t;
+
     return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
         // ==================================
@@ -55,7 +58,7 @@ class LoginScreen extends StatelessWidget {
 
         if (state.status == AuthStatus.resetPasswordSuccess) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Password reset successfully')),
+             SnackBar(content: Text(t.auth.passwordSuccess)),
           );
         }
 
@@ -66,7 +69,7 @@ class LoginScreen extends StatelessWidget {
         if (state.status == AuthStatus.failure) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text(state.errorMessage ?? 'Something went wrong'),
+              content: Text(state.errorMessage ?? t.auth.somethingwentwrong),
             ),
           );
         }
@@ -86,32 +89,31 @@ class LoginScreen extends StatelessWidget {
             child: Column(
               children: [
                 AuthTitleWidget(
-                  title: 'Welcome back',
-                  description:
-                      'You can search c ourse, apply course and find scholarship for abroad studies',
+                  title: t.auth.welcome,
+                  description: t.auth.loginDescription,
                 ),
                 SizedBox(height: 67.h),
                 Row(
                   children: [
                     SocialMediaWidget(
                       image: Image.asset('assets/images/google.png'),
-                      text: 'Google',
+                      text: t.auth.google,
                     ),
                     SizedBox(width: 12.w),
                     SocialMediaWidget(
                       image: Image.asset('assets/images/facebook.png'),
-                      text: 'Facebook',
+                      text: t.auth.facebook,
                     ),
                   ],
                 ),
                 SizedBox(height: 34.h),
                 AppTextField(
-                  hintText: 'Email',
+                  hintText: t.auth.email,
                   suffixIcon: Icon(Icons.check),
 
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter your email';
+                      return t.auth.enterEmail;
                     }
                     return null;
                   },
@@ -119,18 +121,17 @@ class LoginScreen extends StatelessWidget {
                 SizedBox(height: 18.h),
 
                 AppTextField(
-                  hintText: 'Password',
-                    type: AppTextFieldType.password,
+                  hintText: t.auth.password,
+                  type: AppTextFieldType.password,
 
                   suffixIcon: GestureDetector(
-                    onTap: (){
-
-                    },
-                    child: Icon(Icons.visibility_off)),
+                    onTap: () {},
+                    child: Icon(Icons.visibility_off),
+                  ),
 
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter your password';
+                      return t.auth.enterPassword;
                     }
                     return null;
                   },
@@ -139,12 +140,11 @@ class LoginScreen extends StatelessWidget {
                   onPressed: () {
                     showAuthBottomSheet(
                       context,
-                      title: 'Forgot Password?',
+                      title: t.auth.forgotPassword,
                       description:
-                          'Enter your email for the verification process. '
-                          'We will send a 4 digits code to your email.',
-                      hintText: 'Email',
-                      buttonText: 'Continue',
+                          t.auth.emailVerification,
+                      hintText: t.auth.email,
+                      buttonText: t.common.kContinue,
 
                       // ==========================
                       // Email Submitted
@@ -157,17 +157,20 @@ class LoginScreen extends StatelessWidget {
                     );
                   },
                   child: Text(
-                    'Forgot password',
+                    t.auth.forgotPassword,
                     style: TextStyle(color: const Color(0xff0EBE7F)),
                   ),
                 ),
                 SizedBox(height: 32.h),
-                CustomElevatedButton(label: Text('Login'), onPressed: () {}),
+                CustomElevatedButton(
+                  label: Text(t.auth.logIn),
+                  onPressed: () {},
+                ),
                 SizedBox(height: 54.h),
 
                 RichTextWidget(
-                  text1: 'Don’t have an account?',
-                  text2: '  Join us',
+                  text1: t.auth.doNotHaveAccount,
+                  text2: t.auth.join,
                   onTap: () {},
                 ),
               ],

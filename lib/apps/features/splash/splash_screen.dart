@@ -1,5 +1,6 @@
 import 'package:doctor_hunt/apps/core/di/injection.dart';
 import 'package:doctor_hunt/apps/core/router/app_routers.dart';
+import 'package:doctor_hunt/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -37,6 +38,10 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final t = context.t;
+
+    debugPrint('Current locale: ${LocaleSettings.currentLocale}');
+    debugPrint('App name: ${t.appName}');
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -53,8 +58,8 @@ class _SplashScreenState extends State<SplashScreen> {
 
               const SizedBox(height: 11),
 
-              const Text(
-                'Doctor Hunt',
+              Text(
+                t.appName,
                 style: TextStyle(
                   color: Color(0xFF222222),
                   fontSize: 25,

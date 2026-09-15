@@ -1,13 +1,17 @@
 import 'package:doctor_hunt/apps/features/onboarding/data/models/onboarding_model.dart';
+import 'package:doctor_hunt/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 
 class OnboardingPage extends StatelessWidget {
   final OnboardingModel item;
+  final int index;
 
-  const OnboardingPage({super.key, required this.item});
+  const OnboardingPage({super.key, required this.item, required this.index});
 
   @override
   Widget build(BuildContext context) {
+    final page = context.t.onboarding.pages[index];
+
     return Stack(
       children: [
         // Background ellipse
@@ -50,7 +54,7 @@ class OnboardingPage extends StatelessWidget {
 
               // Title
               Text(
-                item.title,
+                page.title,
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontSize: 24,
@@ -63,7 +67,7 @@ class OnboardingPage extends StatelessWidget {
 
               // Description
               Text(
-                item.description,
+                page.description,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 15,
@@ -72,7 +76,6 @@ class OnboardingPage extends StatelessWidget {
                 ),
               ),
 
-              // Space before button area
               const Spacer(flex: 2),
             ],
           ),

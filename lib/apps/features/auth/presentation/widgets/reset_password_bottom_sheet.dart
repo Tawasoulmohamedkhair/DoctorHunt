@@ -1,5 +1,6 @@
 import 'package:doctor_hunt/apps/core/widget/custom_elevated_button.dart';
 import 'package:doctor_hunt/apps/features/auth/presentation/widgets/app_text_field.dart';
+import 'package:doctor_hunt/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -31,6 +32,8 @@ class _ResetPasswordBottomSheetState extends State<ResetPasswordBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final t = context.t.auth;
+
     return Container(
       padding: EdgeInsets.fromLTRB(
         20.w,
@@ -62,7 +65,7 @@ class _ResetPasswordBottomSheetState extends State<ResetPasswordBottomSheet> {
 
           // Title
           Text(
-            'Reset Password',
+            t.reset,
             style: TextStyle(
               fontSize: 22.sp,
               fontWeight: FontWeight.w700,
@@ -74,7 +77,7 @@ class _ResetPasswordBottomSheetState extends State<ResetPasswordBottomSheet> {
 
           // Description
           Text(
-            'Create a new password for your account.',
+            t.creatNewPassword,
             style: TextStyle(
               fontSize: 14.sp,
               color: const Color(0xff677294),
@@ -89,7 +92,7 @@ class _ResetPasswordBottomSheetState extends State<ResetPasswordBottomSheet> {
             controller: passwordController,
             type: AppTextFieldType.password,
 
-            hintText: 'New Password',
+            hintText: t.newPassword,
             suffixIcon: IconButton(
               onPressed: () {
                 setState(() {
@@ -116,7 +119,7 @@ class _ResetPasswordBottomSheetState extends State<ResetPasswordBottomSheet> {
             controller: confirmPasswordController,
             type: AppTextFieldType.password,
 
-            hintText: 'Confirm Password',
+            hintText: t.confirmepassword,
             suffixIcon: IconButton(
               onPressed: () {
                 setState(() {
@@ -140,7 +143,7 @@ class _ResetPasswordBottomSheetState extends State<ResetPasswordBottomSheet> {
 
           // Reset Button
           CustomElevatedButton(
-            label: const Text('Reset Password'),
+            label: Text(t.reset),
             onPressed: () {
               final password = passwordController.text.trim();
 
@@ -151,9 +154,9 @@ class _ResetPasswordBottomSheetState extends State<ResetPasswordBottomSheet> {
               }
 
               if (password != confirmPassword) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Passwords do not match')),
-                );
+                ScaffoldMessenger.of(
+                  context,
+                ).showSnackBar(SnackBar(content: Text(t.passworddonotmatch)));
                 return;
               }
 

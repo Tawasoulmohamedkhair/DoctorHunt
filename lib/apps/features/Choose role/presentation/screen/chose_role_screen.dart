@@ -103,7 +103,6 @@ class _ChooseRoleView extends StatelessWidget {
                 height: 52,
                 child: ElevatedButton(
                   onPressed: () {
-                    //  context.read<RoleSelectionCubit>().submitRole();
                     const SignUpRoute().go(context);
                   },
                   style: ElevatedButton.styleFrom(

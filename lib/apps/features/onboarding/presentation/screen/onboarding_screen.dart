@@ -2,7 +2,7 @@ import 'package:doctor_hunt/apps/core/router/app_routers.dart';
 import 'package:doctor_hunt/apps/features/onboarding/data/models/onboarding_data.dart';
 import 'package:doctor_hunt/apps/features/onboarding/presentation/cubit/onboardin_cubit.dart';
 import 'package:doctor_hunt/apps/features/onboarding/presentation/screen/onbarding.dart';
-
+import 'package:doctor_hunt/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -34,11 +34,15 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final t = context.t.common;
+
     return Scaffold(
       backgroundColor: Colors.white,
+
       body: Stack(
         clipBehavior: Clip.none,
         children: [
+          // Bottom right ellipse
           Positioned(
             bottom: -30,
             right: -40,
@@ -50,24 +54,28 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             ),
           ),
 
+          // Onboarding pages
           Positioned.fill(
             bottom: 130,
             child: PageView.builder(
               controller: _pageController,
               itemCount: onboardingData.length,
+
               onPageChanged: (index) {
                 setState(() {
                   currentIndex = index;
                 });
               },
+
               itemBuilder: (context, index) {
                 final item = onboardingData[index];
 
-                return OnboardingPage(item: item);
+                return OnboardingPage(item: item, index: index);
               },
             ),
           ),
 
+          // Bottom buttons
           Positioned(
             left: 0,
             right: 0,
@@ -90,6 +98,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           );
                         }
                       },
+
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF0EBE7F),
                         elevation: 0,
@@ -97,10 +106,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           borderRadius: BorderRadius.circular(12),
                         ),
                       ),
+
                       child: Text(
                         currentIndex == onboardingData.length - 1
-                            ? 'Get Started'
-                            : 'Next',
+                            ? t.getStarted
+                            : t.next,
                         style: const TextStyle(
                           fontSize: 16,
                           color: Colors.white,
@@ -115,9 +125,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
                 TextButton(
                   onPressed: _goToChooseRole,
-                  child: const Text(
-                    'Skip',
-                    style: TextStyle(color: Colors.grey, fontSize: 16),
+                  child: Text(
+                    t.skip,
+                    style: const TextStyle(color: Colors.grey, fontSize: 16),
                   ),
                 ),
               ],

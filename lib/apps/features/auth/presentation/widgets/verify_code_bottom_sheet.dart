@@ -1,4 +1,5 @@
 import 'package:doctor_hunt/apps/core/widget/custom_elevated_button.dart';
+import 'package:doctor_hunt/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pinput/pinput.dart';
@@ -23,6 +24,7 @@ class _VerifyCodeBottomSheetState extends State<VerifyCodeBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final t = context.t;
     return Container(
       padding: EdgeInsets.fromLTRB(
         20.w,
@@ -54,7 +56,7 @@ class _VerifyCodeBottomSheetState extends State<VerifyCodeBottomSheet> {
 
           // Title
           Text(
-            'Enter 4 Digits Code',
+            t.auth.enterDigit,
             style: TextStyle(
               fontSize: 22.sp,
               fontWeight: FontWeight.w700,
@@ -66,7 +68,7 @@ class _VerifyCodeBottomSheetState extends State<VerifyCodeBottomSheet> {
 
           // Description
           Text(
-            'Enter the 4 digits code that we sent to your email.',
+            t.auth.enterReceivedDigit,
             style: TextStyle(
               fontSize: 14.sp,
               color: const Color(0xff677294),
@@ -125,7 +127,7 @@ class _VerifyCodeBottomSheetState extends State<VerifyCodeBottomSheet> {
             child: TextButton(
               onPressed: () {},
               child: Text(
-                'Resend Code',
+                t.common.resencode,
                 style: TextStyle(
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w500,
@@ -139,7 +141,7 @@ class _VerifyCodeBottomSheetState extends State<VerifyCodeBottomSheet> {
 
           // Continue
           CustomElevatedButton(
-            label: const Text('Continue'),
+            label: Text(t.common.kContinue),
             onPressed: () {
               final code = codeController.text.trim();
 
