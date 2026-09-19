@@ -1,10 +1,10 @@
 import 'package:doctor_hunt/apps/Patient/core/router/app_routers.dart';
 import 'package:doctor_hunt/apps/Patient/core/themes/app_colors.dart';
+import 'package:doctor_hunt/apps/Patient/core/widget/header_widget.dart';
 import 'package:doctor_hunt/apps/Patient/features/finddoctor/presentation/cubit/finddoctor_cubit.dart';
 import 'package:doctor_hunt/apps/Patient/features/finddoctor/presentation/cubit/finddoctor_state.dart';
 import 'package:doctor_hunt/apps/Patient/features/finddoctor/presentation/widgets/doctor_find_card.dart';
 import 'package:doctor_hunt/gen/assets.gen.dart';
-import 'package:doctor_hunt/generated/style_atoms.dart';
 import 'package:doctor_hunt/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -45,118 +45,79 @@ class _FindDoctorsScreenState extends State<FindDoctorsScreen> {
             child: Image.asset(Assets.images.bg.path, fit: BoxFit.cover),
           ),
 
-          SafeArea(
-            child: Column(
-              children: [
-                // AppBar
-                SizedBox(
-                  height: 56.h,
-                  child: Row(
-                    children: [
-                      const SizedBox(width: 16),
+          Column(
+            children: [
+              SizedBox(height: 20),
+              // AppBar
+              HeaderAppBar(title: context.t.find.find_doctors),
 
-                      // Back Button
-                      GestureDetector(
-                        onTap: () => Navigator.pop(context),
-                        child: Container(
-                          width: 30.w,
-                          height: 30.h,
-                          decoration: BoxDecoration(
-                            color: AppColors.white,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: const Center(
-                            child: Icon(
-                              Icons.arrow_back_ios_new,
-                              size: 16,
-                              color: AppColors.textSub,
-                            ),
-                          ),
-                        ),
-                      ),
+              // Search
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+                child: TextField(
+                  controller: _controller,
+                  textInputAction: TextInputAction.search,
+                  onSubmitted: (value) {
+                    context.read<FindDoctorsCubit>().search(value.trim());
+                  },
+                  decoration: InputDecoration(
+                    hintText: context.t.find.search_hint,
+                    prefixIcon: const Icon(Icons.search),
+                    suffixIcon: IconButton(
+                      icon: const Icon(Icons.close),
+                      onPressed: () {
+                        _controller.clear();
 
-                      // Space between button and title
-                      SizedBox(width: 20.w),
-
-                      Text(
-                        context.t.find.find_doctors,
-                        style: context.regular18black,
-                      ),
-                    ],
-                  ),
-                ),
-
-                // Search
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 16.w,
-                    vertical: 8.h,
-                  ),
-                  child: TextField(
-                    controller: _controller,
-                    textInputAction: TextInputAction.search,
-                    onSubmitted: (value) {
-                      context.read<FindDoctorsCubit>().search(value.trim());
-                    },
-                    decoration: InputDecoration(
-                      hintText: context.t.find.search_hint,
-                      prefixIcon: const Icon(Icons.search),
-                      suffixIcon: IconButton(
-                        icon: const Icon(Icons.close),
-                        onPressed: () {
-                          _controller.clear();
-
-                          context.read<FindDoctorsCubit>().search('');
-                        },
-                      ),
-                      filled: true,
-                      fillColor: AppColors.white,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30),
-                        borderSide: BorderSide.none,
-                      ),
+                        context.read<FindDoctorsCubit>().search('');
+                      },
+                    ),
+                    filled: true,
+                    fillColor: AppColors.white,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30),
+                      borderSide: BorderSide.none,
                     ),
                   ),
                 ),
+              ),
 
-                // Doctors List
-                Expanded(
-                  child: BlocBuilder<FindDoctorsCubit, FindDoctorsState>(
-                    builder: (context, state) {
-                      if (state is FindDoctorsLoading) {
-                        return const Center(child: CircularProgressIndicator());
+              // Doctors List
+              Expanded(
+                child: BlocBuilder<FindDoctorsCubit, FindDoctorsState>(
+                  builder: (context, state) {
+                    if (state is FindDoctorsLoading) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+
+                    if (state is FindDoctorsError) {
+                      return Center(child: Text(state.message));
+                    }
+
+                    if (state is FindDoctorsLoaded) {
+                      if (state.doctors.isEmpty) {
+                        return const Center(child: Text('No doctors found'));
                       }
 
-                      if (state is FindDoctorsError) {
-                        return Center(child: Text(state.message));
-                      }
+                      return ListView.builder(
+                        padding: EdgeInsets.all(16.w),
+                        itemCount: state.doctors.length,
+                        itemBuilder: (context, index) {
+                          final doctor = state.doctors[index];
 
-                      if (state is FindDoctorsLoaded) {
-                        if (state.doctors.isEmpty) {
-                          return const Center(child: Text('No doctors found'));
-                        }
+                          return GestureDetector(
+                            onTap: () =>
+                                DetailsRoute(doctorId: doctor.id).go(context),
+                            child: DoctorFindCard(doctor: doctor),
+                          );
+                        },
+                      );
+                    }
 
-                        return ListView.builder(
-                          padding: EdgeInsets.all(16.w),
-                          itemCount: state.doctors.length,
-                          itemBuilder: (context, index) {
-                            final doctor = state.doctors[index];
-
-                            return GestureDetector(
-                              onTap: () =>
-                                  DetailsRoute(doctorId: doctor.id).go(context),
-                              child: DoctorFindCard(doctor: doctor),
-                            );
-                          },
-                        );
-                      }
-
-                      return const SizedBox();
-                    },
-                  ),
+                    return const SizedBox();
+                  },
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ],
       ),

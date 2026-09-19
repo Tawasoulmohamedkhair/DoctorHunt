@@ -4,7 +4,7 @@ import 'package:doctor_hunt/apps/Patient/core/themes/app_colors.dart';
 import 'package:doctor_hunt/apps/Patient/features/doctordetails/presentation/cubit/doctordetails_cubit.dart';
 import 'package:doctor_hunt/apps/Patient/features/doctordetails/presentation/cubit/doctordetails_state.dart';
 import 'package:doctor_hunt/apps/Patient/features/doctordetails/presentation/widgets/doctor_card.dart';
-import 'package:doctor_hunt/apps/Patient/features/doctordetails/presentation/widgets/header_widget.dart';
+import 'package:doctor_hunt/apps/Patient/core/widget/header_widget.dart';
 import 'package:doctor_hunt/apps/Patient/features/doctordetails/presentation/widgets/stats_row.dart';
 import 'package:doctor_hunt/gen/assets.gen.dart';
 import 'package:doctor_hunt/generated/style_atoms.dart';
@@ -42,7 +42,9 @@ class DoctorDetailsScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        HeaderAppBar(),
+                        SizedBox(height: 10),
+
+                        HeaderAppBar(title: context.t.details.doctorDetails),
                         // ===== Doctor Card =====
                         DoctorCard(doctor: doctor),
                         const SizedBox(height: 16),
