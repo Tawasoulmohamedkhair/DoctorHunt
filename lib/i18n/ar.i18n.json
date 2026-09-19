@@ -6,48 +6,61 @@
     "next": "التالي",
     "skip": "تخطي",
     "getStarted": "ابدأ الآن",
-    "resencode": "إعادة إرسال الرمز"
+    "resencode": "إعادة إرسال الرمز",
+    "live": "مباشر",
+    "hours": "ساعة",
+    "error": "حدث خطأ ما",
+    "loading": "جاري التحميل...",
+    "seeall": "عرض الكل"
   },
 
   "onboarding": {
     "pages": [
       {
         "title": "اعثر على أطباء موثوقين",
-        "description": "اكتشف الأطباء والمتخصصين في الرعاية الصحية الموثوقين بالقرب منك، كل ذلك في مكان واحد."
+        "description": "اكتشف أطباء ومتخصصين في الرعاية الصحية موثوقين بالقرب منك، كل ذلك في مكان واحد."
       },
       {
         "title": "اختر أفضل الأطباء",
-        "description": "استكشف ملفات الأطباء، وتعرّف على تخصصاتهم، واختر الطبيب المناسب لاحتياجاتك."
+        "description": "استكشف ملفات الأطباء، وتحقق من تخصصاتهم، واختر الطبيب المناسب لاحتياجاتك."
       },
       {
-        "title": "مواعيد بسهولة",
+        "title": "مواعيد سهلة",
         "description": "احجز موعدك بسهولة واختر التاريخ والوقت الأنسب لك."
       }
     ]
   },
+  "chooserole": {
+    "chooseRole": "اختر دورك",
+    "selectedRole": "يحدد الدور الذي تختاره تجربتك والميزات المتاحة لك.",
+    "patient": "مريض",
+    "findDoctorbook": "ابحث عن الأطباء، واحجز المواعيد، وأدر سجلاتك الطبية.",
+    "admin": "مسؤول",
+    "manageDoctors": "إدارة الأطباء والمواعيد والمستخدمين والمنصة."
+  },
 
   "auth": {
     "signUpTitle": "انضم إلينا للعثور على الطبيب المناسب",
-    "createAccountDescription": "أنشئ حسابًا للعثور على أطباء موثوقين، واستكشاف تخصصاتهم، وحجز المواعيد بسهولة.",
+    "createAccountDescription": "أنشئ حسابًا للعثور على أطباء موثوقين، واستكشف تخصصاتهم، واحجز المواعيد بسهولة.",
     "loginDescription": "اعثر على أطباء موثوقين، واستكشف التخصصات، وأدر مواعيدك بسهولة.",
-    "passworddonotmatch": "كلمتا المرور غير متطابقتين",
+    "passworddonotmatch": "كلمات المرور غير متطابقة",
     "confirmepassword": "تأكيد كلمة المرور",
     "creatNewPassword": "أنشئ كلمة مرور جديدة لحسابك.",
     "logIn": "تسجيل الدخول",
     "signUp": "إنشاء حساب",
 
-    "google": "Google",
-    "facebook": "Facebook",
+    "google": "جوجل",
+    "facebook": "فيسبوك",
 
     "name": "الاسم",
     "email": "البريد الإلكتروني",
     "password": "كلمة المرور",
 
-    "forgotPassword": "نسيت كلمة المرور؟",
+    "forgotPassword": "نسيت كلمة المرور",
 
     "agreeAndPrivacy": "أوافق على شروط الخدمة وسياسة الخصوصية",
 
-    "haveAccount": "لديك حساب بالفعل؟",
+    "haveAccount": "هل لديك حساب؟",
     "doNotHaveAccount": "ليس لديك حساب؟",
 
     "welcome": "مرحبًا بعودتك",
@@ -55,82 +68,109 @@
 
     "exampleEmail": "itsmemamun1@gmail.com",
 
-    "emailVerification": "أدخل بريدك الإلكتروني لإتمام عملية التحقق. سنرسل رمزًا مكونًا من 4 أرقام إلى بريدك الإلكتروني.",
+    "emailVerification": "أدخل بريدك الإلكتروني لعملية التحقق. سنرسل رمزًا مكونًا من 4 أرقام إلى بريدك الإلكتروني.",
 
     "enterDigit": "أدخل الرمز المكون من 4 أرقام",
-    "enterReceivedDigit": "أدخل الرمز المكون من 4 أرقام الذي أرسلناه إلى بريدك الإلكتروني.",
+    "enterReceivedDigit": "أدخل الرمز المكون من 4 أرقام الذي تلقيته في بريدك الإلكتروني.",
 
     "reset": "إعادة تعيين كلمة المرور",
     "newPassword": "كلمة المرور الجديدة",
     "reenterPassword": "أعد إدخال كلمة المرور",
-
-    "entername": "يرجى إدخال اسمك",
-    "enterEmail": "يرجى إدخال بريدك الإلكتروني",
-    "enterPassword": "يرجى إدخال كلمة المرور",
+    "entername": "الرجاء إدخال اسمك",
+    "enterEmail": "الرجاء إدخال بريدك الإلكتروني",
+    "enterPassword": "الرجاء إدخال كلمة المرور",
     "passwordSuccess": "تم إعادة تعيين كلمة المرور بنجاح",
     "somethingwentwrong": "حدث خطأ ما"
   },
 
   "home": {
-    "hihand": "مرحبًا Handwerker! ",
-    "findDoctor": "اعثر على طبيبك",
+    "hihand": "مرحبًا Handwerker!",
+    "findDoctor": "ابحث عن طبيبك",
     "search": "بحث",
-    "liveDoctor": "أطباء متاحون",
-    "popularDoctor": "الأطباء المشهورون",
+    "liveDoctor": "أطباء مباشر",
+    "popularDoctor": "الأكثر طلبًا",
     "seeAll": "عرض الكل",
-
-    "drFill": "د. فيليروب غراب",
-    "medicineSpecialist": "أخصائي طب باطني",
-
-    "drBlessing": "د. بليسينغ",
-    "dentist": "طبيب أسنان",
-
-    "featureDoctor": "أطباء مميزون",
-
+    "drFill": "د. فيلروب جراب",
+    "medicineSpecialist": "أخصائي باطنة",
+    "drBlessing": "د. بليسينج",
+    "dentist": "أخصائي أسنان",
+    "featureDoctor": "أطباء مميزين",
     "drCrick": "د. كريك",
-    "25hours": "$ 25.00 / الساعة",
-
+    "25hours": "25.00$ / ساعة",
     "drstrain": "د. سترين",
-    "22hours": "$ 22.00 / الساعة",
-
+    "22hours": "22.00$ / ساعة",
     "drlachinet": "د. لاشينيت",
-    "29hours": "$ 29.00 / الساعة"
+    "29hours": "29.00$ / ساعة"
   },
 
   "details": {
     "doctorDetails": "تفاصيل الطبيب",
-    "drPediatrician": "د. طبيب أطفال",
-    "specialistsCardiologist": "أخصائي أمراض القلب",
-    "28hr": "$ 28.00 / الساعة",
-
+    "drPediatrician": "د. أخصائي أطفال",
+    "specialistsCardiologist": "أخصائي قلب",
+    "28hr": "28.00$ / ساعة",
     "bookNow": "احجز الآن",
-
     "running": "جاري",
-    "ongoing": "قيد التنفيذ",
-
-    "patient": "المريض",
+    "ongoing": "مستمر",
+    "patient": "مريض",
     "service": "الخدمات",
-
-    "patientCare": "1. يجب أن تكون رعاية المريض هي الأولوية الأولى.",
-    "run": "2. إذا كنت تدير عيادتك، فأنت تعرف مدى الإحباط الذي قد تشعر به.",
-    "appointmentReminder": "3. لهذا السبب، يعد نظام تذكير المواعيد من الحلول المهمة."
+    "patientCare": "رعاية المريض يجب أن تكون الأولوية الأولى.",
+    "run": "إذا كنت تدير عيادتك فأنت تعرف مدى الإحباط.",
+    "appointmentReminder ": "لهذا السبب بعض أنظمة تذكير المواعيد."
   },
 
   "find": {
-    "findDoctors": "العثور على الأطباء",
-    "dentists": "طبيب أسنان",
+    "find_doctors": "البحث عن أطباء",
+    "search_hint": "طبيب أسنان",
+    "years_experience": " سنوات خبرة",
+    "patient_stories": "قصص مرضى",
+    "next_available": "الموعد المتاح التالي",
+    "book_now": "احجز الآن",
+    "am": "ص",
+    "pm": "م",
+    "tomorrow": "غدًا",
+    "doctors": {
+      "shruti": "د. شروتي كيديا",
+      "watamaniuk": "د. واتامانيوك",
+      "crownover": "د. كراون أوفر",
+      "balestra": "د. باليسترا"
+    },
+    "specialties": {
+      "dentist": "طبيب أسنان"
+    }
+  },
 
-    "drShruti": "د. شروتي كيديا",
-    "tooths": "طبيب أسنان",
+  "doctors": {
+    "ahmedHassan": "د. أحمد حسن",
+    "mohamedAli": "د. محمد علي",
+    "khaledOmar": "د. خالد عمر",
+    "fillerupGrab": "د. فيلروب جراب",
+    "youssefIbrahim": "د. يوسف إبراهيم",
+    "crick": "د. كريك",
+    "strain": "د. سترين",
+    "lachinet": "د. لاشينيت"
+  },
 
-    "years": "سنوات من الخبرة",
-    "patientStories": "69 تجربة من المرضى",
+  "specialties": {
+    "cardiologist": "أخصائي قلب",
+    "surgeon": "جراح",
+    "dentist": "طبيب أسنان",
+    "medicineSpecialist": "أخصائي باطنة",
+    "dentistSpecialist": "أخصائي أسنان",
+    "general": "طب عام",
+    "neurologist": "أخصائي مخ وأعصاب"
+  },
 
-    "nextAvailable": "الموعد المتاح التالي",
-    "10Tomorrow": "غدًا صباحًا",
+  "categories": {
+    "dental": "أسنان",
+    "heart": "قلب",
+    "eye": "عيون",
+    "body": "جسم"
+  },
 
-    "drWatamaniuk": "د. واتامانيوك",
-    "drCrownover": "د. كروونفر",
-    "drBalestra": "د. باليسترا"
+  "bottomNav": {
+    "home": "الرئيسية",
+    "favorite": "المفضلة",
+    "book": "الحجز",
+    "chat": "المحادثة"
   }
 }

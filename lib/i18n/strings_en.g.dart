@@ -47,7 +47,15 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 
 	late final Translations$common$en common = Translations$common$en._(_root);
 	late final Translations$onboarding$en onboarding = Translations$onboarding$en._(_root);
+	late final Translations$chooserole$en chooserole = Translations$chooserole$en._(_root);
 	late final Translations$auth$en auth = Translations$auth$en._(_root);
+	late final Translations$home$en home = Translations$home$en._(_root);
+	late final Translations$details$en details = Translations$details$en._(_root);
+	late final Translations$find$en find = Translations$find$en._(_root);
+	late final Translations$doctors$en doctors = Translations$doctors$en._(_root);
+	late final Translations$specialties$en specialties = Translations$specialties$en._(_root);
+	late final Translations$categories$en categories = Translations$categories$en._(_root);
+	late final Translations$bottomNav$en bottomNav = Translations$bottomNav$en._(_root);
 }
 
 // Path: common
@@ -72,6 +80,21 @@ class Translations$common$en {
 
 	/// en: 'Resend Code'
 	String get resencode => 'Resend Code';
+
+	/// en: 'LIVE'
+	String get live => 'LIVE';
+
+	/// en: 'hours'
+	String get hours => 'hours';
+
+	/// en: 'Something went wrong'
+	String get error => 'Something went wrong';
+
+	/// en: 'Loading...'
+	String get loading => 'Loading...';
+
+	/// en: 'Seeall'
+	String get seeall => 'Seeall';
 }
 
 // Path: onboarding
@@ -86,6 +109,33 @@ class Translations$onboarding$en {
 		Translations$onboarding$pages$1$en._(_root),
 		Translations$onboarding$pages$2$en._(_root),
 	];
+}
+
+// Path: chooserole
+class Translations$chooserole$en {
+	Translations$chooserole$en._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Choose your role'
+	String get chooseRole => 'Choose your role';
+
+	/// en: 'The selected role determines the experience and available features.'
+	String get selectedRole => 'The selected role determines the experience and available features.';
+
+	/// en: 'Patient'
+	String get patient => 'Patient';
+
+	/// en: 'Find doctors, book appointments,and manage your medical records.'
+	String get findDoctorbook => 'Find doctors, book appointments,and manage your medical records.';
+
+	/// en: 'Admin'
+	String get admin => 'Admin';
+
+	/// en: 'Manage doctors, appointments,users, and the platform.'
+	String get manageDoctors => 'Manage doctors, appointments,users, and the platform.';
 }
 
 // Path: auth
@@ -190,6 +240,255 @@ class Translations$auth$en {
 	String get somethingwentwrong => 'Something went wrong';
 }
 
+// Path: home
+class Translations$home$en {
+	Translations$home$en._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Hi Handwerker! '
+	String get hihand => 'Hi Handwerker! ';
+
+	/// en: 'Find Your Doctor'
+	String get findDoctor => 'Find Your Doctor';
+
+	/// en: 'Search'
+	String get search => 'Search';
+
+	/// en: 'Live Doctors'
+	String get liveDoctor => 'Live Doctors';
+
+	/// en: 'Popular Doctor'
+	String get popularDoctor => 'Popular Doctor';
+
+	/// en: 'See all'
+	String get seeAll => 'See all';
+
+	/// en: 'Dr. Fillerup Grab'
+	String get drFill => 'Dr. Fillerup Grab';
+
+	/// en: 'Medicine Specialist'
+	String get medicineSpecialist => 'Medicine Specialist';
+
+	/// en: 'Dr. Blessing'
+	String get drBlessing => 'Dr. Blessing';
+
+	/// en: 'Dentist Specialist'
+	String get dentist => 'Dentist Specialist';
+
+	/// en: 'Feature Doctor'
+	String get featureDoctor => 'Feature Doctor';
+
+	/// en: 'Dr. Crick'
+	String get drCrick => 'Dr. Crick';
+
+	/// en: '$ 25.00/ hours'
+	String get k25hours => '\$ 25.00/ hours';
+
+	/// en: 'Dr. Strain'
+	String get drstrain => 'Dr. Strain';
+
+	/// en: '$ 22.00/ hours'
+	String get k22hours => '\$ 22.00/ hours';
+
+	/// en: 'Dr. Lachinet'
+	String get drlachinet => 'Dr. Lachinet';
+
+	/// en: '$ 29.00/ hours'
+	String get k29hours => '\$ 29.00/ hours';
+}
+
+// Path: details
+class Translations$details$en {
+	Translations$details$en._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Doctor Details'
+	String get doctorDetails => 'Doctor Details';
+
+	/// en: 'Dr. Pediatrician'
+	String get drPediatrician => 'Dr. Pediatrician';
+
+	/// en: 'Specialist Cardiologist '
+	String get specialistsCardiologist => 'Specialist Cardiologist ';
+
+	/// en: '$ 28.00/hr'
+	String get k28hr => '\$ 28.00/hr';
+
+	/// en: 'Book Now'
+	String get bookNow => 'Book Now';
+
+	/// en: 'Runing'
+	String get running => 'Runing';
+
+	/// en: 'Ongoing'
+	String get ongoing => 'Ongoing';
+
+	/// en: 'Patient'
+	String get patient => 'Patient';
+
+	/// en: 'Services'
+	String get service => 'Services';
+
+	/// en: 'Patient care should be the number one priority.'
+	String get patientCare => 'Patient care should be the number one priority.';
+
+	/// en: 'If you run your practice you know how frustrating.'
+	String get run => 'If you run your practice you know how frustrating.';
+
+	/// en: 'That’s why some of appointment reminder system.'
+	String get appointmentReminder  => 'That’s why some of appointment reminder system.';
+}
+
+// Path: find
+class Translations$find$en {
+	Translations$find$en._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Find Doctors'
+	String get find_doctors => 'Find Doctors';
+
+	/// en: 'Dentist'
+	String get search_hint => 'Dentist';
+
+	/// en: ' Years experience'
+	String get years_experience => ' Years experience';
+
+	/// en: ' Patient Stories'
+	String get patient_stories => ' Patient Stories';
+
+	/// en: 'Next Available'
+	String get next_available => 'Next Available';
+
+	/// en: 'Book Now'
+	String get book_now => 'Book Now';
+
+	/// en: 'AM'
+	String get am => 'AM';
+
+	/// en: 'PM'
+	String get pm => 'PM';
+
+	/// en: 'tomorrow'
+	String get tomorrow => 'tomorrow';
+
+	late final Translations$find$doctors$en doctors = Translations$find$doctors$en._(_root);
+	late final Translations$find$specialties$en specialties = Translations$find$specialties$en._(_root);
+}
+
+// Path: doctors
+class Translations$doctors$en {
+	Translations$doctors$en._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Dr. Ahmed Hassan'
+	String get ahmedHassan => 'Dr. Ahmed Hassan';
+
+	/// en: 'Dr. Mohamed Ali'
+	String get mohamedAli => 'Dr. Mohamed Ali';
+
+	/// en: 'Dr. Khaled Omar'
+	String get khaledOmar => 'Dr. Khaled Omar';
+
+	/// en: 'Dr. Fillerup Grab'
+	String get fillerupGrab => 'Dr. Fillerup Grab';
+
+	/// en: 'Dr. Youssef Ibrahim'
+	String get youssefIbrahim => 'Dr. Youssef Ibrahim';
+
+	/// en: 'Dr. Crick'
+	String get crick => 'Dr. Crick';
+
+	/// en: 'Dr. Strain'
+	String get strain => 'Dr. Strain';
+
+	/// en: 'Dr. Lachinet'
+	String get lachinet => 'Dr. Lachinet';
+}
+
+// Path: specialties
+class Translations$specialties$en {
+	Translations$specialties$en._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Cardiologist'
+	String get cardiologist => 'Cardiologist';
+
+	/// en: 'Surgeon'
+	String get surgeon => 'Surgeon';
+
+	/// en: 'Dentist'
+	String get dentist => 'Dentist';
+
+	/// en: 'Medicine Specialist'
+	String get medicineSpecialist => 'Medicine Specialist';
+
+	/// en: 'Dentist Specialist'
+	String get dentistSpecialist => 'Dentist Specialist';
+
+	/// en: 'General'
+	String get general => 'General';
+
+	/// en: 'Neurologist'
+	String get neurologist => 'Neurologist';
+}
+
+// Path: categories
+class Translations$categories$en {
+	Translations$categories$en._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Dental'
+	String get dental => 'Dental';
+
+	/// en: 'Heart'
+	String get heart => 'Heart';
+
+	/// en: 'Eye'
+	String get eye => 'Eye';
+
+	/// en: 'Body'
+	String get body => 'Body';
+}
+
+// Path: bottomNav
+class Translations$bottomNav$en {
+	Translations$bottomNav$en._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Home'
+	String get home => 'Home';
+
+	/// en: 'Favorite'
+	String get favorite => 'Favorite';
+
+	/// en: 'Book'
+	String get book => 'Book';
+
+	/// en: 'Chat'
+	String get chat => 'Chat';
+}
+
 // Path: onboarding.pages.0
 class Translations$onboarding$pages$0$en {
 	Translations$onboarding$pages$0$en._(this._root);
@@ -235,6 +534,39 @@ class Translations$onboarding$pages$2$en {
 	String get description => 'Book your appointment easily and choose a date and time that works best for you.';
 }
 
+// Path: find.doctors
+class Translations$find$doctors$en {
+	Translations$find$doctors$en._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Dr. Shruti Kedia'
+	String get shruti => 'Dr. Shruti Kedia';
+
+	/// en: 'Dr. Watamaniuk'
+	String get watamaniuk => 'Dr. Watamaniuk';
+
+	/// en: 'Dr. Crownover'
+	String get crownover => 'Dr. Crownover';
+
+	/// en: 'Dr. Balestra'
+	String get balestra => 'Dr. Balestra';
+}
+
+// Path: find.specialties
+class Translations$find$specialties$en {
+	Translations$find$specialties$en._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Tooths Dentist'
+	String get dentist => 'Tooths Dentist';
+}
+
 /// The flat map containing all translations for locale <en>.
 /// Only for edge cases! For simple maps, use the map function of this library.
 ///
@@ -249,12 +581,23 @@ extension on Translations {
 			'common.skip' => 'Skip',
 			'common.getStarted' => 'Get Started',
 			'common.resencode' => 'Resend Code',
+			'common.live' => 'LIVE',
+			'common.hours' => 'hours',
+			'common.error' => 'Something went wrong',
+			'common.loading' => 'Loading...',
+			'common.seeall' => 'Seeall',
 			'onboarding.pages.0.title' => 'Find Trusted Doctors',
 			'onboarding.pages.0.description' => 'Discover trusted doctors and healthcare specialists near you, all in one place.',
 			'onboarding.pages.1.title' => 'Choose Best Doctors',
 			'onboarding.pages.1.description' => 'Explore doctor profiles, check their specialties, and choose the right doctor for your needs.',
 			'onboarding.pages.2.title' => 'Easy Appointments',
 			'onboarding.pages.2.description' => 'Book your appointment easily and choose a date and time that works best for you.',
+			'chooserole.chooseRole' => 'Choose your role',
+			'chooserole.selectedRole' => 'The selected role determines the experience and available features.',
+			'chooserole.patient' => 'Patient',
+			'chooserole.findDoctorbook' => 'Find doctors, book appointments,and manage your medical records.',
+			'chooserole.admin' => 'Admin',
+			'chooserole.manageDoctors' => 'Manage doctors, appointments,users, and the platform.',
 			'auth.signUpTitle' => 'Join us to find the right doctor',
 			'auth.createAccountDescription' => 'Create an account to find trusted doctors, explore their specialties, and book appointments with ease.',
 			'auth.loginDescription' => 'Find trusted doctors, explore specialties, and manage your appointments with ease.',
@@ -286,6 +629,72 @@ extension on Translations {
 			'auth.enterPassword' => 'Please enter your password',
 			'auth.passwordSuccess' => 'Password reset successfully',
 			'auth.somethingwentwrong' => 'Something went wrong',
+			'home.hihand' => 'Hi Handwerker! ',
+			'home.findDoctor' => 'Find Your Doctor',
+			'home.search' => 'Search',
+			'home.liveDoctor' => 'Live Doctors',
+			'home.popularDoctor' => 'Popular Doctor',
+			'home.seeAll' => 'See all',
+			'home.drFill' => 'Dr. Fillerup Grab',
+			'home.medicineSpecialist' => 'Medicine Specialist',
+			'home.drBlessing' => 'Dr. Blessing',
+			'home.dentist' => 'Dentist Specialist',
+			'home.featureDoctor' => 'Feature Doctor',
+			'home.drCrick' => 'Dr. Crick',
+			'home.k25hours' => '\$ 25.00/ hours',
+			'home.drstrain' => 'Dr. Strain',
+			'home.k22hours' => '\$ 22.00/ hours',
+			'home.drlachinet' => 'Dr. Lachinet',
+			'home.k29hours' => '\$ 29.00/ hours',
+			'details.doctorDetails' => 'Doctor Details',
+			'details.drPediatrician' => 'Dr. Pediatrician',
+			'details.specialistsCardiologist' => 'Specialist Cardiologist ',
+			'details.k28hr' => '\$ 28.00/hr',
+			'details.bookNow' => 'Book Now',
+			'details.running' => 'Runing',
+			'details.ongoing' => 'Ongoing',
+			'details.patient' => 'Patient',
+			'details.service' => 'Services',
+			'details.patientCare' => 'Patient care should be the number one priority.',
+			'details.run' => 'If you run your practice you know how frustrating.',
+			'details.appointmentReminder ' => 'That’s why some of appointment reminder system.',
+			'find.find_doctors' => 'Find Doctors',
+			'find.search_hint' => 'Dentist',
+			'find.years_experience' => ' Years experience',
+			'find.patient_stories' => ' Patient Stories',
+			'find.next_available' => 'Next Available',
+			'find.book_now' => 'Book Now',
+			'find.am' => 'AM',
+			'find.pm' => 'PM',
+			'find.tomorrow' => 'tomorrow',
+			'find.doctors.shruti' => 'Dr. Shruti Kedia',
+			'find.doctors.watamaniuk' => 'Dr. Watamaniuk',
+			'find.doctors.crownover' => 'Dr. Crownover',
+			'find.doctors.balestra' => 'Dr. Balestra',
+			'find.specialties.dentist' => 'Tooths Dentist',
+			'doctors.ahmedHassan' => 'Dr. Ahmed Hassan',
+			'doctors.mohamedAli' => 'Dr. Mohamed Ali',
+			'doctors.khaledOmar' => 'Dr. Khaled Omar',
+			'doctors.fillerupGrab' => 'Dr. Fillerup Grab',
+			'doctors.youssefIbrahim' => 'Dr. Youssef Ibrahim',
+			'doctors.crick' => 'Dr. Crick',
+			'doctors.strain' => 'Dr. Strain',
+			'doctors.lachinet' => 'Dr. Lachinet',
+			'specialties.cardiologist' => 'Cardiologist',
+			'specialties.surgeon' => 'Surgeon',
+			'specialties.dentist' => 'Dentist',
+			'specialties.medicineSpecialist' => 'Medicine Specialist',
+			'specialties.dentistSpecialist' => 'Dentist Specialist',
+			'specialties.general' => 'General',
+			'specialties.neurologist' => 'Neurologist',
+			'categories.dental' => 'Dental',
+			'categories.heart' => 'Heart',
+			'categories.eye' => 'Eye',
+			'categories.body' => 'Body',
+			'bottomNav.home' => 'Home',
+			'bottomNav.favorite' => 'Favorite',
+			'bottomNav.book' => 'Book',
+			'bottomNav.chat' => 'Chat',
 			_ => null,
 		};
 	}

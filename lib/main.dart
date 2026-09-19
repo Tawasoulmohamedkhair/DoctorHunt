@@ -1,5 +1,5 @@
-import 'package:doctor_hunt/apps/core/di/injection.dart';
-import 'package:doctor_hunt/apps/core/router/app_router.dart';
+import 'package:doctor_hunt/apps/Patient/core/di/injection.dart';
+import 'package:doctor_hunt/apps/Patient/core/router/app_router.dart';
 import 'package:doctor_hunt/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -9,7 +9,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // Follow the device language
-   LocaleSettings.useDeviceLocale();
+  LocaleSettings.useDeviceLocale();
 
   await setupDependencies();
 

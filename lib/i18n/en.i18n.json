@@ -6,7 +6,12 @@
     "next": "Next",
     "skip": "Skip",
     "getStarted": "Get Started",
-    "resencode":"Resend Code"
+    "resencode": "Resend Code",
+    "live": "LIVE",
+    "hours": "hours",
+    "error": "Something went wrong",
+    "loading": "Loading...",
+    "seeall": "Seeall"
   },
 
   "onboarding": {
@@ -25,15 +30,23 @@
       }
     ]
   },
+  "chooserole": {
+    "chooseRole": "Choose your role",
+    "selectedRole": "The selected role determines the experience and available features.",
+    "patient": "Patient",
+    "findDoctorbook": "Find doctors, book appointments,and manage your medical records.",
+    "admin": "Admin",
+    "manageDoctors": "Manage doctors, appointments,users, and the platform."
+  },
 
   "auth": {
     "signUpTitle": "Join us to find the right doctor",
     "createAccountDescription": "Create an account to find trusted doctors, explore their specialties, and book appointments with ease.",
     "loginDescription": "Find trusted doctors, explore specialties, and manage your appointments with ease.",
-         "passworddonotmatch":"Passwords do not match",
-    "confirmepassword":"Confirm Password",
-    "creatNewPassword":"Create a new password for your account.",
-         "logIn": "Login",
+    "passworddonotmatch": "Passwords do not match",
+    "confirmepassword": "Confirm Password",
+    "creatNewPassword": "Create a new password for your account.",
+    "logIn": "Login",
     "signUp": "Sign up",
 
     "google": "Google",
@@ -63,58 +76,97 @@
     "reset": "Reset Password",
     "newPassword": "New Password",
     "reenterPassword": "Re-enter Password",
-        "entername":"Please enter your Name",
+    "entername": "Please enter your Name",
 
-        "enterEmail":"Please enter your email",
+    "enterEmail": "Please enter your email",
 
-    "enterPassword":"Please enter your password",
-    "passwordSuccess":"Password reset successfully",
-    "somethingwentwrong":"Something went wrong"
+    "enterPassword": "Please enter your password",
+    "passwordSuccess": "Password reset successfully",
+    "somethingwentwrong": "Something went wrong"
   },
-  "home":{
-    "hihand":"Hi Handwerker! ",
-   "findDoctor" :"Find Your Doctor",
-   "search":"Search",
-   "liveDoctor":"Live Doctors",
-   "popularDoctor":"Popular Doctor",
-   "seeAll":"See all",
-   "drFill":"Dr. Fillerup Grab",
-   "medicineSpecialist":"Medicine Specialist",
-   "drBlessing":"Dr. Blessing",
-   "dentist":"Dentist Specialist",
-   "featureDoctor":"Feature Doctor",
-   "drCrick":"Dr. Crick",
-   "25hours":"$ 25.00/ hours",
-   "drstrain":"Dr. Strain",
-   "22hours":"$ 22.00/ hours",
-   "drlachinet":"Dr. Lachinet",
-   "29hours":"$ 29.00/ hours"
+  "home": {
+    "hihand": "Hi Handwerker! ",
+    "findDoctor": "Find Your Doctor",
+    "search": "Search",
+    "liveDoctor": "Live Doctors",
+    "popularDoctor": "Popular Doctor",
+    "seeAll": "See all",
+    "drFill": "Dr. Fillerup Grab",
+    "medicineSpecialist": "Medicine Specialist",
+    "drBlessing": "Dr. Blessing",
+    "dentist": "Dentist Specialist",
+    "featureDoctor": "Feature Doctor",
+    "drCrick": "Dr. Crick",
+    "25hours": "$ 25.00/ hours",
+    "drstrain": "Dr. Strain",
+    "22hours": "$ 22.00/ hours",
+    "drlachinet": "Dr. Lachinet",
+    "29hours": "$ 29.00/ hours"
   },
-  "details":{
-    "doctorDetails":"Doctor Details",
-    "drPediatrician":"Dr. Pediatrician",
-    "specialistsCardiologist":"Specialist Cardiologist ",
-    "28hr":"$ 28.00/hr",
-    "bookNow":"Book Now",
-    "running":"Runing",
-    "ongoing":"Ongoing",
-    "patient":"Patient",
-    "service":"Services",
-    "patientCare":"1.   Patient care should be the number one priority.",
-    "run":"2.   If you run your practice you know how frustrating.",
-    "appointmentReminder ":"3.   That’s why some of appointment reminder system."
+  "details": {
+    "doctorDetails": "Doctor Details",
+    "drPediatrician": "Dr. Pediatrician",
+    "specialistsCardiologist": "Specialist Cardiologist ",
+    "28hr": "$ 28.00/hr",
+    "bookNow": "Book Now",
+    "running": "Runing",
+    "ongoing": "Ongoing",
+    "patient": "Patient",
+    "service": "Services",
+    "patientCare": "Patient care should be the number one priority.",
+    "run": "If you run your practice you know how frustrating.",
+    "appointmentReminder ": "That’s why some of appointment reminder system."
   },
-  "find":{
-"findDoctors":"Find Doctors",
-"dentists":"Dentist",
-"drShruti":"Dr. Shruti Kedia",
-"tooths":"Tooths Dentist",
-"years":"Years experience ",
-"patientStories":"69 Patient Stories",
-"nextAvailable":"Next Available ",
-"10Tomorrow":"AM tomorrow",
-"drWatamaniuk":"Dr. Watamaniuk",
-"drCrownover":"Dr. Crownover",
-"drBalestra":"Dr. Balestra"
+  "find": {
+    "find_doctors": "Find Doctors",
+    "search_hint": "Dentist",
+    "years_experience": " Years experience",
+    "patient_stories": " Patient Stories",
+    "next_available": "Next Available",
+    "book_now": "Book Now",
+    "am": "AM",
+    "pm": "PM",
+    "tomorrow": "tomorrow",
+    "doctors": {
+      "shruti": "Dr. Shruti Kedia",
+      "watamaniuk": "Dr. Watamaniuk",
+      "crownover": "Dr. Crownover",
+      "balestra": "Dr. Balestra"
+    },
+    "specialties": {
+      "dentist": "Tooths Dentist"
+    }
+  },
+
+  "doctors": {
+    "ahmedHassan": "Dr. Ahmed Hassan",
+    "mohamedAli": "Dr. Mohamed Ali",
+    "khaledOmar": "Dr. Khaled Omar",
+    "fillerupGrab": "Dr. Fillerup Grab",
+    "youssefIbrahim": "Dr. Youssef Ibrahim",
+    "crick": "Dr. Crick",
+    "strain": "Dr. Strain",
+    "lachinet": "Dr. Lachinet"
+  },
+  "specialties": {
+    "cardiologist": "Cardiologist",
+    "surgeon": "Surgeon",
+    "dentist": "Dentist",
+    "medicineSpecialist": "Medicine Specialist",
+    "dentistSpecialist": "Dentist Specialist",
+    "general": "General",
+    "neurologist": "Neurologist"
+  },
+  "categories": {
+    "dental": "Dental",
+    "heart": "Heart",
+    "eye": "Eye",
+    "body": "Body"
+  },
+  "bottomNav": {
+    "home": "Home",
+    "favorite": "Favorite",
+    "book": "Book",
+    "chat": "Chat"
   }
 }

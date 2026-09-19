@@ -14,11 +14,32 @@ const colors = [
   'rating',
   'white',
   'black',
+  'grey',
+  'lightgray',
 ];
 
 const fontWeights = ['light', 'regular', 'medium', 'semiBold', 'bold'];
 
-const fontSizes = [8, 11, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 36, 40];
+const fontSizes = [
+  7,
+  9,
+  10,
+  11,
+  12,
+  13,
+  14,
+  15,
+  16,
+  18,
+  20,
+  22,
+  24,
+  25,
+  26,
+  28,
+  30,
+  38,
+];
 
 const outputDir = 'lib/generated';
 const outputFile = '$outputDir/style_atoms.dart';
@@ -28,7 +49,6 @@ void main() {
 
   buffer.writeln('''
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../app/core/themes/app_colors.dart';
 
@@ -43,7 +63,6 @@ extension WeightAtoms on BuildContext {
   TextStyle get style => const TextStyle(
         fontFamily: 'Rubik',
       );
-
 ''');
 
   final weightValues = {
@@ -93,7 +112,7 @@ extension FontSizeAtoms on TextStyle {
   for (final size in fontSizes) {
     buffer.writeln('''
   TextStyle get px$size => copyWith(
-        fontSize: $size.sp,
+        fontSize: $size,
       );
 ''');
   }
