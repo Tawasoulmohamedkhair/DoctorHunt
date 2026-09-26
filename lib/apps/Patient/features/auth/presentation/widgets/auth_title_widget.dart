@@ -1,7 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:doctor_hunt/apps/Patient/core/extension/responsive_media_query.dart';
 import 'package:doctor_hunt/generated/style_atoms.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AuthTitleWidget extends StatelessWidget {
   const AuthTitleWidget({
@@ -15,9 +15,10 @@ class AuthTitleWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
         Text(title, style: context.medium24black),
-        SizedBox(height: 15.h),
+        SizedBox(height: context.h(15)),
 
         Text(
           description,

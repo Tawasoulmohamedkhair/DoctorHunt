@@ -101,7 +101,7 @@ class DoctorCard extends StatelessWidget {
           CustomElevatedButton(
             onPressed: () {},
             label: Text(
-              context.t.details.bookNow,
+              t.bookNow,
               style: context.medium14white
             ),
           ),
@@ -112,7 +112,7 @@ class DoctorCard extends StatelessWidget {
   String _getName(BuildContext context, String key) {
     switch (key) {
       case 'pediatrician':
-        return context.t.details.drPediatrician;
+        return context.t.drPediatrician;
       default:
         return key;
     }
@@ -121,7 +121,7 @@ class DoctorCard extends StatelessWidget {
   String _getSpecialty(BuildContext context, String key) {
     switch (key) {
       case 'specialistCardiologist':
-        return context.t.details.specialistsCardiologist;
+        return context.t.specialistsCardiologist;
       default:
         return key;
     }

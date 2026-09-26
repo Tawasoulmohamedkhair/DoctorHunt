@@ -11,13 +11,13 @@ class StatsRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        StatItem(value: '${doctor.running}', label: context.t.details.running),
+        StatItem(value: '${doctor.running}', label: t.running),
         const SizedBox(width: 12),
-        StatItem(value: '${doctor.ongoing}', label: context.t.details.ongoing),
+        StatItem(value: '${doctor.ongoing}', label: t.ongoing),
         const SizedBox(width: 12),
         StatItem(
           value: '${doctor.patients}',
-          label: context.t.details.patient,
+          label:t.patient,
         ),
       ],
     );

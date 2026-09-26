@@ -104,10 +104,17 @@ RouteBase get $loginRoute => GoRouteData.$route(
 );
 
 mixin $LoginRoute on GoRouteData {
-  static LoginRoute _fromState(GoRouterState state) => const LoginRoute();
+  static LoginRoute _fromState(GoRouterState state) => LoginRoute(
+    role: _$UserRoleEnumMap._$fromName(state.uri.queryParameters['role']!)!,
+  );
+
+  LoginRoute get _self => this as LoginRoute;
 
   @override
-  String get location => GoRouteData.$location('/login');
+  String get location => GoRouteData.$location(
+    '/login',
+    queryParams: {'role': _$UserRoleEnumMap[_self.role]},
+  );
 
   @override
   void go(BuildContext context) => context.go(location);
@@ -121,6 +128,16 @@ mixin $LoginRoute on GoRouteData {
 
   @override
   void replace(BuildContext context) => context.replace(location);
+}
+
+const _$UserRoleEnumMap = {
+  UserRole.patient: 'patient',
+  UserRole.admin: 'admin',
+};
+
+extension<T extends Enum> on Map<T, String> {
+  T? _$fromName(String? value) =>
+      entries.where((element) => element.value == value).firstOrNull?.key;
 }
 
 RouteBase get $signUpRoute => GoRouteData.$route(

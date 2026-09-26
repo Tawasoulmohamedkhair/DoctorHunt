@@ -1,6 +1,7 @@
 import 'package:doctor_hunt/apps/Patient/core/di/injection.dart';
+import 'package:doctor_hunt/apps/Patient/core/extension/responsive_media_query.dart';
 import 'package:doctor_hunt/apps/Patient/core/router/app_routers.dart';
-import 'package:doctor_hunt/gen/assets.gen.dart';
+import 'package:doctor_hunt/generated/assets.gen.dart';
 import 'package:doctor_hunt/generated/style_atoms.dart';
 import 'package:doctor_hunt/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
@@ -26,24 +27,19 @@ class _SplashScreenState extends State<SplashScreen> {
     await Future.delayed(const Duration(seconds: 2));
 
     final prefs = getIt<SharedPreferences>();
-
     final hasSeenOnboarding = prefs.getBool(_onboardingKey) ?? false;
 
     if (!mounted) return;
 
-    if (!hasSeenOnboarding) {
-      const OnboardingRoute().go(context);
+    if (hasSeenOnboarding) {
+      const ChooseRoleRoute().go(context);
     } else {
-      const SignUpRoute().go(context);
+      const OnboardingRoute().go(context);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final t = context.t;
-
-    debugPrint('Current locale: ${LocaleSettings.currentLocale}');
-    debugPrint('App name: ${t.appName}');
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -54,12 +50,15 @@ class _SplashScreenState extends State<SplashScreen> {
         ),
         child: Center(
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset(Assets.images.logo.path, width: 70, height: 70),
-
-              const SizedBox(height: 11),
-
+              Image.asset(
+                Assets.images.logo.path,
+                width: context.w(70),
+                height: context.w(70),
+              ),
+              SizedBox(height: context.h(11)),
               Text(t.appName, style: context.semiBold25textMain),
             ],
           ),

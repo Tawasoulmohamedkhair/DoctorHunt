@@ -1,8 +1,8 @@
+import 'package:doctor_hunt/apps/Patient/core/extension/responsive_media_query.dart';
 import 'package:doctor_hunt/apps/Patient/core/themes/app_colors.dart';
 import 'package:doctor_hunt/generated/style_atoms.dart';
 import 'package:doctor_hunt/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class LanguageSwitchButton extends StatelessWidget {
   const LanguageSwitchButton({super.key});
@@ -16,7 +16,7 @@ class LanguageSwitchButton extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           color: AppColors.white,
-          borderRadius: BorderRadius.circular(20.r),
+          borderRadius: BorderRadius.circular(context.r(20)),
           border: Border.all(color: AppColors.primary, width: 1),
           boxShadow: [
             BoxShadow(
@@ -30,17 +30,20 @@ class LanguageSwitchButton extends StatelessWidget {
           onPressed: () {
             LocaleSettings.setLocale(isEnglish ? AppLocale.ar : AppLocale.en);
           },
-          icon: const Icon(
+          icon: Icon(
             Icons.language_rounded,
             color: AppColors.primary,
-            size: 18,
+            size: context.sp(18),
           ),
           label: Text(
             isEnglish ? 'العربية' : 'English',
             style: context.semiBold13primary,
           ),
           style: TextButton.styleFrom(
-            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+            padding: EdgeInsets.symmetric(
+              horizontal: context.w(12),
+              vertical: context.h(6),
+            ),
             minimumSize: Size.zero,
             tapTargetSize: MaterialTapTargetSize.shrinkWrap,
           ),

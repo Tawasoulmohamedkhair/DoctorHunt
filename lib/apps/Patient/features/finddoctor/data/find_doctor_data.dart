@@ -1,4 +1,4 @@
-import 'package:doctor_hunt/gen/assets.gen.dart';
+import 'package:doctor_hunt/generated/assets.gen.dart';
 
 import 'find_doctor_model.dart';
 
@@ -9,17 +9,18 @@ class FindDoctorData {
         id: '1',
         nameKey: 'shruti',
         specialtyKey: 'dentist',
-        imageUrl:Assets.images.drfind1.path,
+        imageUrl: Assets.images.drfind1.path,
         yearsOfExperience: 7,
         ratingPercentage: 87,
         patientStoriesCount: 69,
         nextAvailableTime: '10:00 AM',
+        isFavorite: true,
       ),
       FindDoctorModel(
         id: '2',
         nameKey: 'watamaniuk',
         specialtyKey: 'dentist',
-        imageUrl:Assets.images.drfind2.path,
+        imageUrl: Assets.images.drfind2.path,
         yearsOfExperience: 9,
         ratingPercentage: 74,
         patientStoriesCount: 78,
@@ -34,6 +35,7 @@ class FindDoctorData {
         ratingPercentage: 59,
         patientStoriesCount: 86,
         nextAvailableTime: '11:00 AM',
+        isFavorite: true,
       ),
       FindDoctorModel(
         id: '4',

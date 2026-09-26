@@ -1,69 +1,68 @@
+import 'package:doctor_hunt/apps/Patient/core/extension/responsive_media_query.dart';
 import 'package:doctor_hunt/apps/Patient/features/home/presentation/widgets/search_bar.dart';
-import 'package:doctor_hunt/gen/assets.gen.dart';
+import 'package:doctor_hunt/generated/assets.gen.dart';
 import 'package:doctor_hunt/generated/style_atoms.dart';
 import 'package:doctor_hunt/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class HeaderWidget extends StatelessWidget {
   const HeaderWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final isShort = context.height < 500;
     return SizedBox(
-      height: 205.h,
+      height: context.h(205),
       child: Stack(
         clipBehavior: Clip.none,
         children: [
-          // ==================== Header Background ====================
           Container(
             width: double.infinity,
-            height: 156.h,
-            padding: EdgeInsets.fromLTRB(20.w, 16.h, 20.w, 24.h),
-            decoration:  BoxDecoration(
+            height: isShort ? 100 : context.h(156),
+            padding: EdgeInsets.fromLTRB(
+              context.w(20),
+              isShort ? 8 : context.h(16),
+              context.w(20),
+              context.h(12),
+            ),
+            decoration: BoxDecoration(
               image: DecorationImage(
                 image: AssetImage(Assets.images.header.path),
                 fit: BoxFit.cover,
               ),
               borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(30),
-                bottomRight: Radius.circular(30),
+                bottomLeft: Radius.circular(context.r(30)),
+                bottomRight: Radius.circular(context.r(30)),
               ),
             ),
-
-            // ==================== Header Content ====================
             child: Row(
               children: [
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(height: 15.h),
-
+                      SizedBox(height: context.h(15)),
                       Text(
-                        context.t.home.hihand,
+                        t.hihand,
                         style: context.regular20lightgray,
                       ),
-
-                      SizedBox(height: 4.h),
-
+                      SizedBox(height: context.h(4)),
                       Text(
-                        context.t.home.findDoctor,
+                        t.findDoctor,
                         style: context.semiBold25white,
                       ),
                     ],
                   ),
                 ),
-
                 CircleAvatar(
-                  radius: 26.r,
+                  radius: context.r(26),
                   backgroundColor: Colors.white,
                   child: ClipOval(
                     child: Image.asset(
                       Assets.images.profile.path,
                       fit: BoxFit.cover,
-                      width: 52.w,
-                      height: 52.h,
+                      width: context.w(52),
+                      height: context.w(52),
                       errorBuilder: (_, _, _) => const Icon(Icons.person),
                     ),
                   ),
@@ -71,13 +70,11 @@ class HeaderWidget extends StatelessWidget {
               ],
             ),
           ),
-
-          // ==================== Search ====================
           Positioned(
-            left: 20.w,
-            right: 20.w,
-            top: 120.h,
-            child: CustomSearchBar(),
+            left: context.w(20),
+            right: context.w(20),
+            top: context.h(120),
+            child: const CustomSearchBar(),
           ),
         ],
       ),

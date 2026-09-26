@@ -1,176 +1,174 @@
 {
   "appName": "دكتور هانت",
 
-  "common": {
-    "continue": "متابعة",
-    "next": "التالي",
-    "skip": "تخطي",
-    "getStarted": "ابدأ الآن",
-    "resencode": "إعادة إرسال الرمز",
-    "live": "مباشر",
-    "hours": "ساعة",
-    "error": "حدث خطأ ما",
-    "loading": "جاري التحميل...",
-    "seeall": "عرض الكل"
-  },
+  "continue": "متابعة",
+  "next": "التالي",
+  "skip": "تخطي",
+  "getStarted": "ابدأ الآن",
+  "resencode": "إعادة إرسال الرمز",
+  "live": "مباشر",
+  "hours": "ساعة",
+  "error": "حدث خطأ ما",
+  "loading": "جارٍ التحميل...",
+  "seeall": "عرض الكل",
 
   "onboarding": {
     "pages": [
       {
         "title": "اعثر على أطباء موثوقين",
-        "description": "اكتشف أطباء ومتخصصين في الرعاية الصحية موثوقين بالقرب منك، كل ذلك في مكان واحد."
+        "description": "اكتشف الأطباء والمتخصصين في الرعاية الصحية الموثوقين بالقرب منك، كل ذلك في مكان واحد."
       },
       {
         "title": "اختر أفضل الأطباء",
-        "description": "استكشف ملفات الأطباء، وتحقق من تخصصاتهم، واختر الطبيب المناسب لاحتياجاتك."
+        "description": "استكشف ملفات الأطباء، وتعرف على تخصصاتهم، واختر الطبيب المناسب لاحتياجاتك."
       },
       {
-        "title": "مواعيد سهلة",
-        "description": "احجز موعدك بسهولة واختر التاريخ والوقت الأنسب لك."
+        "title": "مواعيد بسهولة",
+        "description": "احجز موعدك بسهولة واختر التاريخ والوقت المناسبين لك."
       }
     ]
   },
-  "chooserole": {
-    "chooseRole": "اختر دورك",
-    "selectedRole": "يحدد الدور الذي تختاره تجربتك والميزات المتاحة لك.",
-    "patient": "مريض",
-    "findDoctorbook": "ابحث عن الأطباء، واحجز المواعيد، وأدر سجلاتك الطبية.",
-    "admin": "مسؤول",
-    "manageDoctors": "إدارة الأطباء والمواعيد والمستخدمين والمنصة."
-  },
 
-  "auth": {
-    "signUpTitle": "انضم إلينا للعثور على الطبيب المناسب",
-    "createAccountDescription": "أنشئ حسابًا للعثور على أطباء موثوقين، واستكشف تخصصاتهم، واحجز المواعيد بسهولة.",
-    "loginDescription": "اعثر على أطباء موثوقين، واستكشف التخصصات، وأدر مواعيدك بسهولة.",
-    "passworddonotmatch": "كلمات المرور غير متطابقة",
-    "confirmepassword": "تأكيد كلمة المرور",
-    "creatNewPassword": "أنشئ كلمة مرور جديدة لحسابك.",
-    "logIn": "تسجيل الدخول",
-    "signUp": "إنشاء حساب",
+  "chooseRole": "اختر دورك",
+  "selectedRole": "يحدد الدور الذي تختاره تجربتك والميزات المتاحة لك.",
+  "patient": "مريض",
+  "findDoctorbook": "ابحث عن الأطباء، واحجز المواعيد، وأدر سجلاتك الطبية.",
+  "admin": "مسؤول",
+  "manageDoctors": "إدارة الأطباء والمواعيد والمستخدمين والمنصة.",
 
-    "google": "جوجل",
-    "facebook": "فيسبوك",
+  "signUpTitle": "انضم إلينا للعثور على الطبيب المناسب",
+  "createAccountDescription": "أنشئ حسابًا للعثور على أطباء موثوقين، واستكشاف تخصصاتهم، وحجز المواعيد بسهولة.",
+  "loginDescription": "اعثر على أطباء موثوقين، واستكشف التخصصات، وأدر مواعيدك بسهولة.",
+  "passworddonotmatch": "كلمتا المرور غير متطابقتين",
+  "confirmepassword": "تأكيد كلمة المرور",
+  "creatNewPassword": "أنشئ كلمة مرور جديدة لحسابك.",
+  "logIn": "تسجيل الدخول",
+  "signUp": "إنشاء حساب",
 
-    "name": "الاسم",
-    "email": "البريد الإلكتروني",
-    "password": "كلمة المرور",
+  "google": "Google",
+  "facebook": "Facebook",
 
-    "forgotPassword": "نسيت كلمة المرور",
+  "name": "الاسم",
+  "email": "البريد الإلكتروني",
+  "password": "كلمة المرور",
 
-    "agreeAndPrivacy": "أوافق على شروط الخدمة وسياسة الخصوصية",
+  "forgotPassword": "نسيت كلمة المرور",
 
-    "haveAccount": "هل لديك حساب؟",
-    "doNotHaveAccount": "ليس لديك حساب؟",
+  "agreeAndPrivacy": "أوافق على شروط الخدمة وسياسة الخصوصية",
 
-    "welcome": "مرحبًا بعودتك",
-    "join": "انضم إلينا",
+  "haveAccount": "لديك حساب بالفعل؟",
+  "doNotHaveAccount": "ليس لديك حساب؟",
 
-    "exampleEmail": "itsmemamun1@gmail.com",
+  "welcome": "مرحبًا بعودتك",
+  "join": "انضم إلينا",
 
-    "emailVerification": "أدخل بريدك الإلكتروني لعملية التحقق. سنرسل رمزًا مكونًا من 4 أرقام إلى بريدك الإلكتروني.",
+  "exampleEmail": "itsmemamun1@gmail.com",
 
-    "enterDigit": "أدخل الرمز المكون من 4 أرقام",
-    "enterReceivedDigit": "أدخل الرمز المكون من 4 أرقام الذي تلقيته في بريدك الإلكتروني.",
+  "emailVerification": "أدخل بريدك الإلكتروني لإتمام عملية التحقق. سنرسل رمزًا مكونًا من 4 أرقام إلى بريدك الإلكتروني.",
 
-    "reset": "إعادة تعيين كلمة المرور",
-    "newPassword": "كلمة المرور الجديدة",
-    "reenterPassword": "أعد إدخال كلمة المرور",
-    "entername": "الرجاء إدخال اسمك",
-    "enterEmail": "الرجاء إدخال بريدك الإلكتروني",
-    "enterPassword": "الرجاء إدخال كلمة المرور",
-    "passwordSuccess": "تم إعادة تعيين كلمة المرور بنجاح",
-    "somethingwentwrong": "حدث خطأ ما"
-  },
+  "enterDigit": "أدخل الرمز المكون من 4 أرقام",
+  "enterReceivedDigit": "أدخل الرمز المكون من 4 أرقام الذي وصلك عبر بريدك الإلكتروني.",
 
-  "home": {
-    "hihand": "مرحبًا Handwerker!",
-    "findDoctor": "ابحث عن طبيبك",
-    "search": "بحث",
-    "liveDoctor": "أطباء مباشر",
-    "popularDoctor": "الأكثر طلبًا",
-    "seeAll": "عرض الكل",
-    "drFill": "د. فيلروب جراب",
-    "medicineSpecialist": "أخصائي باطنة",
-    "drBlessing": "د. بليسينج",
-    "dentist": "أخصائي أسنان",
-    "featureDoctor": "أطباء مميزين",
-    "drCrick": "د. كريك",
-    "25hours": "25.00$ / ساعة",
-    "drstrain": "د. سترين",
-    "22hours": "22.00$ / ساعة",
-    "drlachinet": "د. لاشينيت",
-    "29hours": "29.00$ / ساعة"
-  },
+  "reset": "إعادة تعيين كلمة المرور",
+  "newPassword": "كلمة المرور الجديدة",
+  "reenterPassword": "أعد إدخال كلمة المرور",
+  "entername": "يرجى إدخال اسمك",
 
-  "details": {
-    "doctorDetails": "تفاصيل الطبيب",
-    "drPediatrician": "د. أخصائي أطفال",
-    "specialistsCardiologist": "أخصائي قلب",
-    "28hr": "28.00$ / ساعة",
-    "bookNow": "احجز الآن",
-    "running": "جاري",
-    "ongoing": "مستمر",
-    "patient": "مريض",
-    "service": "الخدمات",
-    "patientCare": "رعاية المريض يجب أن تكون الأولوية الأولى.",
-    "run": "إذا كنت تدير عيادتك فأنت تعرف مدى الإحباط.",
-    "appointmentReminder ": "لهذا السبب بعض أنظمة تذكير المواعيد."
-  },
+  "enterEmail": "يرجى إدخال بريدك الإلكتروني",
 
-  "find": {
-    "find_doctors": "البحث عن أطباء",
-    "search_hint": "طبيب أسنان",
-    "years_experience": " سنوات خبرة",
-    "patient_stories": "قصص مرضى",
-    "next_available": "الموعد المتاح التالي",
-    "book_now": "احجز الآن",
-    "am": "ص",
-    "pm": "م",
-    "tomorrow": "غدًا",
-    "doctors": {
-      "shruti": "د. شروتي كيديا",
-      "watamaniuk": "د. واتامانيوك",
-      "crownover": "د. كراون أوفر",
-      "balestra": "د. باليسترا"
-    },
-    "specialties": {
-      "dentist": "طبيب أسنان"
-    }
-  },
+  "enterPassword": "يرجى إدخال كلمة المرور",
+  "passwordSuccess": "تمت إعادة تعيين كلمة المرور بنجاح",
+  "somethingwentwrong": "حدث خطأ ما",
 
-  "doctors": {
-    "ahmedHassan": "د. أحمد حسن",
-    "mohamedAli": "د. محمد علي",
-    "khaledOmar": "د. خالد عمر",
-    "fillerupGrab": "د. فيلروب جراب",
-    "youssefIbrahim": "د. يوسف إبراهيم",
-    "crick": "د. كريك",
-    "strain": "د. سترين",
-    "lachinet": "د. لاشينيت"
-  },
+  "hihand": "مرحبًا Handwerker! ",
+  "findDoctor": "اعثر على طبيبك",
+  "search": "بحث",
+  "liveDoctor": "أطباء مباشرون",
+  "popularDoctor": "الأطباء الأكثر شعبية",
+  "seeAll": "عرض الكل",
+  "drFill": "د. Fillerup Grab",
+  "medicineSpecialist": "اختصاصي طب",
+  "drBlessing": "د. Blessing",
+  "dentistspecialist": "اختصاصي طب الأسنان",
+  "featureDoctor": "أطباء مميزون",
+  "drCrick": "د. Crick",
+  "25hours": "$ 25.00/ساعة",
+  "drstrain": "د. Strain",
+  "22hours": "$ 22.00/ساعة",
+  "drlachinet": "د. Lachinet",
+  "29hours": "$ 29.00/ساعة",
 
-  "specialties": {
-    "cardiologist": "أخصائي قلب",
-    "surgeon": "جراح",
-    "dentist": "طبيب أسنان",
-    "medicineSpecialist": "أخصائي باطنة",
-    "dentistSpecialist": "أخصائي أسنان",
-    "general": "طب عام",
-    "neurologist": "أخصائي مخ وأعصاب"
-  },
+  "doctorDetails": "تفاصيل الطبيب",
+  "drPediatrician": "د. Pediatrician",
+  "specialistsCardiologist": "اختصاصي قلب",
+  "28hr": "$ 28.00/ساعة",
+  "bookNow": "احجز الآن",
+  "running": "قيد التشغيل",
+  "ongoing": "مستمر",
+  "service": "الخدمات",
+  "patientCare": "يجب أن تكون رعاية المريض هي الأولوية الأولى.",
+  "run": "إذا كنت تدير عيادتك، فأنت تعرف مدى الإحباط.",
+  "appointmentReminder ": "لهذا السبب تحتاج إلى نظام لتذكير المواعيد.",
 
-  "categories": {
-    "dental": "أسنان",
-    "heart": "قلب",
-    "eye": "عيون",
-    "body": "جسم"
-  },
+  "find_doctors": "البحث عن الأطباء",
+  "search_hint": "طبيب أسنان",
+  "years_experience": " سنوات من الخبرة",
+  "patient_stories": " قصص المرضى",
+  "next_available": "الموعد التالي المتاح",
+  "book_now": "احجز الآن",
+  "am": "صباحًا",
+  "pm": "مساءً",
+  "tomorrow": "غدًا",
 
-  "bottomNav": {
-    "home": "الرئيسية",
-    "favorite": "المفضلة",
-    "book": "الحجز",
-    "chat": "المحادثة"
-  }
+  "shruti": "د. Shruti Kedia",
+  "watamaniuk": "د. Watamaniuk",
+  "crownover": "د. Crownover",
+  "balestra": "د. Balestra",
+
+  "dentists": "طبيب أسنان",
+
+  "ahmedHassan": "د. أحمد حسن",
+  "mohamedAli": "د. محمد علي",
+  "khaledOmar": "د. خالد عمر",
+  "fillerupGrab": "د. Fillerup Grab",
+  "youssefIbrahim": "د. يوسف إبراهيم",
+  "crick": "د. Crick",
+  "strain": "د. Strain",
+  "lachinet": "د. Lachinet",
+
+  "cardiologist": "طبيب قلب",
+  "surgeon": "جرّاح",
+  "dentist": "طبيب أسنان",
+  "medicinesSpecialist": "اختصاصي طب",
+  "dentistSpecialist": "اختصاصي طب الأسنان",
+  "general": "عام",
+  "neurologist": "طبيب أعصاب",
+
+  "dental": "الأسنان",
+  "heart": "القلب",
+  "eye": "العين",
+  "body": "الجسم",
+
+  "home": "الرئيسية",
+  "favorite": "المفضلة",
+  "book": "الحجوزات",
+  "chat": "المحادثة",
+
+  "selecttime": "اختر الوقت",
+  "dentalclinic": "عيادة Upasana للأسنان، سولت ليك",
+  "today": "اليوم",
+  "noslots": "لا توجد مواعيد متاحة",
+  "nextavailabilityon": "التوفر التالي يوم الأربعاء، 24 فبراير",
+  "oR": "أو",
+  "contactclinic": "تواصل مع العيادة",
+  "afternoon": "بعد الظهر",
+  "slots": "مواعيد متاحة",
+  "evening": "المساء",
+  "enterValidEmail": "أدخل بريد إلكتروني صحيح",
+  "passwordMinLength": "كلمة المرور يجب أن تكون 8 أحرف على الأقل",
+  "passwordLowerCase": "يجب أن تحتوي على حرف صغير",
+  "passwordUpperCase": "يجب أن تحتوي على حرف كبير",
+  "passwordNumber": "يجب أن تحتوي على رقم",
+  "passwordSpecialChar": "يجب أن تحتوي على رمز خاص",
+  "signUpSuccess": "تم إنشاء الحساب بنجاح"
 }

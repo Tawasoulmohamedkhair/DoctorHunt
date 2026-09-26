@@ -4,7 +4,6 @@ import 'package:doctor_hunt/apps/Patient/features/auth/presentation/widgets/app_
 import 'package:doctor_hunt/generated/style_atoms.dart';
 import 'package:doctor_hunt/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ResetPasswordBottomSheet extends StatefulWidget {
   final void Function(String password) onPressed;
@@ -34,18 +33,17 @@ class _ResetPasswordBottomSheetState extends State<ResetPasswordBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final t = context.t.auth;
 
     return Container(
       padding: EdgeInsets.fromLTRB(
-        20.w,
-        24.h,
-        20.w,
-        MediaQuery.of(context).viewInsets.bottom + 24.h,
+        20,
+        24,
+        20,
+        MediaQuery.of(context).viewInsets.bottom + 24,
       ),
       decoration: BoxDecoration(
         color: AppColors.white,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24.r)),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -54,26 +52,26 @@ class _ResetPasswordBottomSheetState extends State<ResetPasswordBottomSheet> {
           // Handle
           Center(
             child: Container(
-              width: 40.w,
-              height: 4.h,
+              width: 40,
+              height: 4,
               decoration: BoxDecoration(
                 color: AppColors.textSub,
-                borderRadius: BorderRadius.circular(10.r),
+                borderRadius: BorderRadius.circular(10),
               ),
             ),
           ),
 
-          SizedBox(height: 24.h),
+          SizedBox(height: 24),
 
           // Title
           Text(t.reset, style: context.medium24black),
 
-          SizedBox(height: 8.h),
+          SizedBox(height: 8),
 
           // Description
           Text(t.creatNewPassword, style: context.regular14textSub),
 
-          SizedBox(height: 24.h),
+          SizedBox(height: 24),
 
           // New Password
           AppTextField(
@@ -94,10 +92,10 @@ class _ResetPasswordBottomSheetState extends State<ResetPasswordBottomSheet> {
                 color: AppColors.textSub,
               ),
             ),
-            border: Border.all(color: AppColors.textSub, width: 1.w),
+            border: Border.all(color: AppColors.textSub, width: 1),
           ),
 
-          SizedBox(height: 16.h),
+          SizedBox(height: 16),
 
           // Confirm Password
           AppTextField(
@@ -118,10 +116,10 @@ class _ResetPasswordBottomSheetState extends State<ResetPasswordBottomSheet> {
                 color: AppColors.textSub,
               ),
             ),
-            border: Border.all(color: AppColors.textSub, width: 1.w),
+            border: Border.all(color: AppColors.textSub, width: 1),
           ),
 
-          SizedBox(height: 24.h),
+          SizedBox(height: 24),
 
           // Reset Button
           CustomElevatedButton(

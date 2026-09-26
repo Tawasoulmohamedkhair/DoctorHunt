@@ -1,3 +1,4 @@
+import 'package:doctor_hunt/apps/Patient/core/extension/responsive_media_query.dart';
 import 'package:doctor_hunt/apps/Patient/core/themes/app_colors.dart';
 import 'package:doctor_hunt/apps/Patient/features/home/data/model/doctor_model.dart';
 import 'package:doctor_hunt/generated/style_atoms.dart';
@@ -33,18 +34,24 @@ class _FeaturedDoctorsSectionState extends State<FeaturedDoctorsSection> {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
         Padding(
-          padding: const EdgeInsets.fromLTRB(20, 20, 20, 12),
+          padding: EdgeInsets.fromLTRB(
+            context.w(20),
+            context.h(20),
+            context.w(20),
+            context.h(12),
+          ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(t.home.featureDoctor, style: context.medium18textSecondary),
+              Text(t.featureDoctor, style: context.medium18textSecondary),
               Row(
                 children: [
                   TextButton(
                     onPressed: () {},
-                    child: Text(t.common.seeall, style: context.light12textSub),
+                    child: Text(t.seeall, style: context.light12textSub),
                   ),
                   const Icon(Icons.arrow_forward_ios, size: 16),
                 ],
@@ -53,7 +60,7 @@ class _FeaturedDoctorsSectionState extends State<FeaturedDoctorsSection> {
           ),
         ),
         SizedBox(
-          height: 160,
+          height: context.height < 500 ? 150 : context.h(170),
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -61,12 +68,12 @@ class _FeaturedDoctorsSectionState extends State<FeaturedDoctorsSection> {
             itemBuilder: (context, index) {
               final doctor = _doctors[index];
               return Container(
-                width: 130,
-                margin: const EdgeInsets.only(right: 12),
-                padding: const EdgeInsets.all(10),
+                width: context.w(130),
+                margin: EdgeInsets.only(right: context.w(12)),
+                padding: EdgeInsets.all(context.w(10)),
                 decoration: BoxDecoration(
                   color: AppColors.white,
-                  borderRadius: BorderRadius.circular(16),
+                  borderRadius: BorderRadius.circular(context.r(16)),
                   boxShadow: [
                     BoxShadow(
                       color: AppColors.black.withValues(alpha: 0.05),
@@ -100,7 +107,7 @@ class _FeaturedDoctorsSectionState extends State<FeaturedDoctorsSection> {
                               size: 11,
                               color: AppColors.rating,
                             ),
-                            const SizedBox(width: 2),
+                            SizedBox(width: context.w(2)),
                             Text(
                               doctor.rating.toStringAsFixed(1),
                               style: context.medium10textSecondary,
@@ -110,9 +117,9 @@ class _FeaturedDoctorsSectionState extends State<FeaturedDoctorsSection> {
                       ],
                     ),
 
-                    const SizedBox(height: 10),
+                    SizedBox(height: context.h(10)),
                     CircleAvatar(
-                      radius: 32,
+                      radius: context.r(32),
                       backgroundImage: AssetImage(doctor.imageUrl),
                     ),
 
@@ -124,7 +131,7 @@ class _FeaturedDoctorsSectionState extends State<FeaturedDoctorsSection> {
                       textAlign: TextAlign.center,
                     ),
 
-                    const SizedBox(height: 4),
+                    SizedBox(height: context.h(4)),
                     RichText(
                       text: TextSpan(
                         children: [
@@ -134,21 +141,19 @@ class _FeaturedDoctorsSectionState extends State<FeaturedDoctorsSection> {
                             style: context.medium9textSecondary,
                           ),
                           TextSpan(
-                            text: '/${t.common.hours}',
+                            text: '/${t.hours}',
                             style: context.medium9textSecondary,
                           ),
                         ],
                       ),
                     ),
-
-                   
                   ],
                 ),
               );
             },
           ),
         ),
-        const SizedBox(height: 20),
+        SizedBox(height: context.h(20)),
       ],
     );
   }
@@ -156,21 +161,21 @@ class _FeaturedDoctorsSectionState extends State<FeaturedDoctorsSection> {
   String getDoctorName(BuildContext context, String key) {
     switch (key) {
       case 'ahmedHassan':
-        return context.t.doctors.ahmedHassan;
+        return t.ahmedHassan;
       case 'mohamedAli':
-        return context.t.doctors.mohamedAli;
+        return t.mohamedAli;
       case 'khaledOmar':
-        return context.t.doctors.khaledOmar;
+        return t.khaledOmar;
       case 'fillerupGrab':
-        return context.t.doctors.fillerupGrab;
+        return t.fillerupGrab;
       case 'youssefIbrahim':
-        return context.t.doctors.youssefIbrahim;
+        return t.youssefIbrahim;
       case 'crick':
-        return context.t.doctors.crick;
+        return t.crick;
       case 'strain':
-        return context.t.doctors.strain;
+        return t.strain;
       case 'lachinet':
-        return context.t.doctors.lachinet;
+        return t.lachinet;
       default:
         return key;
     }

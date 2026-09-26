@@ -1,21 +1,17 @@
+import 'package:doctor_hunt/apps/Patient/core/extension/responsive_media_query.dart';
 import 'package:doctor_hunt/apps/Patient/core/themes/app_colors.dart';
 import 'package:doctor_hunt/apps/Patient/core/widget/custom_elevated_button.dart';
 import 'package:doctor_hunt/apps/Patient/features/auth/presentation/widgets/app_text_field.dart';
 import 'package:doctor_hunt/generated/style_atoms.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AuthBottomSheet extends StatefulWidget {
   final String title;
   final String description;
   final String hintText;
   final String buttonText;
-
-  final Widget? fieldPrefix;
   final Widget? fieldSuffix;
-
   final String? Function(String?)? validator;
-
   final void Function(String value) onPressed;
 
   const AuthBottomSheet({
@@ -24,7 +20,6 @@ class AuthBottomSheet extends StatefulWidget {
     required this.description,
     required this.hintText,
     required this.buttonText,
-    this.fieldPrefix,
     this.fieldSuffix,
     this.validator,
     required this.onPressed,
@@ -35,88 +30,81 @@ class AuthBottomSheet extends StatefulWidget {
 }
 
 class _AuthBottomSheetState extends State<AuthBottomSheet> {
-  final TextEditingController controller = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  final _controller = TextEditingController();
 
   @override
   void dispose() {
-    controller.dispose();
+    _controller.dispose();
     super.dispose();
+  }
+
+  void _submit() {
+    FocusScope.of(context).unfocus();
+
+    if (_formKey.currentState?.validate() != true) return;
+
+    final value = _controller.text.trim();
+    if (value.isEmpty) return;
+
+    widget.onPressed(value);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.fromLTRB(
-        20.w,
-        24.h,
-        20.w,
-        MediaQuery.of(context).viewInsets.bottom + 24.h,
+    return Padding(
+      padding: EdgeInsets.only(
+        left: context.w(20),
+        right: context.w(20),
+        top: context.h(24),
+        bottom: MediaQuery.viewInsetsOf(context).bottom + context.h(24),
       ),
-      decoration: BoxDecoration(
-        color: AppColors.white,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24.r)),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Handle
-          Center(
-            child: Container(
-              width: 40.w,
-              height: 4.h,
-              decoration: BoxDecoration(
-                color: AppColors.darkgray,
-                borderRadius: BorderRadius.circular(10.r),
+      child: Form(
+        key: _formKey,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Handle
+            Center(
+              child: Container(
+                width: context.w(40),
+                height: context.h(4),
+                decoration: BoxDecoration(
+                  color: AppColors.darkgray,
+                  borderRadius: BorderRadius.circular(context.r(10)),
+                ),
               ),
             ),
-          ),
+            SizedBox(height: context.h(24)),
 
-          SizedBox(height: 24.h),
+            Text(widget.title, style: context.medium24black),
+            SizedBox(height: context.h(8)),
 
-          // Title
-          Text(widget.title, style: context.medium24black),
+            Text(widget.description, style: context.regular14textSub),
+            SizedBox(height: context.h(24)),
 
-          SizedBox(height: 8.h),
+            AppTextField(
+              controller: _controller,
+              hintText: widget.hintText,
+              type: AppTextFieldType.email,
+              suffixIcon: widget.fieldSuffix,
+              validator: widget.validator,
+              textInputAction: TextInputAction.done,
+              onChanged: (_) {}, // لو حابة تفعّلي الزر لاحقًا
+            ),
+            SizedBox(height: context.h(24)),
 
-          // Description
-          Text(widget.description, style: context.regular14textSub),
-
-          SizedBox(height: 24.h),
-
-          // Text Field
-          AppTextField(
-            controller: controller,
-            hintText: widget.hintText,
-            suffixIcon: widget.fieldSuffix,
-            border: Border.all(color: AppColors.textSub, width: 1.w),
-            validator: widget.validator,
-          ),
-
-          SizedBox(height: 24.h),
-
-          // Button
-          CustomElevatedButton(
-            label: Text(widget.buttonText),
-            onPressed: () {
-              final value = controller.text.trim();
-
-              if (value.isEmpty) {
-                return;
-              }
-
-              widget.onPressed(value);
-            },
-          ),
-        ],
+            CustomElevatedButton(
+              label: Text(widget.buttonText),
+              onPressed: _submit,
+            ),
+          ],
+        ),
       ),
     );
   }
 }
-
-// ==========================================
-// Show Auth Bottom Sheet
-// ==========================================
 
 void showAuthBottomSheet(
   BuildContext context, {
@@ -124,7 +112,6 @@ void showAuthBottomSheet(
   required String description,
   required String hintText,
   required String buttonText,
-  Widget? fieldPrefix,
   Widget? fieldSuffix,
   String? Function(String?)? validator,
   required void Function(String value) onPressed,
@@ -132,14 +119,16 @@ void showAuthBottomSheet(
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
-    backgroundColor: AppColors.textSub,
+    backgroundColor: AppColors.white,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(context.r(24))),
+    ),
     builder: (_) {
       return AuthBottomSheet(
         title: title,
         description: description,
         hintText: hintText,
         buttonText: buttonText,
-        fieldPrefix: fieldPrefix,
         fieldSuffix: fieldSuffix,
         validator: validator,
         onPressed: onPressed,

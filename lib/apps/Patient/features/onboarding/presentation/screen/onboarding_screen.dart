@@ -1,9 +1,9 @@
+import 'package:doctor_hunt/apps/Patient/core/extension/responsive_media_query.dart';
 import 'package:doctor_hunt/apps/Patient/core/router/app_routers.dart';
 import 'package:doctor_hunt/apps/Patient/core/themes/app_colors.dart';
 import 'package:doctor_hunt/apps/Patient/features/onboarding/data/models/onboarding_data.dart';
-import 'package:doctor_hunt/apps/Patient/features/onboarding/presentation/cubit/onboardin_cubit.dart';
-import 'package:doctor_hunt/apps/Patient/features/onboarding/presentation/screen/onbarding.dart';
-import 'package:doctor_hunt/gen/assets.gen.dart';
+import 'package:doctor_hunt/apps/Patient/features/onboarding/presentation/cubit/onboarding_cubit.dart';
+import 'package:doctor_hunt/apps/Patient/features/onboarding/presentation/widgets/onbarding_page.dart';
 import 'package:doctor_hunt/generated/style_atoms.dart';
 import 'package:doctor_hunt/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
@@ -17,9 +17,15 @@ class OnboardingScreen extends StatefulWidget {
 }
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
-  final PageController _pageController = PageController();
+  late final PageController _pageController;
 
-  int currentIndex = 0;
+  int _currentIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController();
+  }
 
   @override
   void dispose() {
@@ -35,93 +41,84 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     const ChooseRoleRoute().go(context);
   }
 
+  void _onPageChanged(int index) {
+    if (_currentIndex == index) return;
+
+    setState(() {
+      _currentIndex = index;
+    });
+  }
+
+  void _onNextPressed() {
+    final isLastPage = _currentIndex == onboardingData.length - 1;
+
+    if (isLastPage) {
+      _goToChooseRole();
+      return;
+    }
+
+    _pageController.nextPage(
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    final t = context.t.common;
+    final isLastPage = _currentIndex == onboardingData.length - 1;
 
     return Scaffold(
       backgroundColor: AppColors.white,
-
       body: Stack(
         clipBehavior: Clip.none,
         children: [
-          // Bottom right ellipse
-          Positioned(
-            bottom: -30,
-            right: -40,
-            child: Image.asset(
-              Assets.images.ellipse.path,
-              width: 216,
-              height: 216,
-              fit: BoxFit.contain,
-            ),
-          ),
-
-          // Onboarding pages
+          // Onboarding pages.
           Positioned.fill(
-            bottom: 130,
+            bottom: context.h(130),
             child: PageView.builder(
               controller: _pageController,
               itemCount: onboardingData.length,
-
-              onPageChanged: (index) {
-                setState(() {
-                  currentIndex = index;
-                });
-              },
-
+              onPageChanged: _onPageChanged,
               itemBuilder: (context, index) {
-                final item = onboardingData[index];
-
-                return OnboardingPage(item: item, index: index);
+                return OnboardingPage(
+                  item: onboardingData[index],
+                  index: index,
+                  isRight: onboardingData[index].isRight,
+                );
               },
             ),
           ),
 
-          // Bottom buttons
+          // Bottom buttons.
           Positioned(
             left: 0,
             right: 0,
-            bottom: 25,
+            bottom: context.h(25),
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 40),
+                  padding: EdgeInsets.symmetric(horizontal: context.w(40)),
                   child: SizedBox(
                     width: double.infinity,
-                    height: 53,
+                    height: context.h(53),
                     child: ElevatedButton(
-                      onPressed: () async {
-                        if (currentIndex == onboardingData.length - 1) {
-                          await _goToChooseRole();
-                        } else {
-                          _pageController.nextPage(
-                            duration: const Duration(milliseconds: 300),
-                            curve: Curves.easeInOut,
-                          );
-                        }
-                      },
-
+                      onPressed: _onNextPressed,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.primary,
                         elevation: 0,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(context.r(12)),
                         ),
                       ),
-
                       child: Text(
-                        currentIndex == onboardingData.length - 1
-                            ? t.getStarted
-                            : t.next,
+                        isLastPage ? t.getStarted : t.next,
                         style: context.medium18white,
                       ),
                     ),
                   ),
                 ),
-
-                const SizedBox(height: 8),
-
+                SizedBox(height: context.h(8)),
                 TextButton(
                   onPressed: _goToChooseRole,
                   child: Text(t.skip, style: context.regular14textSub),

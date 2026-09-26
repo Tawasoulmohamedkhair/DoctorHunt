@@ -1,3 +1,4 @@
+import 'package:doctor_hunt/apps/Patient/core/extension/responsive_media_query.dart';
 import 'package:doctor_hunt/apps/Patient/features/home/presentation/cubit/home_cubit.dart';
 import 'package:doctor_hunt/apps/Patient/features/home/presentation/cubit/home_state.dart';
 import 'package:doctor_hunt/apps/Patient/features/home/presentation/widgets/bottom_navbar.dart';
@@ -6,7 +7,7 @@ import 'package:doctor_hunt/apps/Patient/features/home/presentation/widgets/feat
 import 'package:doctor_hunt/apps/Patient/features/home/presentation/widgets/header_widget.dart';
 import 'package:doctor_hunt/apps/Patient/features/home/presentation/widgets/live_doctors_section.dart';
 import 'package:doctor_hunt/apps/Patient/features/home/presentation/widgets/popular_doctors_section.dart';
-import 'package:doctor_hunt/gen/assets.gen.dart';
+import 'package:doctor_hunt/generated/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -43,7 +44,8 @@ class HomeScreen extends StatelessWidget {
                       SliverToBoxAdapter(
                         child: LiveDoctorsSection(doctors: state.liveDoctors),
                       ),
-                      const SliverToBoxAdapter(child: SizedBox(height: 30)),
+                     SliverToBoxAdapter(child: SizedBox(height: context.h(30)),
+                      ),
 
                       // Categories
                       SliverToBoxAdapter(child: CategoriesSection()),
@@ -60,7 +62,7 @@ class HomeScreen extends StatelessWidget {
                           doctors: state.featuredDoctors,
                         ),
                       ),
-                      const SliverToBoxAdapter(child: SizedBox(height: 20)),
+                     SliverToBoxAdapter(child: SizedBox(height:context.h(20))),
                     ],
                   );
                 }

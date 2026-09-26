@@ -1,7 +1,10 @@
+import 'package:doctor_hunt/apps/Patient/core/extension/responsive_media_query.dart';
+import 'package:doctor_hunt/apps/Patient/core/extension/validator_extension.dart';
 import 'package:doctor_hunt/apps/Patient/core/router/app_routers.dart';
+import 'package:doctor_hunt/apps/Patient/core/themes/app_colors.dart';
 import 'package:doctor_hunt/apps/Patient/core/widget/custom_elevated_button.dart';
 import 'package:doctor_hunt/apps/Patient/features/auth/cubit/auth_cubit.dart';
-import 'package:doctor_hunt/apps/Patient/features/auth/cubit/auth_state.dart';
+import 'package:doctor_hunt/apps/Patient/features/auth/cubit/auth_cubit_state.dart';
 import 'package:doctor_hunt/apps/Patient/features/auth/presentation/widgets/app_text_field.dart';
 import 'package:doctor_hunt/apps/Patient/features/auth/presentation/widgets/auth_background.dart';
 import 'package:doctor_hunt/apps/Patient/features/auth/presentation/widgets/auth_bottom_sheet.dart';
@@ -10,153 +13,236 @@ import 'package:doctor_hunt/apps/Patient/features/auth/presentation/widgets/rese
 import 'package:doctor_hunt/apps/Patient/features/auth/presentation/widgets/rich_text_widget.dart';
 import 'package:doctor_hunt/apps/Patient/features/auth/presentation/widgets/social_media_widget.dart';
 import 'package:doctor_hunt/apps/Patient/features/auth/presentation/widgets/verify_code_bottom_sheet.dart';
+import 'package:doctor_hunt/apps/Patient/features/chooserole/presentation/cubit/role_selection_state.dart';
 import 'package:doctor_hunt/generated/style_atoms.dart';
 import 'package:doctor_hunt/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+class LoginScreen extends StatefulWidget {
+  final UserRole role;
+
+  const LoginScreen({super.key, required this.role});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final _formKey = GlobalKey<FormState>();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  String? _recoveryEmail;
+
+  bool get isPatient => widget.role == UserRole.patient;
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
+  void _onLoginPressed() {
+    FocusScope.of(context).unfocus();
+
+    if (!_formKey.currentState!.validate()) return;
+
+    context.read<AuthCubit>().login(
+      email: _emailController.text.trim(),
+      password: _passwordController.text,
+    );
+  }
+
+  void _onForgotPasswordPressed() {
+    showAuthBottomSheet(
+      context,
+      title: t.forgotPassword,
+      description: t.emailVerification,
+      hintText: t.email,
+      buttonText: t.kContinue,
+      validator: (value) => value.validateEmail(
+        emptyMessage: t.enterEmail,
+        invalidMessage: t.enterValidEmail,
+      ),
+      onPressed: (email) {
+        Navigator.pop(context);
+        context.read<AuthCubit>().forgotPassword(email: email);
+      },
+    );
+  }
+
+  void _showMessage(String message, {bool isError = false}) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: isError ? AppColors.danger : AppColors.primary,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    final t = context.t;
-
-    return BlocListener<AuthCubit, AuthState>(
+    return BlocListener<AuthCubit, AuthCubitState>(
       listener: (context, state) {
-        // ==================================
-        // Forgot Password Success
-        // ==================================
+        switch (state.status) {
+          case AuthStatus.success:
+            const HomeRoute().go(context);
+            break;
 
-        if (state.status == AuthStatus.forgotPasswordSuccess) {
-          showVerifyCodeBottomSheet(
-            context,
-            onPressed: (code) {
-              Navigator.pop(context);
+          case AuthStatus.forgotPasswordSuccess:
+            final email = _recoveryEmail;
+            if (email == null || email.isEmpty) {
+              _showMessage(t.somethingwentwrong, isError: true);
+              return;
+            }
 
-              context.read<AuthCubit>().verifyCode(code: code);
-            },
-          );
-        }
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              if (!mounted) return;
 
-        // ==================================
-        // Verify Code Success
-        // ==================================
-
-        if (state.status == AuthStatus.verifyCodeSuccess) {
-          showResetPasswordBottomSheet(
-            context,
-            onPressed: (password) {
-              Navigator.pop(context);
-
-              context.read<AuthCubit>().resetPassword(password: password);
-            },
-          );
-        }
-
-        // ==================================
-        // Reset Password Success
-        // ==================================
-
-        if (state.status == AuthStatus.resetPasswordSuccess) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Password reset successfully')),
-          );
-        }
-
-        // ==================================
-        // Failure
-        // ==================================
-
-        if (state.status == AuthStatus.failure) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(state.errorMessage ?? 'Something went wrong'),
-            ),
-          );
-        }
-      },
-
-      child: Scaffold(
-        body: AuthBackground(
-          child: Column(
-            children: [
-              SizedBox(height: 100),
-              AuthTitleWidget(
-                title: t.auth.welcome,
-                description: t.auth.loginDescription,
-              ),
-              SizedBox(height: 67.h),
-              SocialMediaWidget(),
-              SizedBox(width: 12.w),
-              SizedBox(height: 34.h),
-              AppTextField(
-                hintText: t.auth.email,
-                suffixIcon: Icon(Icons.check),
-
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return t.auth.enterEmail;
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 18.h),
-
-              AppTextField(
-                hintText: t.auth.password,
-                type: AppTextFieldType.password,
-
-                suffixIcon: GestureDetector(
-                  onTap: () {},
-                  child: Icon(Icons.visibility_off),
-                ),
-
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return t.auth.enterPassword;
-                  }
-                  return null;
-                },
-              ),
-              TextButton(
-                onPressed: () {
-                  showAuthBottomSheet(
-                    context,
-                    title: t.auth.forgotPassword,
-                    description: t.auth.emailVerification,
-                    hintText: t.auth.email,
-                    buttonText: t.common.kContinue,
-
-                    // ==========================
-                    // Email Submitted
-                    // ==========================
-                    onPressed: (email) {
-                      Navigator.pop(context);
-
-                      context.read<AuthCubit>().forgotPassword(email: email);
-                    },
+              showVerifyCodeBottomSheet(
+                context,
+                onPressed: (code) {
+                  Navigator.of(context).pop();
+                  context.read<AuthCubit>().verifyRecoveryCode(
+                    email: email,
+                    code: code.trim(),
                   );
                 },
-                child: Text(
-                  t.auth.forgotPassword,
-                  style: context.regular14primary,
+              );
+            });
+            break;
+
+          case AuthStatus.verifyCodeSuccess:
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              if (!mounted) return;
+
+              showResetPasswordBottomSheet(
+                context,
+                onPressed: (password) {
+                  Navigator.of(context).pop();
+                  context.read<AuthCubit>().resetPassword(password: password);
+                },
+              );
+            });
+            break;
+
+          case AuthStatus.resetPasswordSuccess:
+            _showMessage(t.passwordSuccess);
+            break;
+
+          case AuthStatus.failure:
+            _showMessage(
+              state.errorMessage ?? t.somethingwentwrong,
+              isError: true,
+            );
+            break;
+
+          default:
+            break;
+        }
+      },
+      child: Scaffold(
+        body: AuthBackground(
+          child: SafeArea(
+            child: SingleChildScrollView(
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    SizedBox(height: context.h(40)),
+
+                    AuthTitleWidget(
+                      title: t.welcome,
+                      description: t.loginDescription,
+                    ),
+
+                    SizedBox(height: context.h(40)),
+
+                    SocialMediaWidget(
+                      onGooglePressed: () {
+                        context.read<AuthCubit>().signInWithGoogle();
+                      },
+                    ),
+
+                    SizedBox(height: context.h(28)),
+
+                    // Email
+                    AppTextField(
+                      controller: _emailController,
+                      hintText: t.email,
+                      type: AppTextFieldType.email,
+                      validator: (value) => value.validateEmail(
+                        emptyMessage: t.enterEmail,
+                        invalidMessage: t.enterValidEmail,
+                      ),
+                    ),
+
+                    SizedBox(height: context.h(16)),
+
+                    // Password
+                    AppTextField(
+                      controller: _passwordController,
+                      hintText: t.password,
+                      type: AppTextFieldType.password,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return t.enterPassword;
+                        }
+                        return null;
+                      },
+                    ),
+
+                    Align(
+                      alignment: AlignmentDirectional.centerEnd,
+                      child: TextButton(
+                        onPressed: _onForgotPasswordPressed,
+                        child: Text(
+                          t.forgotPassword,
+                          style: context.regular14primary,
+                        ),
+                      ),
+                    ),
+
+                    SizedBox(height: context.h(24)),
+
+                    // Login button
+                    BlocBuilder<AuthCubit, AuthCubitState>(
+                      builder: (context, state) {
+                        final isLoading = state.status == AuthStatus.loading;
+
+                        return CustomElevatedButton(
+                          onPressed: isLoading ? null : _onLoginPressed,
+                          label: isLoading
+                              ? SizedBox(
+                                  width: context.w(22),
+                                  height: context.h(22),
+                                  child: const CircularProgressIndicator(
+                                    color: AppColors.white,
+                                    strokeWidth: 2.5,
+                                  ),
+                                )
+                              : Text(t.logIn, style: context.medium18white),
+                        );
+                      },
+                    ),
+
+                    SizedBox(height: context.h(32)),
+
+                    // Patient only
+                    if (isPatient)
+                      RichTextWidget(
+                        text1: t.doNotHaveAccount,
+                        text2: t.join,
+                        onTap: () => const SignUpRoute().go(context),
+                      ),
+
+                    SizedBox(height: context.h(24)),
+                  ],
                 ),
               ),
-              SizedBox(height: 32.h),
-              CustomElevatedButton(
-                label: Text(t.auth.logIn),
-                onPressed: () => const HomeRoute().go(context),
-              ),
-              SizedBox(height: 54.h),
-
-              RichTextWidget(
-                text1: t.auth.doNotHaveAccount,
-                text2: t.auth.join,
-                onTap: () {},
-              ),
-            ],
+            ),
           ),
         ),
       ),

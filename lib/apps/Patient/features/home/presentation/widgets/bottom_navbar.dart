@@ -1,3 +1,4 @@
+import 'package:doctor_hunt/apps/Patient/core/extension/responsive_media_query.dart';
 import 'package:doctor_hunt/apps/Patient/core/themes/app_colors.dart';
 import 'package:flutter/material.dart';
 
@@ -14,17 +15,17 @@ class _BottomNavBarState extends State<BottomNavBar> {
   Widget _buildIcon({required IconData icon, required bool selected}) {
     if (selected) {
       return Container(
-        width: 48,
-        height: 48,
+        width: context.w(48),
+        height: context.h(48),
         decoration: BoxDecoration(
           color: AppColors.primary,
           shape: BoxShape.circle,
         ),
-        child: Icon(icon, color: AppColors.white, size: 24),
+        child: Icon(icon, color: AppColors.white, size: context.sp(24)),
       );
     }
 
-    return Icon(icon, color: AppColors.textNavigation, size: 24);
+    return Icon(icon, color: AppColors.textNavigation, size: context.sp(24));
   }
 
   @override

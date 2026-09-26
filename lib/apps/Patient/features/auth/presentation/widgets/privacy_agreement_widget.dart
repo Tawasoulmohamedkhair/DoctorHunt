@@ -1,40 +1,46 @@
-
+import 'package:doctor_hunt/apps/Patient/core/extension/responsive_media_query.dart';
 import 'package:doctor_hunt/apps/Patient/core/themes/app_colors.dart';
 import 'package:doctor_hunt/generated/style_atoms.dart';
 import 'package:doctor_hunt/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class PrivacyAgreementWidget extends StatelessWidget {
-  const PrivacyAgreementWidget({super.key});
+  const PrivacyAgreementWidget({
+    super.key,
+    required this.value,
+    required this.onChanged,
+  });
+
+  final bool value;
+  final ValueChanged<bool> onChanged;
 
   @override
   Widget build(BuildContext context) {
-    final t = context.t.auth;
-
-    return Row(
-      children: [
-        Container(
-          width: 16.w,
-          height: 16.h,
-          decoration: BoxDecoration(
-            color: AppColors.textSecondary.withValues(alpha: 0.50),
-            shape: BoxShape.circle,
+    return InkWell(
+      onTap: () => onChanged(!value),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            width: context.w(22),
+            height: context.w(22),
+            child: Checkbox(
+              value: value,
+              activeColor: AppColors.primary,
+              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              visualDensity: VisualDensity.compact,
+              onChanged: (v) => onChanged(v ?? false),
+            ),
           ),
-          child: Icon(
-            Icons.done,
-            color: AppColors.primary,
-            size: 10.h,
-          ),
-        ),
-        SizedBox(width: 11.w),
-        Expanded(
-          child: Text(
+          SizedBox(width: context.w(8)),
+          Expanded(
+            child: Text(
             t.agreeAndPrivacy,
-            style: context.light12textSub,
+              style: context.light12textSub,
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

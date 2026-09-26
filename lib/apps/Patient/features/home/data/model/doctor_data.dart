@@ -1,5 +1,5 @@
 import 'package:doctor_hunt/apps/Patient/features/home/data/model/doctor_model.dart';
-import 'package:doctor_hunt/gen/assets.gen.dart';
+import 'package:doctor_hunt/generated/assets.gen.dart';
 
 class DoctorsData {
   static List<DoctorModel> get liveDoctors => [

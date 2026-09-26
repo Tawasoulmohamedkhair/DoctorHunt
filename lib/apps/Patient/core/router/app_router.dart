@@ -2,7 +2,7 @@ import 'package:go_router/go_router.dart';
 import 'app_routers.dart';
 
 final GoRouter appRouter = GoRouter(
-  initialLocation: '/splash',
+  initialLocation: '/onboarding',
   routes: [
     $splashRoute,
     $onboardingRoute,

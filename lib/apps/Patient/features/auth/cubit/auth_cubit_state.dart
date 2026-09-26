@@ -1,5 +1,3 @@
-
-
 import 'package:equatable/equatable.dart';
 
 enum AuthStatus {
@@ -10,30 +8,22 @@ enum AuthStatus {
   forgotPasswordSuccess,
   verifyCodeSuccess,
   resetPasswordSuccess,
+  signUpSuccess,
 }
 
-class AuthState extends Equatable {
+class AuthCubitState extends Equatable {
   final AuthStatus status;
   final String? errorMessage;
 
-  const AuthState({
-    this.status = AuthStatus.initial,
-    this.errorMessage,
-  });
+  const AuthCubitState({this.status = AuthStatus.initial, this.errorMessage});
 
-  AuthState copyWith({
-    AuthStatus? status,
-    String? errorMessage,
-  }) {
-    return AuthState(
+  AuthCubitState copyWith({AuthStatus? status, String? errorMessage}) {
+    return AuthCubitState(
       status: status ?? this.status,
       errorMessage: errorMessage ?? this.errorMessage,
     );
   }
 
   @override
-  List<Object?> get props => [
-        status,
-        errorMessage,
-      ];
+  List<Object?> get props => [status, errorMessage];
 }

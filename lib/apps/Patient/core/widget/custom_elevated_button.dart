@@ -1,6 +1,6 @@
+import 'package:doctor_hunt/apps/Patient/core/extension/responsive_media_query.dart';
 import 'package:doctor_hunt/apps/Patient/core/themes/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomElevatedButton extends StatelessWidget {
   const CustomElevatedButton({
@@ -25,14 +25,16 @@ class CustomElevatedButton extends StatelessWidget {
       disabledBackgroundColor: AppColors.primary,
       foregroundColor: AppColors.white,
       disabledForegroundColor: AppColors.white,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(context.r(12)),
+      ),
       elevation: 0,
       padding: EdgeInsets.zero,
     );
 
     return SizedBox(
-      width: width?.w ?? 295.w,
-      height: height?.h ?? 54.h,
+      width: width != null ? context.w(width!) : context.w(295),
+      height: height != null ? context.h(height!) : context.h(54),
       child: icon != null
           ? ElevatedButton.icon(
               style: buttonStyle,

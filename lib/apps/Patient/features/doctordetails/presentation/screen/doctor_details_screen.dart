@@ -6,7 +6,7 @@ import 'package:doctor_hunt/apps/Patient/features/doctordetails/presentation/cub
 import 'package:doctor_hunt/apps/Patient/features/doctordetails/presentation/widgets/doctor_card.dart';
 import 'package:doctor_hunt/apps/Patient/core/widget/header_widget.dart';
 import 'package:doctor_hunt/apps/Patient/features/doctordetails/presentation/widgets/stats_row.dart';
-import 'package:doctor_hunt/gen/assets.gen.dart';
+import 'package:doctor_hunt/generated/assets.gen.dart';
 import 'package:doctor_hunt/generated/style_atoms.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -44,7 +44,7 @@ class DoctorDetailsScreen extends StatelessWidget {
                       children: [
                         SizedBox(height: 10),
 
-                        HeaderAppBar(title: context.t.details.doctorDetails),
+                        HeaderAppBar(title: t.doctorDetails),
                         // ===== Doctor Card =====
                         DoctorCard(doctor: doctor),
                         const SizedBox(height: 16),
@@ -55,7 +55,7 @@ class DoctorDetailsScreen extends StatelessWidget {
 
                         // ===== Services =====
                         Text(
-                          context.t.details.service,
+                          t.service,
                           style: context.medium18textSecondary,
                         ),
                         const SizedBox(height: 12),
@@ -101,7 +101,6 @@ class DoctorDetailsScreen extends StatelessWidget {
   }
 
   String _getService(BuildContext context, String key) {
-    final t = context.t.details;
     switch (key) {
       case 'patientCare':
         return t.patientCare;

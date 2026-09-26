@@ -1,9 +1,9 @@
+import 'package:doctor_hunt/apps/Patient/core/extension/responsive_media_query.dart';
 import 'package:doctor_hunt/apps/Patient/core/router/app_routers.dart';
 import 'package:doctor_hunt/apps/Patient/core/themes/app_colors.dart';
 import 'package:doctor_hunt/generated/style_atoms.dart';
 import 'package:doctor_hunt/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomSearchBar extends StatefulWidget {
   const CustomSearchBar({super.key});
@@ -36,8 +36,9 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 52.h,
+      height: context.h(52),
       child: TextField(
+        onTap: () => const FindDoctorsRoute(query: '').push(context),
         controller: _controller,
         textInputAction: TextInputAction.search,
         onSubmitted: (value) {
@@ -46,7 +47,7 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
           FindDoctorsRoute(query: query).push(context);
         },
         decoration: InputDecoration(
-          hintText: context.t.home.search,
+          hintText: t.search,
           hintStyle: context.regular15textSub,
           prefixIcon: const Icon(Icons.search, color: AppColors.textSub),
           suffixIcon: _hasText
@@ -61,20 +62,20 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
           filled: true,
           fillColor: AppColors.white,
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8.r),
+            borderRadius: BorderRadius.circular(context.r(8)),
             borderSide: BorderSide.none,
           ),
           enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8.r),
+            borderRadius: BorderRadius.circular(context.r(8)),
             borderSide: BorderSide.none,
           ),
           focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8.r),
+            borderRadius: BorderRadius.circular(context.r(8)),
             borderSide: BorderSide.none,
           ),
           contentPadding: EdgeInsets.symmetric(
-            horizontal: 12.w,
-            vertical: 14.h,
+            horizontal: context.w(12),
+            vertical: context.h(14),
           ),
         ),
       ),

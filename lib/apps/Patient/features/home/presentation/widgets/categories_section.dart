@@ -1,5 +1,6 @@
 // ==================== Categories ====================
 
+import 'package:doctor_hunt/apps/Patient/core/extension/responsive_media_query.dart';
 import 'package:doctor_hunt/apps/Patient/features/home/data/model/categories_data.dart';
 import 'package:flutter/material.dart';
 
@@ -8,29 +9,29 @@ class CategoriesSection extends StatelessWidget {
   final CategoriesData categories = CategoriesData();
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: categories.categories.map((cat) {
-          return Container(
-            width: 80,
-            height: 90,
-            decoration: BoxDecoration(
-              color: cat['color'] as Color,
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Center(
-              child: Image.asset(
-                cat['image'] as String,
-                width: 35,
-                height: 35,
-                fit: BoxFit.contain,
-              ),
-            ),
-          );
-        }).toList(),
-      ),
-    );
+     return Padding(
+  padding: EdgeInsets.all(context.w(8)),
+  child: Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: categories.categories.map((cat) {
+      return Container(
+        width: context.w(80),
+        height: context.h(90),
+        decoration: BoxDecoration(
+          color: cat['color'] as Color,
+          borderRadius: BorderRadius.circular(context.r(16)),
+        ),
+        child: Center(
+          child: Image.asset(
+            cat['image'] as String,
+            width: context.w(35),
+            height: context.w(35),
+            fit: BoxFit.contain,
+          ),
+        ),
+      );
+    }).toList(),
+  ),
+);
   }
 }
