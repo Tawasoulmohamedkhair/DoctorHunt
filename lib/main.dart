@@ -1,5 +1,6 @@
 import 'package:doctor_hunt/apps/Patient/core/di/injection.dart';
 import 'package:doctor_hunt/apps/Patient/core/router/app_router.dart';
+import 'package:doctor_hunt/apps/Patient/core/themes/app_theme.dart';
 import 'package:doctor_hunt/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -44,12 +45,8 @@ class MyApp extends StatelessWidget {
       // Flutter localization
       localizationsDelegates: GlobalMaterialLocalizations.delegates,
 
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
+      theme: AppTheme.lightTheme,
       builder: (context, child) => child!,
     );
   }
 }
-
-//Totamadina@1989 databasepassword

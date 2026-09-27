@@ -155,14 +155,14 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	/// en: 'itsmemamun1@gmail.com'
 	String get exampleEmail => 'itsmemamun1@gmail.com';
 
-	/// en: 'Enter your email for the verification process. We will send a 4-digit code to your email.'
-	String get emailVerification => 'Enter your email for the verification process. We will send a 4-digit code to your email.';
+	/// en: 'Enter your email for the verification process. We will send a 6-digit code to your email.'
+	String get emailVerification => 'Enter your email for the verification process. We will send a 6-digit code to your email.';
 
-	/// en: 'Enter 4-Digit Code'
-	String get enterDigit => 'Enter 4-Digit Code';
+	/// en: 'Enter 6-Digit Code'
+	String get enterDigit => 'Enter 6-Digit Code';
 
-	/// en: 'Enter the 4-digit code that you received in your email.'
-	String get enterReceivedDigit => 'Enter the 4-digit code that you received in your email.';
+	/// en: 'Enter the 6-digit code that you received in your email.'
+	String get enterReceivedDigit => 'Enter the 6-digit code that you received in your email.';
 
 	/// en: 'Reset Password'
 	String get reset => 'Reset Password';
@@ -545,9 +545,9 @@ extension on Translations {
 			'welcome' => 'Welcome back',
 			'join' => 'Join us',
 			'exampleEmail' => 'itsmemamun1@gmail.com',
-			'emailVerification' => 'Enter your email for the verification process. We will send a 4-digit code to your email.',
-			'enterDigit' => 'Enter 4-Digit Code',
-			'enterReceivedDigit' => 'Enter the 4-digit code that you received in your email.',
+			'emailVerification' => 'Enter your email for the verification process. We will send a 6-digit code to your email.',
+			'enterDigit' => 'Enter 6-Digit Code',
+			'enterReceivedDigit' => 'Enter the 6-digit code that you received in your email.',
 			'reset' => 'Reset Password',
 			'newPassword' => 'New Password',
 			'reenterPassword' => 'Re-enter Password',

@@ -64,10 +64,10 @@
 
   "exampleEmail": "itsmemamun1@gmail.com",
 
-  "emailVerification": "Enter your email for the verification process. We will send a 4-digit code to your email.",
+  "emailVerification": "Enter your email for the verification process. We will send a 6-digit code to your email.",
 
-  "enterDigit": "Enter 4-Digit Code",
-  "enterReceivedDigit": "Enter the 4-digit code that you received in your email.",
+  "enterDigit": "Enter 6-Digit Code",
+  "enterReceivedDigit": "Enter the 6-digit code that you received in your email.",
 
   "reset": "Reset Password",
   "newPassword": "New Password",

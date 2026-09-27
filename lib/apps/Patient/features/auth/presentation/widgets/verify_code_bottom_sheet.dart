@@ -1,3 +1,4 @@
+import 'package:doctor_hunt/apps/Patient/core/extension/responsive_media_query.dart';
 import 'package:doctor_hunt/apps/Patient/core/themes/app_colors.dart';
 import 'package:doctor_hunt/apps/Patient/core/widget/custom_elevated_button.dart';
 import 'package:doctor_hunt/generated/style_atoms.dart';
@@ -64,30 +65,33 @@ class _VerifyCodeBottomSheetState extends State<VerifyCodeBottomSheet> {
 
           SizedBox(height: 24),
 
-          // OTP
-          Pinput(
-            controller: codeController,
-            length: 8,
-            keyboardType: TextInputType.number,
-            autofocus: true,
-            defaultPinTheme: PinTheme(
-              width: 65,
-              height: 55,
-              textStyle: context.bold26primary,
-              decoration: BoxDecoration(
-                color: AppColors.white,
-                border: Border.all(color: AppColors.textSub, width: 1),
-                borderRadius: BorderRadius.circular(8),
+          // OTP - 6 digits
+          Center(
+            child: Pinput(
+              controller: codeController,
+              length: 6,
+              keyboardType: TextInputType.number,
+              autofocus: true,
+              separatorBuilder: (index) => SizedBox(width: context.w(8)),
+              defaultPinTheme: PinTheme(
+                width: context.w(46),
+                height: context.h(52),
+                textStyle: context.bold26primary,
+                decoration: BoxDecoration(
+                  color: AppColors.white,
+                  border: Border.all(color: AppColors.textSub, width: 1),
+                  borderRadius: BorderRadius.circular(8),
+                ),
               ),
-            ),
-            focusedPinTheme: PinTheme(
-              width: 65,
-              height: 55,
-              textStyle: context.medium15textSecondary,
-              decoration: BoxDecoration(
-                color: AppColors.white,
-                border: Border.all(color: AppColors.primary, width: 1.5),
-                borderRadius: BorderRadius.circular(8),
+              focusedPinTheme: PinTheme(
+                width: context.w(46),
+                height: context.h(52),
+                textStyle: context.medium15textSecondary,
+                decoration: BoxDecoration(
+                  color: AppColors.white,
+                  border: Border.all(color: AppColors.primary, width: 1.5),
+                  borderRadius: BorderRadius.circular(8),
+                ),
               ),
             ),
           ),
@@ -100,7 +104,7 @@ class _VerifyCodeBottomSheetState extends State<VerifyCodeBottomSheet> {
             onPressed: () {
               final code = codeController.text.trim();
 
-              if (code.length != 8) {
+              if (code.length != 6) {
                 return;
               }
 

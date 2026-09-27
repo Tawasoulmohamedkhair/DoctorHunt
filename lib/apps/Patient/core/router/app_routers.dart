@@ -1,5 +1,5 @@
 import 'package:doctor_hunt/apps/Patient/core/di/injection.dart';
-import 'package:doctor_hunt/apps/Patient/features/auth/cubit/auth_cubit.dart';
+import 'package:doctor_hunt/apps/Patient/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:doctor_hunt/apps/Patient/features/auth/presentation/screens/login_screen.dart';
 import 'package:doctor_hunt/apps/Patient/features/auth/presentation/screens/signup_screen.dart';
 import 'package:doctor_hunt/apps/Patient/features/chooserole/presentation/cubit/role_selection_state.dart';

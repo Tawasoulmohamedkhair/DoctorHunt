@@ -12,90 +12,97 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:doctor_hunt/i18n/strings.g.dart';
 
-class DoctorDetailsScreen extends StatelessWidget {
+class DoctorDetailsScreen extends StatefulWidget {
   final String doctorId;
 
   const DoctorDetailsScreen({super.key, required this.doctorId});
 
   @override
+  State<DoctorDetailsScreen> createState() => _DoctorDetailsScreenState();
+}
+
+class _DoctorDetailsScreenState extends State<DoctorDetailsScreen> {
+  @override
+  void initState() {
+    super.initState();
+
+    context.read<DoctorDetailsCubit>().loadDoctorDetails(widget.doctorId);
+    ();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => DoctorDetailsCubit()..loadDoctorDetails(doctorId),
-      child: Scaffold(
-        body: Stack(
-          children: [
-            Positioned.fill(
-              child: Image.asset(Assets.images.bg.path, fit: BoxFit.cover),
-            ),
-            BlocBuilder<DoctorDetailsCubit, DoctorDetailsState>(
-              builder: (context, state) {
-                if (state is DoctorDetailsLoading) {
-                  return const Center(child: CircularProgressIndicator());
-                }
-                if (state is DoctorDetailsError) {
-                  return Center(child: Text(state.message));
-                }
-                if (state is DoctorDetailsLoaded) {
-                  final doctor = state.doctor;
-                  return SingleChildScrollView(
-                    padding: const EdgeInsets.all(16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(height: 10),
+    return Scaffold(
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: Image.asset(Assets.images.bg.path, fit: BoxFit.cover),
+          ),
+          BlocBuilder<DoctorDetailsCubit, DoctorDetailsState>(
+            builder: (context, state) {
+              if (state is DoctorDetailsLoading) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              if (state is DoctorDetailsError) {
+                return Center(child: Text(state.message));
+              }
+              if (state is DoctorDetailsLoaded) {
+                final doctor = state.doctor;
+                return SingleChildScrollView(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: 10),
 
-                        HeaderAppBar(title: t.doctorDetails),
-                        // ===== Doctor Card =====
-                        DoctorCard(doctor: doctor),
-                        const SizedBox(height: 16),
+                      HeaderAppBar(title: t.doctorDetails),
+                      // ===== Doctor Card =====
+                      DoctorCard(doctor: doctor),
+                      const SizedBox(height: 16),
 
-                        // ===== Stats =====
-                        StatsRow(doctor: doctor),
-                        const SizedBox(height: 24),
+                      // ===== Stats =====
+                      StatsRow(doctor: doctor),
+                      const SizedBox(height: 24),
 
-                        // ===== Services =====
-                        Text(
-                          t.service,
-                          style: context.medium18textSecondary,
-                        ),
-                        const SizedBox(height: 12),
-                        ...List.generate(doctor.servicesKeys.length, (index) {
-                          return Padding(
-                            padding: const EdgeInsets.only(bottom: 10),
-                            child: Text(
-                              '${index + 1}.   ${_getService(context, doctor.servicesKeys[index])}',
-                              style: context.light13textSub,
-                            ),
-                          );
-                        }),
-                        const SizedBox(height: 20),
+                      // ===== Services =====
+                      Text(t.service, style: context.medium18textSecondary),
+                      const SizedBox(height: 12),
+                      ...List.generate(doctor.servicesKeys.length, (index) {
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 10),
+                          child: Text(
+                            '${index + 1}.   ${_getService(context, doctor.servicesKeys[index])}',
+                            style: context.light13textSub,
+                          ),
+                        );
+                      }),
+                      const SizedBox(height: 20),
 
-                        // ===== Map =====
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(16),
-                          child: Image.asset(
-                            Assets.images.map.path,
+                      // ===== Map =====
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(16),
+                        child: Image.asset(
+                          Assets.images.map.path,
+                          height: 180,
+                          width: double.infinity,
+                          fit: BoxFit.cover,
+                          errorBuilder: (_, _, _) => Container(
                             height: 180,
-                            width: double.infinity,
-                            fit: BoxFit.cover,
-                            errorBuilder: (_, _, _) => Container(
-                              height: 180,
-                              color: AppColors.darkgray,
-                              child: const Center(
-                                child: Icon(Icons.map, size: 50),
-                              ),
+                            color: AppColors.darkgray,
+                            child: const Center(
+                              child: Icon(Icons.map, size: 50),
                             ),
                           ),
                         ),
-                      ],
-                    ),
-                  );
-                }
-                return const SizedBox();
-              },
-            ),
-          ],
-        ),
+                      ),
+                    ],
+                  ),
+                );
+              }
+              return const SizedBox();
+            },
+          ),
+        ],
       ),
     );
   }

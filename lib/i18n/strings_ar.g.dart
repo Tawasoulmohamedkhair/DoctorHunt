@@ -76,9 +76,9 @@ class TranslationsAr with BaseTranslations<AppLocale, Translations> implements T
 	@override String get welcome => 'مرحبًا بعودتك';
 	@override String get join => 'انضم إلينا';
 	@override String get exampleEmail => 'itsmemamun1@gmail.com';
-	@override String get emailVerification => 'أدخل بريدك الإلكتروني لإتمام عملية التحقق. سنرسل رمزًا مكونًا من 4 أرقام إلى بريدك الإلكتروني.';
-	@override String get enterDigit => 'أدخل الرمز المكون من 4 أرقام';
-	@override String get enterReceivedDigit => 'أدخل الرمز المكون من 4 أرقام الذي وصلك عبر بريدك الإلكتروني.';
+	@override String get emailVerification => 'أدخل بريدك الإلكتروني لإتمام عملية التحقق. سنرسل رمزًا مكونًا من 6 أرقام إلى بريدك الإلكتروني.';
+	@override String get enterDigit => 'أدخل الرمز المكون من 6 أرقام';
+	@override String get enterReceivedDigit => 'أدخل الرمز المكون من 6 أرقام الذي وصلك عبر بريدك الإلكتروني.';
 	@override String get reset => 'إعادة تعيين كلمة المرور';
 	@override String get newPassword => 'كلمة المرور الجديدة';
 	@override String get reenterPassword => 'أعد إدخال كلمة المرور';
@@ -269,9 +269,9 @@ extension on TranslationsAr {
 			'welcome' => 'مرحبًا بعودتك',
 			'join' => 'انضم إلينا',
 			'exampleEmail' => 'itsmemamun1@gmail.com',
-			'emailVerification' => 'أدخل بريدك الإلكتروني لإتمام عملية التحقق. سنرسل رمزًا مكونًا من 4 أرقام إلى بريدك الإلكتروني.',
-			'enterDigit' => 'أدخل الرمز المكون من 4 أرقام',
-			'enterReceivedDigit' => 'أدخل الرمز المكون من 4 أرقام الذي وصلك عبر بريدك الإلكتروني.',
+			'emailVerification' => 'أدخل بريدك الإلكتروني لإتمام عملية التحقق. سنرسل رمزًا مكونًا من 6 أرقام إلى بريدك الإلكتروني.',
+			'enterDigit' => 'أدخل الرمز المكون من 6 أرقام',
+			'enterReceivedDigit' => 'أدخل الرمز المكون من 6 أرقام الذي وصلك عبر بريدك الإلكتروني.',
 			'reset' => 'إعادة تعيين كلمة المرور',
 			'newPassword' => 'كلمة المرور الجديدة',
 			'reenterPassword' => 'أعد إدخال كلمة المرور',

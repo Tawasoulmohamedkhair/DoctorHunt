@@ -1,6 +1,6 @@
 import 'package:bloc_test/bloc_test.dart';
-import 'package:doctor_hunt/apps/Patient/features/auth/cubit/auth_cubit.dart';
-import 'package:doctor_hunt/apps/Patient/features/auth/cubit/auth_cubit_state.dart';
+import 'package:doctor_hunt/apps/Patient/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:doctor_hunt/apps/Patient/features/auth/presentation/cubit/auth_cubit_state.dart';
 import 'package:doctor_hunt/apps/Patient/features/auth/data/Repository/auth_repo.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';

@@ -3,8 +3,8 @@ import 'package:doctor_hunt/apps/Patient/core/extension/validator_extension.dart
 import 'package:doctor_hunt/apps/Patient/core/router/app_routers.dart';
 import 'package:doctor_hunt/apps/Patient/core/themes/app_colors.dart';
 import 'package:doctor_hunt/apps/Patient/core/widget/custom_elevated_button.dart';
-import 'package:doctor_hunt/apps/Patient/features/auth/cubit/auth_cubit.dart';
-import 'package:doctor_hunt/apps/Patient/features/auth/cubit/auth_cubit_state.dart';
+import 'package:doctor_hunt/apps/Patient/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:doctor_hunt/apps/Patient/features/auth/presentation/cubit/auth_cubit_state.dart';
 import 'package:doctor_hunt/apps/Patient/features/auth/presentation/widgets/app_text_field.dart';
 import 'package:doctor_hunt/apps/Patient/features/auth/presentation/widgets/auth_background.dart';
 import 'package:doctor_hunt/apps/Patient/features/auth/presentation/widgets/auth_bottom_sheet.dart';
@@ -68,6 +68,7 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
       onPressed: (email) {
         Navigator.pop(context);
+        setState(() => _recoveryEmail = email);
         context.read<AuthCubit>().forgotPassword(email: email);
       },
     );

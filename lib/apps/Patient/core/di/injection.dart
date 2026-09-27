@@ -1,4 +1,4 @@
-import 'package:doctor_hunt/apps/Patient/features/auth/cubit/auth_cubit.dart';
+import 'package:doctor_hunt/apps/Patient/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:doctor_hunt/apps/Patient/features/auth/data/Repository/auth_repo.dart';
 import 'package:doctor_hunt/apps/Patient/features/chooserole/presentation/cubit/role_selection_cubit.dart';
 import 'package:doctor_hunt/apps/Patient/features/doctordetails/presentation/cubit/doctordetails_cubit.dart';
