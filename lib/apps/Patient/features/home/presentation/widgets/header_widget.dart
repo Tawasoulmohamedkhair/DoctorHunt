@@ -1,4 +1,5 @@
 import 'package:doctor_hunt/apps/Patient/core/extension/responsive_media_query.dart';
+import 'package:doctor_hunt/apps/Patient/core/themes/app_colors.dart';
 import 'package:doctor_hunt/apps/Patient/features/home/presentation/widgets/search_bar.dart';
 import 'package:doctor_hunt/generated/assets.gen.dart';
 import 'package:doctor_hunt/generated/style_atoms.dart';
@@ -56,7 +57,7 @@ class HeaderWidget extends StatelessWidget {
                 ),
                 CircleAvatar(
                   radius: context.r(26),
-                  backgroundColor: Colors.white,
+                  backgroundColor: AppColors.white,
                   child: ClipOval(
                     child: Image.asset(
                       Assets.images.profile.path,

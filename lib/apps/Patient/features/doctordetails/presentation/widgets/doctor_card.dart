@@ -1,5 +1,6 @@
 import 'package:doctor_hunt/apps/Patient/core/themes/app_colors.dart';
 import 'package:doctor_hunt/apps/Patient/core/widget/custom_elevated_button.dart';
+import 'package:doctor_hunt/apps/Patient/features/doctordetails/data/model/doctor_details_model.dart';
 import 'package:doctor_hunt/apps/Patient/features/doctordetails/presentation/cubit/doctordetails_cubit.dart';
 import 'package:doctor_hunt/generated/style_atoms.dart';
 import 'package:doctor_hunt/i18n/strings.g.dart';
@@ -7,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DoctorCard extends StatelessWidget {
-  final dynamic doctor;
+  final DoctorDetailsModel doctor;
   const DoctorCard({super.key, required this.doctor});
 
   @override

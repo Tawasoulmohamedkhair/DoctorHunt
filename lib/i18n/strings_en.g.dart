@@ -239,6 +239,9 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	/// en: '$ 29.00/ hours'
 	String get k29hours => '\$ 29.00/ hours';
 
+	/// en: 'No Doctors Found'
+	String get nodoctorfound => 'No Doctors Found';
+
 	/// en: 'Doctor Details'
 	String get doctorDetails => 'Doctor Details';
 
@@ -573,6 +576,7 @@ extension on Translations {
 			'k22hours' => '\$ 22.00/ hours',
 			'drlachinet' => 'Dr. Lachinet',
 			'k29hours' => '\$ 29.00/ hours',
+			'nodoctorfound' => 'No Doctors Found',
 			'doctorDetails' => 'Doctor Details',
 			'drPediatrician' => 'Dr. Pediatrician',
 			'specialistsCardiologist' => 'Specialist Cardiologist ',

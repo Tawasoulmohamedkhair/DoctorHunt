@@ -1,10 +1,11 @@
 // ==================== Stats ====================
+import 'package:doctor_hunt/apps/Patient/features/doctordetails/data/model/doctor_details_model.dart';
 import 'package:doctor_hunt/apps/Patient/features/doctordetails/presentation/widgets/stat_item.dart';
 import 'package:doctor_hunt/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 
 class StatsRow extends StatelessWidget {
-  final dynamic doctor;
+  final DoctorDetailsModel doctor;
   const StatsRow({super.key, required this.doctor});
 
   @override

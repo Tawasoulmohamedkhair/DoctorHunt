@@ -1,6 +1,7 @@
 import 'package:doctor_hunt/apps/Patient/core/extension/responsive_media_query.dart';
 import 'package:doctor_hunt/apps/Patient/core/router/app_routers.dart';
 import 'package:doctor_hunt/apps/Patient/core/themes/app_colors.dart';
+import 'package:doctor_hunt/apps/Patient/core/widget/custom_elevated_button.dart';
 import 'package:doctor_hunt/apps/Patient/features/onboarding/data/models/onboarding_data.dart';
 import 'package:doctor_hunt/apps/Patient/features/onboarding/presentation/cubit/onboarding_cubit.dart';
 import 'package:doctor_hunt/apps/Patient/features/onboarding/presentation/widgets/onbarding_page.dart';
@@ -102,20 +103,15 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   child: SizedBox(
                     width: double.infinity,
                     height: context.h(53),
-                    child: ElevatedButton(
+                    child: CustomElevatedButton(
                       onPressed: _onNextPressed,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primary,
-                        elevation: 0,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(context.r(12)),
-                        ),
-                      ),
-                      child: Text(
+                      label: Text(
                         isLastPage ? t.getStarted : t.next,
                         style: context.medium18white,
                       ),
                     ),
+
+                   
                   ),
                 ),
                 SizedBox(height: context.h(8)),

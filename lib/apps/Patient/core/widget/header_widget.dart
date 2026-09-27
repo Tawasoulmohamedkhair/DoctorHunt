@@ -7,7 +7,7 @@ class HeaderAppBar extends StatelessWidget {
   final String title;
   final VoidCallback? onBackPressed;
   final VoidCallback? onActionPressed;
-  final IconData actionIcon;
+  final IconData? actionIcon;
   final bool showAction;
 
   const HeaderAppBar({
@@ -15,7 +15,7 @@ class HeaderAppBar extends StatelessWidget {
     required this.title,
     this.onBackPressed,
     this.onActionPressed,
-    this.actionIcon = Icons.search,
+    this.actionIcon,
     this.showAction = true,
   });
 

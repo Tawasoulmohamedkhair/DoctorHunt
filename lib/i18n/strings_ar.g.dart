@@ -104,6 +104,7 @@ class TranslationsAr with BaseTranslations<AppLocale, Translations> implements T
 	@override String get k22hours => '\$ 22.00/ساعة';
 	@override String get drlachinet => 'د. Lachinet';
 	@override String get k29hours => '\$ 29.00/ساعة';
+	@override String get nodoctorfound => 'لم يتم العثور على طبيب';
 	@override String get doctorDetails => 'تفاصيل الطبيب';
 	@override String get drPediatrician => 'د. Pediatrician';
 	@override String get specialistsCardiologist => 'اختصاصي قلب';
@@ -297,6 +298,7 @@ extension on TranslationsAr {
 			'k22hours' => '\$ 22.00/ساعة',
 			'drlachinet' => 'د. Lachinet',
 			'k29hours' => '\$ 29.00/ساعة',
+			'nodoctorfound' => 'لم يتم العثور على طبيب',
 			'doctorDetails' => 'تفاصيل الطبيب',
 			'drPediatrician' => 'د. Pediatrician',
 			'specialistsCardiologist' => 'اختصاصي قلب',

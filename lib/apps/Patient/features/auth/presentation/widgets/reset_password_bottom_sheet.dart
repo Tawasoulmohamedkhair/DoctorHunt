@@ -92,7 +92,6 @@ class _ResetPasswordBottomSheetState extends State<ResetPasswordBottomSheet> {
                 color: AppColors.textSub,
               ),
             ),
-            border: Border.all(color: AppColors.textSub, width: 1),
           ),
 
           SizedBox(height: 16),
@@ -116,7 +115,6 @@ class _ResetPasswordBottomSheetState extends State<ResetPasswordBottomSheet> {
                 color: AppColors.textSub,
               ),
             ),
-            border: Border.all(color: AppColors.textSub, width: 1),
           ),
 
           SizedBox(height: 24),

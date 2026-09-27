@@ -21,7 +21,6 @@ class OnboardingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final page = context.t.onboarding.pages[index];
 
-    //  final imageSize = (context.height * 0.32).clamp(120.0, 260.0);
 
     return Stack(
       children: [

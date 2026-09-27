@@ -55,7 +55,10 @@ class _DoctorDetailsScreenState extends State<DoctorDetailsScreen> {
                     children: [
                       SizedBox(height: 10),
 
-                      HeaderAppBar(title: t.doctorDetails),
+                      HeaderAppBar(
+                        title: t.doctorDetails,
+                        actionIcon: Icons.search,
+                      ),
                       // ===== Doctor Card =====
                       DoctorCard(doctor: doctor),
                       const SizedBox(height: 16),

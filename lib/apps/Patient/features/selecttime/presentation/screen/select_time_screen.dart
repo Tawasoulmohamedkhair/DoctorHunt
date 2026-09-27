@@ -10,9 +10,12 @@ class SelectTimeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(children: [HeaderAppBar(title: context.t.selecttime),
-      DoctorCard(doctor: DoctorDetailsData,),
-      ]),
+      body: Column(
+        children: [
+          HeaderAppBar(title: context.t.selecttime),
+          DoctorCard(doctor: DoctorDetailsData.sampleDoctor),
+        ],
+      ),
     );
   }
 }

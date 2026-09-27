@@ -1,35 +1,16 @@
 import 'package:doctor_hunt/apps/Patient/core/extension/responsive_media_query.dart';
 import 'package:doctor_hunt/apps/Patient/core/themes/app_colors.dart';
 import 'package:doctor_hunt/apps/Patient/features/home/data/model/doctor_model.dart';
+import 'package:doctor_hunt/apps/Patient/features/home/presentation/cubit/home_cubit.dart';
 import 'package:doctor_hunt/generated/style_atoms.dart';
 import 'package:doctor_hunt/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class FeaturedDoctorsSection extends StatefulWidget {
-  final List<DoctorModel> doctors;
-
+class FeaturedDoctorsSection extends StatelessWidget {
   const FeaturedDoctorsSection({super.key, required this.doctors});
 
-  @override
-  State<FeaturedDoctorsSection> createState() => _FeaturedDoctorsSectionState();
-}
-
-class _FeaturedDoctorsSectionState extends State<FeaturedDoctorsSection> {
-  late List<DoctorModel> _doctors;
-
-  @override
-  void initState() {
-    super.initState();
-    _doctors = List.from(widget.doctors);
-  }
-
-  void _toggleFavorite(int index) {
-    setState(() {
-      _doctors[index] = _doctors[index].copyWith(
-        isFavorite: !_doctors[index].isFavorite,
-      );
-    });
-  }
+  final List<DoctorModel> doctors;
 
   @override
   Widget build(BuildContext context) {
@@ -64,9 +45,10 @@ class _FeaturedDoctorsSectionState extends State<FeaturedDoctorsSection> {
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            itemCount: _doctors.length,
+            itemCount: doctors.length,
             itemBuilder: (context, index) {
-              final doctor = _doctors[index];
+              final doctor = doctors[index];
+
               return Container(
                 width: context.w(130),
                 margin: EdgeInsets.only(right: context.w(12)),
@@ -88,7 +70,9 @@ class _FeaturedDoctorsSectionState extends State<FeaturedDoctorsSection> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         GestureDetector(
-                          onTap: () => _toggleFavorite(index),
+                          onTap: () {
+                            context.read<HomeCubit>().toggleFavorite(doctor.id);
+                          },
                           child: Icon(
                             doctor.isFavorite
                                 ? Icons.favorite
@@ -116,13 +100,11 @@ class _FeaturedDoctorsSectionState extends State<FeaturedDoctorsSection> {
                         ),
                       ],
                     ),
-
                     SizedBox(height: context.h(10)),
                     CircleAvatar(
                       radius: context.r(32),
                       backgroundImage: AssetImage(doctor.imageUrl),
                     ),
-
                     Text(
                       getDoctorName(context, doctor.nameKey),
                       style: context.medium12textSecondary,
@@ -130,7 +112,6 @@ class _FeaturedDoctorsSectionState extends State<FeaturedDoctorsSection> {
                       overflow: TextOverflow.ellipsis,
                       textAlign: TextAlign.center,
                     ),
-
                     SizedBox(height: context.h(4)),
                     RichText(
                       text: TextSpan(
@@ -162,20 +143,28 @@ class _FeaturedDoctorsSectionState extends State<FeaturedDoctorsSection> {
     switch (key) {
       case 'ahmedHassan':
         return t.ahmedHassan;
+
       case 'mohamedAli':
         return t.mohamedAli;
+
       case 'khaledOmar':
         return t.khaledOmar;
+
       case 'fillerupGrab':
         return t.fillerupGrab;
+
       case 'youssefIbrahim':
         return t.youssefIbrahim;
+
       case 'crick':
         return t.crick;
+
       case 'strain':
         return t.strain;
+
       case 'lachinet':
         return t.lachinet;
+
       default:
         return key;
     }
