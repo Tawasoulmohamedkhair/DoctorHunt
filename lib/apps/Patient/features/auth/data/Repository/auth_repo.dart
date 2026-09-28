@@ -1,3 +1,4 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -28,35 +29,33 @@ class AuthRepository {
     return await _supabase.auth.signUp(
       email: email.trim(),
       password: password,
-      data: {
-        'full_name': fullName,
-      },
+      data: {'full_name': fullName},
     );
   }
 
   // ---------------- GOOGLE ----------------
 
   Future<AuthResponse> signInWithGoogle() async {
-    const webClientId =
-        '597408620306-e9lfakbn789789hntkmp730e1d16077e.apps.googleusercontent.com';
-
     final googleSignIn = GoogleSignIn.instance;
+    final webClientId = dotenv.env['GOOGLE_WEB_CLIENT_ID'];
 
-    await googleSignIn.initialize(
-      serverClientId: webClientId,
-    );
+    if (webClientId == null || webClientId.isEmpty) {
+      throw AuthException('GOOGLE_WEB_CLIENT_ID is not configured.');
+    }
+
+    await googleSignIn.initialize(serverClientId: webClientId);
 
     final googleUser = await googleSignIn.authenticate();
 
     final authorization =
         await googleUser.authorizationClient.authorizationForScopes([
-      'email',
-      'profile',
-    ]) ??
-            await googleUser.authorizationClient.authorizeScopes([
-      'email',
-      'profile',
-    ]);
+          'email',
+          'profile',
+        ]) ??
+        await googleUser.authorizationClient.authorizeScopes([
+          'email',
+          'profile',
+        ]);
 
     final idToken = googleUser.authentication.idToken;
 
@@ -75,12 +74,8 @@ class AuthRepository {
 
   // ---------------- FORGOT PASSWORD ----------------
 
-  Future<void> forgotPassword({
-    required String email,
-  }) async {
-    await _supabase.auth.resetPasswordForEmail(
-      email.trim(),
-    );
+  Future<void> forgotPassword({required String email}) async {
+    await _supabase.auth.resetPasswordForEmail(email.trim());
   }
 
   // ---------------- VERIFY RECOVERY OTP ----------------
@@ -100,14 +95,8 @@ class AuthRepository {
 
   // ---------------- RESET PASSWORD ----------------
 
-  Future<UserResponse> resetPassword({
-    required String password,
-  }) async {
-    return await _supabase.auth.updateUser(
-      UserAttributes(
-        password: password,
-      ),
-    );
+  Future<UserResponse> resetPassword({required String password}) async {
+    return await _supabase.auth.updateUser(UserAttributes(password: password));
   }
 
   // ---------------- AUTH STATE ----------------
@@ -116,5 +105,3 @@ class AuthRepository {
     return _supabase.auth.onAuthStateChange;
   }
 }
-
-
