@@ -30,7 +30,6 @@ class _ChooseRoleView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final t = context.t;
     final isLandscape =
         MediaQuery.orientationOf(context) == Orientation.landscape;
 

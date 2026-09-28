@@ -79,7 +79,10 @@
   "enterPassword": "يرجى إدخال كلمة المرور",
   "passwordSuccess": "تمت إعادة تعيين كلمة المرور بنجاح",
   "somethingwentwrong": "حدث خطأ ما",
-
+  "failedLogin": "فشل تسجيل الدخول",
+  "failedSignup":"فشل إنشاء الحساب",
+"googleSigninFailed":"فشل تسجيل الدخول بواسطة قوقل",
+"otpnorecovery":"تم التحقق من رمز OTP، ولكن لم يتم العثور على جلسة استرداد.",
   "hihand": "مرحبًا Handwerker! ",
   "findDoctor": "اعثر على طبيبك",
   "search": "بحث",

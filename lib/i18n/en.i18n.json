@@ -79,7 +79,10 @@
   "enterPassword": "Please enter your password",
   "passwordSuccess": "Password reset successfully",
   "somethingwentwrong": "Something went wrong",
-
+ "failedLogin":"Failed to login",
+ "failedSignup":"Failed to signup",
+ "googleSigninFailed":"Google sign in failed",
+ "otpnorecovery":"OTP verified but no recovery session found.",
   "hihand": "Hi Handwerker! ",
   "findDoctor": "Find Your Doctor",
   "search": "Search",

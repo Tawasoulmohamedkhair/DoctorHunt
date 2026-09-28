@@ -1,9 +1,11 @@
 import 'dart:async';
 
 import 'package:doctor_hunt/apps/Patient/features/auth/data/Repository/auth_repo.dart';
+import 'package:doctor_hunt/i18n/strings.g.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'auth_cubit_state.dart';
+
 class AuthCubit extends Cubit<AuthCubitState> {
   final AuthRepository _authRepository;
 
@@ -11,16 +13,8 @@ class AuthCubit extends Cubit<AuthCubitState> {
 
   // ---------------- LOGIN ----------------
 
-  Future<void> login({
-    required String email,
-    required String password,
-  }) async {
-    emit(
-      state.copyWith(
-        status: AuthStatus.loading,
-        errorMessage: null,
-      ),
-    );
+  Future<void> login({required String email, required String password}) async {
+    emit(state.copyWith(status: AuthStatus.loading, errorMessage: null));
 
     try {
       final response = await _authRepository.login(
@@ -29,25 +23,18 @@ class AuthCubit extends Cubit<AuthCubitState> {
       );
 
       if (response.user != null) {
-        emit(
-          state.copyWith(
-            status: AuthStatus.success,
-          ),
-        );
+        emit(state.copyWith(status: AuthStatus.success));
       } else {
         emit(
           state.copyWith(
             status: AuthStatus.failure,
-            errorMessage: 'فشل تسجيل الدخول',
+            errorMessage: t.failedLogin,
           ),
         );
       }
     } catch (e) {
       emit(
-        state.copyWith(
-          status: AuthStatus.failure,
-          errorMessage: e.toString(),
-        ),
+        state.copyWith(status: AuthStatus.failure, errorMessage: e.toString()),
       );
     }
   }
@@ -59,12 +46,7 @@ class AuthCubit extends Cubit<AuthCubitState> {
     required String password,
     required String fullName,
   }) async {
-    emit(
-      state.copyWith(
-        status: AuthStatus.loading,
-        errorMessage: null,
-      ),
-    );
+    emit(state.copyWith(status: AuthStatus.loading, errorMessage: null));
 
     try {
       final response = await _authRepository.signUp(
@@ -74,25 +56,18 @@ class AuthCubit extends Cubit<AuthCubitState> {
       );
 
       if (response.user != null) {
-        emit(
-          state.copyWith(
-            status: AuthStatus.signUpSuccess,
-          ),
-        );
+        emit(state.copyWith(status: AuthStatus.signUpSuccess));
       } else {
         emit(
           state.copyWith(
             status: AuthStatus.failure,
-            errorMessage: 'فشل إنشاء الحساب',
+            errorMessage: t.failedSignup,
           ),
         );
       }
     } catch (e) {
       emit(
-        state.copyWith(
-          status: AuthStatus.failure,
-          errorMessage: e.toString(),
-        ),
+        state.copyWith(status: AuthStatus.failure, errorMessage: e.toString()),
       );
     }
   }
@@ -100,68 +75,40 @@ class AuthCubit extends Cubit<AuthCubitState> {
   // ---------------- GOOGLE ----------------
 
   Future<void> signInWithGoogle() async {
-    emit(
-      state.copyWith(
-        status: AuthStatus.loading,
-        errorMessage: null,
-      ),
-    );
+    emit(state.copyWith(status: AuthStatus.loading, errorMessage: null));
 
     try {
       final response = await _authRepository.signInWithGoogle();
 
       if (response.user != null) {
-        emit(
-          state.copyWith(
-            status: AuthStatus.success,
-          ),
-        );
+        emit(state.copyWith(status: AuthStatus.success));
       } else {
         emit(
           state.copyWith(
             status: AuthStatus.failure,
-            errorMessage: 'Google sign in failed',
+            errorMessage: t.googleSigninFailed,
           ),
         );
       }
     } catch (e) {
       emit(
-        state.copyWith(
-          status: AuthStatus.failure,
-          errorMessage: e.toString(),
-        ),
+        state.copyWith(status: AuthStatus.failure, errorMessage: e.toString()),
       );
     }
   }
 
   // ---------------- FORGOT PASSWORD ----------------
 
-  Future<void> forgotPassword({
-    required String email,
-  }) async {
-    emit(
-      state.copyWith(
-        status: AuthStatus.loading,
-        errorMessage: null,
-      ),
-    );
+  Future<void> forgotPassword({required String email}) async {
+    emit(state.copyWith(status: AuthStatus.loading, errorMessage: null));
 
     try {
-      await _authRepository.forgotPassword(
-        email: email.trim(),
-      );
+      await _authRepository.forgotPassword(email: email.trim());
 
-      emit(
-        state.copyWith(
-          status: AuthStatus.forgotPasswordSuccess,
-        ),
-      );
+      emit(state.copyWith(status: AuthStatus.forgotPasswordSuccess));
     } catch (e) {
       emit(
-        state.copyWith(
-          status: AuthStatus.failure,
-          errorMessage: e.toString(),
-        ),
+        state.copyWith(status: AuthStatus.failure, errorMessage: e.toString()),
       );
     }
   }
@@ -172,12 +119,7 @@ class AuthCubit extends Cubit<AuthCubitState> {
     required String email,
     required String code,
   }) async {
-    emit(
-      state.copyWith(
-        status: AuthStatus.loading,
-        errorMessage: null,
-      ),
-    );
+    emit(state.copyWith(status: AuthStatus.loading, errorMessage: null));
 
     try {
       final response = await _authRepository.verifyRecoveryCode(
@@ -185,64 +127,36 @@ class AuthCubit extends Cubit<AuthCubitState> {
         code: code.trim(),
       );
 
-      
-
       if (response.session != null) {
-        emit(
-          state.copyWith(
-            status: AuthStatus.verifyCodeSuccess,
-          ),
-        );
+        emit(state.copyWith(status: AuthStatus.verifyCodeSuccess));
       } else {
         emit(
           state.copyWith(
             status: AuthStatus.failure,
-            errorMessage:
-                'OTP verified but no recovery session found.',
+            errorMessage:t.otpnorecovery,
           ),
         );
       }
     } catch (e) {
-
       emit(
-        state.copyWith(
-          status: AuthStatus.failure,
-          errorMessage: e.toString(),
-        ),
+        state.copyWith(status: AuthStatus.failure, errorMessage: e.toString()),
       );
     }
   }
 
   // ---------------- RESET PASSWORD ----------------
 
-  Future<void> resetPassword({
-    required String password,
-  }) async {
-    emit(
-      state.copyWith(
-        status: AuthStatus.loading,
-        errorMessage: null,
-      ),
-    );
+  Future<void> resetPassword({required String password}) async {
+    emit(state.copyWith(status: AuthStatus.loading, errorMessage: null));
 
     try {
-      await _authRepository.resetPassword(
-        password: password,
-      );
+      await _authRepository.resetPassword(password: password);
 
-      emit(
-        state.copyWith(
-          status: AuthStatus.resetPasswordSuccess,
-        ),
-      );
+      emit(state.copyWith(status: AuthStatus.resetPasswordSuccess));
     } catch (e) {
       emit(
-        state.copyWith(
-          status: AuthStatus.failure,
-          errorMessage: e.toString(),
-        ),
+        state.copyWith(status: AuthStatus.failure, errorMessage: e.toString()),
       );
     }
   }
 }
-

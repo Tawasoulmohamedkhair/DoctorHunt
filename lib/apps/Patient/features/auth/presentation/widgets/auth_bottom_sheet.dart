@@ -91,7 +91,7 @@ class _AuthBottomSheetState extends State<AuthBottomSheet> {
               suffixIcon: widget.fieldSuffix,
               validator: widget.validator,
               textInputAction: TextInputAction.done,
-              onChanged: (_) {}, // لو حابة تفعّلي الزر لاحقًا
+              onChanged: (_) {}, 
             ),
             SizedBox(height: context.h(24)),
 

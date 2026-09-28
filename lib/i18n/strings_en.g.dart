@@ -188,6 +188,18 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	/// en: 'Something went wrong'
 	String get somethingwentwrong => 'Something went wrong';
 
+	/// en: 'Failed to login'
+	String get failedLogin => 'Failed to login';
+
+	/// en: 'Failed to signup'
+	String get failedSignup => 'Failed to signup';
+
+	/// en: 'Google sign in failed'
+	String get googleSigninFailed => 'Google sign in failed';
+
+	/// en: 'OTP verified but no recovery session found.'
+	String get otpnorecovery => 'OTP verified but no recovery session found.';
+
 	/// en: 'Hi Handwerker! '
 	String get hihand => 'Hi Handwerker! ';
 
@@ -559,6 +571,10 @@ extension on Translations {
 			'enterPassword' => 'Please enter your password',
 			'passwordSuccess' => 'Password reset successfully',
 			'somethingwentwrong' => 'Something went wrong',
+			'failedLogin' => 'Failed to login',
+			'failedSignup' => 'Failed to signup',
+			'googleSigninFailed' => 'Google sign in failed',
+			'otpnorecovery' => 'OTP verified but no recovery session found.',
 			'hihand' => 'Hi Handwerker! ',
 			'findDoctor' => 'Find Your Doctor',
 			'search' => 'Search',
