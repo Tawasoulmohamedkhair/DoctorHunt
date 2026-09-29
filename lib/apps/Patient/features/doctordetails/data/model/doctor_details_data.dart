@@ -1,4 +1,6 @@
 import 'package:doctor_hunt/apps/Patient/features/doctordetails/data/model/doctor_details_model.dart';
+import 'package:doctor_hunt/apps/Patient/features/doctordetails/enum/doctor_service.dart';
+import 'package:doctor_hunt/apps/Patient/features/home/enum/doctor_specialty.dart';
 import 'package:doctor_hunt/generated/assets.gen.dart';
 
 class DoctorDetailsData {
@@ -9,7 +11,7 @@ class DoctorDetailsData {
     nameKey: 'pediatrician',
 
     // Doctor specialty
-    specialtyKey: 'specialistCardiologist',
+    specialty: DoctorSpecialty.specialistCardiologist,
 
     // Doctor image
     imageUrl: Assets.images.live.path,
@@ -27,6 +29,9 @@ class DoctorDetailsData {
     
 
     // Services translation keys
-    servicesKeys: ['patientCare', 'run', 'appointmentReminder'],
-  );
+services: [
+      DoctorService.patientCare,
+      DoctorService.run,
+      DoctorService.appointmentReminder,
+    ],  );
 }

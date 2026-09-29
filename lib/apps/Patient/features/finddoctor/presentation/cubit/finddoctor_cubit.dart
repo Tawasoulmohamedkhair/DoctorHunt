@@ -21,7 +21,7 @@ class FindDoctorsCubit extends Cubit<FindDoctorsState> {
                 .where(
                   (d) =>
                       d.nameKey.toLowerCase().contains(q) ||
-                      d.specialtyKey.toLowerCase().contains(q),
+                      d.specialty.name.toLowerCase().contains(q),
                 )
                 .toList();
 

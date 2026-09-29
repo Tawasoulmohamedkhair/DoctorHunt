@@ -1,6 +1,7 @@
 import 'package:doctor_hunt/apps/Patient/core/extension/responsive_media_query.dart';
 import 'package:doctor_hunt/apps/Patient/core/themes/app_colors.dart';
 import 'package:doctor_hunt/apps/Patient/features/home/data/model/doctor_model.dart';
+import 'package:doctor_hunt/apps/Patient/features/home/enum/doctor_specialty.dart';
 import 'package:doctor_hunt/generated/style_atoms.dart';
 import 'package:doctor_hunt/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
@@ -101,7 +102,7 @@ class PopularDoctorsSection extends StatelessWidget {
                       ),
                       SizedBox(height: context.h(4)),
                       Text(
-                        getSpecialty(context, doctor.specialtyKey),
+                        getSpecialty(context, doctor.specialty),
                         style: context.regular14textSub,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -154,24 +155,24 @@ class PopularDoctorsSection extends StatelessWidget {
     }
   }
 
-  String getSpecialty(BuildContext context, String key) {
-    switch (key) {
-      case 'cardiologist':
+  String getSpecialty(BuildContext context, DoctorSpecialty specialty) {
+    switch (specialty) {
+      case DoctorSpecialty.cardiologist:
         return context.t.cardiologist;
-      case 'surgeon':
+      case DoctorSpecialty.surgeon:
         return context.t.surgeon;
-      case 'dentist':
+      case DoctorSpecialty.dentist:
         return context.t.dentist;
-      case 'medicineSpecialist':
+      case DoctorSpecialty.medicineSpecialist:
         return context.t.medicineSpecialist;
-      case 'dentistSpecialist':
-        return t.dentistSpecialist;
-      case 'general':
-        return t.general;
-      case 'neurologist':
-        return t.neurologist;
+      case DoctorSpecialty.dentistSpecialist:
+        return context.t.dentistSpecialist;
+      case DoctorSpecialty.general:
+        return context.t.general;
+      case DoctorSpecialty.neurologist:
+        return context.t.neurologist;
       default:
-        return key;
+        return specialty.name;
     }
   }
 }

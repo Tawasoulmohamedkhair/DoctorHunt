@@ -1,6 +1,7 @@
 // doctor_details_screen.dart
 
 import 'package:doctor_hunt/apps/Patient/core/themes/app_colors.dart';
+import 'package:doctor_hunt/apps/Patient/features/doctordetails/enum/doctor_service.dart';
 import 'package:doctor_hunt/apps/Patient/features/doctordetails/presentation/cubit/doctordetails_cubit.dart';
 import 'package:doctor_hunt/apps/Patient/features/doctordetails/presentation/cubit/doctordetails_state.dart';
 import 'package:doctor_hunt/apps/Patient/features/doctordetails/presentation/widgets/doctor_card.dart';
@@ -70,11 +71,11 @@ class _DoctorDetailsScreenState extends State<DoctorDetailsScreen> {
                       // ===== Services =====
                       Text(t.service, style: context.medium18textSecondary),
                       const SizedBox(height: 12),
-                      ...List.generate(doctor.servicesKeys.length, (index) {
+                      ...List.generate(doctor.services.length, (index) {
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 10),
                           child: Text(
-                            '${index + 1}.   ${_getService(context, doctor.servicesKeys[index])}',
+                            '${index + 1}.   ${_getService(context, doctor.services[index])}',
                             style: context.light13textSub,
                           ),
                         );
@@ -110,19 +111,14 @@ class _DoctorDetailsScreenState extends State<DoctorDetailsScreen> {
     );
   }
 
-  String _getService(BuildContext context, String key) {
-    switch (key) {
-      case 'patientCare':
+String _getService(BuildContext context, DoctorService service) {
+    switch (service) {
+      case DoctorService.patientCare:
         return t.patientCare;
-
-      case 'run':
+      case DoctorService.run:
         return t.run;
-
-      case 'appointmentReminder':
+      case DoctorService.appointmentReminder:
         return t.appointmentReminder;
-
-      default:
-        return key;
     }
   }
 }

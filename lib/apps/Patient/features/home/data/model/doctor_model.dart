@@ -1,7 +1,9 @@
+import 'package:doctor_hunt/apps/Patient/features/home/enum/doctor_specialty.dart';
+
 class DoctorModel {
   final String id;
   final String nameKey;
-  final String specialtyKey;
+  final DoctorSpecialty specialty;
   final String imageUrl;
   final double rating;
   final double pricePerHour;
@@ -11,7 +13,7 @@ class DoctorModel {
   const DoctorModel({
     required this.id,
     required this.nameKey,
-    required this.specialtyKey,
+    required this.specialty,
     required this.imageUrl,
     required this.rating,
     required this.pricePerHour,
@@ -23,7 +25,7 @@ class DoctorModel {
     return DoctorModel(
       id: id,
       nameKey: nameKey,
-      specialtyKey: specialtyKey,
+      specialty: specialty,
       imageUrl: imageUrl,
       rating: rating,
       pricePerHour: pricePerHour,

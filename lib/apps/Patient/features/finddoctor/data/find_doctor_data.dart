@@ -1,3 +1,4 @@
+import 'package:doctor_hunt/apps/Patient/features/home/enum/doctor_specialty.dart';
 import 'package:doctor_hunt/generated/assets.gen.dart';
 
 import 'find_doctor_model.dart';
@@ -8,7 +9,7 @@ class FindDoctorData {
       FindDoctorModel(
         id: '1',
         nameKey: 'shruti',
-        specialtyKey: 'dentist',
+        specialty: DoctorSpecialty.dentist,
         imageUrl: Assets.images.drfind1.path,
         yearsOfExperience: 7,
         ratingPercentage: 87,
@@ -19,7 +20,7 @@ class FindDoctorData {
       FindDoctorModel(
         id: '2',
         nameKey: 'watamaniuk',
-        specialtyKey: 'dentist',
+        specialty: DoctorSpecialty.dentist,
         imageUrl: Assets.images.drfind2.path,
         yearsOfExperience: 9,
         ratingPercentage: 74,
@@ -29,7 +30,7 @@ class FindDoctorData {
       FindDoctorModel(
         id: '3',
         nameKey: 'crownover',
-        specialtyKey: 'dentist',
+        specialty: DoctorSpecialty.dentist,
         imageUrl: Assets.images.live.path,
         yearsOfExperience: 5,
         ratingPercentage: 59,
@@ -40,7 +41,7 @@ class FindDoctorData {
       FindDoctorModel(
         id: '4',
         nameKey: 'balestra',
-        specialtyKey: 'dentist',
+        specialty: DoctorSpecialty.dentist,
         imageUrl: Assets.images.feature1.path,
         yearsOfExperience: 6,
         ratingPercentage: 82,

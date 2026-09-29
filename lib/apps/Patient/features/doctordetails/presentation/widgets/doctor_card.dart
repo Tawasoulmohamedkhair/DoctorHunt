@@ -2,6 +2,7 @@ import 'package:doctor_hunt/apps/Patient/core/themes/app_colors.dart';
 import 'package:doctor_hunt/apps/Patient/core/widget/custom_elevated_button.dart';
 import 'package:doctor_hunt/apps/Patient/features/doctordetails/data/model/doctor_details_model.dart';
 import 'package:doctor_hunt/apps/Patient/features/doctordetails/presentation/cubit/doctordetails_cubit.dart';
+import 'package:doctor_hunt/apps/Patient/features/home/enum/doctor_specialty.dart';
 import 'package:doctor_hunt/generated/style_atoms.dart';
 import 'package:doctor_hunt/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
@@ -68,7 +69,7 @@ class DoctorCard extends StatelessWidget {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      _getSpecialty(context, doctor.specialtyKey),
+                      _getSpecialty(context, doctor.specialty),
                       style:context.light13textSub
                     ),
                     const SizedBox(height: 6),
@@ -119,12 +120,13 @@ class DoctorCard extends StatelessWidget {
     }
   }
 
-  String _getSpecialty(BuildContext context, String key) {
-    switch (key) {
-      case 'specialistCardiologist':
+  String _getSpecialty(BuildContext context, DoctorSpecialty specialty) {
+    switch (specialty) {
+      case DoctorSpecialty.specialistCardiologist:
         return context.t.specialistsCardiologist;
+
       default:
-        return key;
+        return specialty.name;
     }
   }
 }
