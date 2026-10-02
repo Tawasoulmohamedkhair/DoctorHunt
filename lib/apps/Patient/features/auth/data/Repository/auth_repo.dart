@@ -1,3 +1,5 @@
+import 'package:doctor_hunt/apps/Patient/core/supabase/supabase_client.dart';
+import 'package:doctor_hunt/apps/Patient/features/auth/data/models/user_model.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -103,5 +105,20 @@ class AuthRepository {
 
   Stream<AuthState> get authStateChanges {
     return _supabase.auth.onAuthStateChange;
+  }
+
+  Future<UserModel?> getCurrentUserProfile() async {
+    final user = supabase.auth.currentUser;
+    if (user == null) return null;
+
+    final response = await supabase
+        .from('users')
+        .select()
+        .eq('id', user.id)
+        .maybeSingle();
+
+    if (response == null) return null;
+
+    return UserModel.fromJson(response); // أو حسب الـ UserModel عندك
   }
 }

@@ -200,8 +200,8 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	/// en: 'OTP verified but no recovery session found.'
 	String get otpnorecovery => 'OTP verified but no recovery session found.';
 
-	/// en: 'Hi Handwerker! '
-	String get hihand => 'Hi Handwerker! ';
+	/// en: 'Hi'
+	String get hi => 'Hi';
 
 	/// en: 'Find Your Doctor'
 	String get findDoctor => 'Find Your Doctor';
@@ -575,7 +575,7 @@ extension on Translations {
 			'failedSignup' => 'Failed to signup',
 			'googleSigninFailed' => 'Google sign in failed',
 			'otpnorecovery' => 'OTP verified but no recovery session found.',
-			'hihand' => 'Hi Handwerker! ',
+			'hi' => 'Hi',
 			'findDoctor' => 'Find Your Doctor',
 			'search' => 'Search',
 			'liveDoctor' => 'Live Doctors',

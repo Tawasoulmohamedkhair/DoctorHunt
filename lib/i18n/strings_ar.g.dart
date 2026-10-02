@@ -91,7 +91,7 @@ class TranslationsAr with BaseTranslations<AppLocale, Translations> implements T
 	@override String get failedSignup => 'فشل إنشاء الحساب';
 	@override String get googleSigninFailed => 'فشل تسجيل الدخول بواسطة قوقل';
 	@override String get otpnorecovery => 'تم التحقق من رمز OTP، ولكن لم يتم العثور على جلسة استرداد.';
-	@override String get hihand => 'مرحبًا Handwerker! ';
+	@override String get hi => 'مرحبًا';
 	@override String get findDoctor => 'اعثر على طبيبك';
 	@override String get search => 'بحث';
 	@override String get liveDoctor => 'أطباء مباشرون';
@@ -289,7 +289,7 @@ extension on TranslationsAr {
 			'failedSignup' => 'فشل إنشاء الحساب',
 			'googleSigninFailed' => 'فشل تسجيل الدخول بواسطة قوقل',
 			'otpnorecovery' => 'تم التحقق من رمز OTP، ولكن لم يتم العثور على جلسة استرداد.',
-			'hihand' => 'مرحبًا Handwerker! ',
+			'hi' => 'مرحبًا',
 			'findDoctor' => 'اعثر على طبيبك',
 			'search' => 'بحث',
 			'liveDoctor' => 'أطباء مباشرون',

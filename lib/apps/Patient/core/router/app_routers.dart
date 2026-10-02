@@ -1,5 +1,4 @@
 import 'package:doctor_hunt/apps/Patient/core/di/injection.dart';
-import 'package:doctor_hunt/apps/Patient/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:doctor_hunt/apps/Patient/features/auth/presentation/screens/login_screen.dart';
 import 'package:doctor_hunt/apps/Patient/features/auth/presentation/screens/signup_screen.dart';
 import 'package:doctor_hunt/apps/Patient/features/chooserole/presentation/cubit/role_selection_state.dart';
@@ -60,10 +59,7 @@ class LoginRoute extends GoRouteData with $LoginRoute {
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return BlocProvider(
-      create: (_) => getIt<AuthCubit>(),
-      child: LoginScreen(role: role),
-    );
+    return LoginScreen(role: role);
   }
 }
 
@@ -73,10 +69,7 @@ class SignUpRoute extends GoRouteData with $SignUpRoute {
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return BlocProvider(
-      create: (_) => getIt<AuthCubit>(),
-      child: const SignupScreen(),
-    );
+    return const SignupScreen();
   }
 }
 

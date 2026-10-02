@@ -121,4 +121,84 @@ void main() {
       ),
     ).called(1);
   });
+  testWidgets('does not call signUp when privacy is not accepted', (
+    tester,
+  ) async {
+    when(
+      () => mockCubit.signUp(
+        fullName: any(named: 'fullName'),
+        email: any(named: 'email'),
+        password: any(named: 'password'),
+      ),
+    ).thenAnswer((_) async {});
+
+    await tester.pumpWidget(buildSubject());
+    await tester.pumpAndSettle();
+
+    final fields = find.byType(TextFormField);
+    expect(fields, findsNWidgets(3));
+
+    await tester.enterText(fields.at(0), 'Ahmed Ali');
+    await tester.enterText(fields.at(1), 'ahmed@test.com');
+    await tester.enterText(fields.at(2), 'Aa@12345');
+
+    // Privacy is NOT accepted.
+    // We intentionally do not tap the checkbox.
+
+    final signUpButton = find.byType(CustomElevatedButton);
+    expect(signUpButton, findsOneWidget);
+
+    await tester.tap(signUpButton);
+    await tester.pumpAndSettle();
+
+    verifyNever(
+      () => mockCubit.signUp(
+        fullName: any(named: 'fullName'),
+        email: any(named: 'email'),
+        password: any(named: 'password'),
+      ),
+    );
+  });
+  testWidgets( 'does not call signUp when email is invalid', (
+    tester,
+  ) async {
+    when(
+      () => mockCubit.signUp(
+        fullName: any(named: 'fullName'),
+        email: any(named: 'email'),
+        password: any(named: 'password'),
+      ),
+    ).thenAnswer((_) async {});
+
+    await tester.pumpWidget(buildSubject());
+    await tester.pumpAndSettle();
+
+    final fields = find.byType(TextFormField);
+    expect(fields, findsNWidgets(3));
+
+    await tester.enterText(fields.at(0), 'Ahmed Ali');
+    await tester.enterText(fields.at(1), 'ahmed@test');
+    await tester.enterText(fields.at(2), 'Aa@12345');
+    final checkbox = find.byType(Checkbox);
+    expect(checkbox, findsOneWidget);
+
+    await tester.tap(checkbox);
+    await tester.pump();
+
+   
+
+    final signUpButton = find.byType(CustomElevatedButton);
+    expect(signUpButton, findsOneWidget);
+
+    await tester.tap(signUpButton);
+    await tester.pumpAndSettle();
+
+    verifyNever(
+      () => mockCubit.signUp(
+        fullName: any(named: 'fullName'),
+        email: any(named: 'email'),
+        password: any(named: 'password'),
+      ),
+    );
+  });
 }

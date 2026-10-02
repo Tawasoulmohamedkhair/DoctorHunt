@@ -1,4 +1,6 @@
 import 'package:doctor_hunt/apps/Patient/core/extension/responsive_media_query.dart';
+import 'package:doctor_hunt/apps/Patient/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:doctor_hunt/apps/Patient/features/auth/presentation/cubit/auth_cubit_state.dart';
 import 'package:doctor_hunt/apps/Patient/features/home/presentation/cubit/home_cubit.dart';
 import 'package:doctor_hunt/apps/Patient/features/home/presentation/cubit/home_state.dart';
 import 'package:doctor_hunt/apps/Patient/features/home/presentation/widgets/bottom_navbar.dart';
@@ -22,7 +24,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-
     context.read<HomeCubit>().loadHomeData();
   }
 
@@ -34,45 +35,56 @@ class _HomeScreenState extends State<HomeScreen> {
           Positioned.fill(
             child: Image.asset(Assets.images.bg.path, fit: BoxFit.cover),
           ),
+
           BlocBuilder<HomeCubit, HomeState>(
-            builder: (context, state) {
-              if (state is HomeLoading) {
+            builder: (context, homeState) {
+              if (homeState is HomeLoading) {
                 return const Center(child: CircularProgressIndicator());
               }
 
-              if (state is HomeError) {
-                return Center(child: Text(state.message));
+              if (homeState is HomeError) {
+                return Center(child: Text(homeState.message));
               }
 
-              if (state is HomeLoaded) {
+              if (homeState is HomeLoaded) {
                 return CustomScrollView(
                   slivers: [
-                    // Header
-                    const SliverToBoxAdapter(child: HeaderWidget()),
-
-                    // Live Doctors
                     SliverToBoxAdapter(
-                      child: LiveDoctorsSection(doctors: state.liveDoctors),
+                      child: BlocBuilder<AuthCubit, AuthCubitState>(
+                        builder: (context, authState) {
+                          final userName = authState.user?.fullName ?? 'User';
+
+                          final avatarUrl = authState.user?.avatarUrl;
+
+                          return HeaderWidget(
+                            userName: userName,
+                            avatarUrl: avatarUrl,
+                          );
+                        },
+                      ),
                     ),
+
+                    SliverToBoxAdapter(
+                      child: LiveDoctorsSection(doctors: homeState.liveDoctors),
+                    ),
+
                     SliverToBoxAdapter(child: SizedBox(height: context.h(30))),
 
-                    // Categories
                     SliverToBoxAdapter(child: CategoriesSection()),
 
-                    // Popular Doctors
                     SliverToBoxAdapter(
                       child: PopularDoctorsSection(
-                        doctors: state.popularDoctors,
+                        doctors: homeState.popularDoctors,
                         onSeeAllTap: () {},
                       ),
                     ),
 
-                    // Featured Doctors
                     SliverToBoxAdapter(
                       child: FeaturedDoctorsSection(
-                        doctors: state.featuredDoctors,
+                        doctors: homeState.featuredDoctors,
                       ),
                     ),
+
                     SliverToBoxAdapter(child: SizedBox(height: context.h(20))),
                   ],
                 );

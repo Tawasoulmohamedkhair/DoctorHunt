@@ -12,7 +12,6 @@ class AuthCubit extends Cubit<AuthCubitState> {
   AuthCubit(this._authRepository) : super(const AuthCubitState());
 
   // ---------------- LOGIN ----------------
-
   Future<void> login({required String email, required String password}) async {
     emit(state.copyWith(status: AuthStatus.loading, errorMessage: null));
 
@@ -22,23 +21,35 @@ class AuthCubit extends Cubit<AuthCubitState> {
         password: password,
       );
 
-      if (response.user != null) {
-        emit(state.copyWith(status: AuthStatus.success));
-      } else {
+      if (response.user == null) {
         emit(
           state.copyWith(
             status: AuthStatus.failure,
             errorMessage: t.failedLogin,
           ),
         );
+        return;
       }
+
+      final userProfile = await _authRepository.getCurrentUserProfile();
+
+      if (userProfile == null) {
+        emit(
+          state.copyWith(
+            status: AuthStatus.failure,
+            errorMessage: 'User profile not found.',
+          ),
+        );
+        return;
+      }
+
+      emit(state.copyWith(status: AuthStatus.success, user: userProfile));
     } catch (e) {
       emit(
         state.copyWith(status: AuthStatus.failure, errorMessage: e.toString()),
       );
     }
   }
-
   // ---------------- SIGN UP ----------------
 
   Future<void> signUp({
@@ -133,7 +144,7 @@ class AuthCubit extends Cubit<AuthCubitState> {
         emit(
           state.copyWith(
             status: AuthStatus.failure,
-            errorMessage:t.otpnorecovery,
+            errorMessage: t.otpnorecovery,
           ),
         );
       }

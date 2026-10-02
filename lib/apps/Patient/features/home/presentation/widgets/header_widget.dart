@@ -7,11 +7,15 @@ import 'package:doctor_hunt/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 
 class HeaderWidget extends StatelessWidget {
-  const HeaderWidget({super.key});
+  final String userName;
+  final String? avatarUrl;
+
+  const HeaderWidget({super.key, required this.userName, this.avatarUrl});
 
   @override
   Widget build(BuildContext context) {
     final isShort = context.height < 500;
+
     return SizedBox(
       height: context.h(205),
       child: Stack(
@@ -44,33 +48,24 @@ class HeaderWidget extends StatelessWidget {
                     children: [
                       SizedBox(height: context.h(15)),
                       Text(
-                        t.hihand,
+                        '${t.hi} $userName',
                         style: context.regular20lightgray,
                       ),
                       SizedBox(height: context.h(4)),
-                      Text(
-                        t.findDoctor,
-                        style: context.semiBold25white,
-                      ),
+                      Text(t.findDoctor, style: context.semiBold25white),
                     ],
                   ),
                 ),
+
                 CircleAvatar(
                   radius: context.r(26),
                   backgroundColor: AppColors.white,
-                  child: ClipOval(
-                    child: Image.asset(
-                      Assets.images.profile.path,
-                      fit: BoxFit.cover,
-                      width: context.w(52),
-                      height: context.w(52),
-                      errorBuilder: (_, _, _) => const Icon(Icons.person),
-                    ),
-                  ),
+                  child: ClipOval(child: _buildProfileImage(context)),
                 ),
               ],
             ),
           ),
+
           Positioned(
             left: context.w(20),
             right: context.w(20),
@@ -79,6 +74,36 @@ class HeaderWidget extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildProfileImage(BuildContext context) {
+    final hasAvatar = avatarUrl != null && avatarUrl!.trim().isNotEmpty;
+
+    if (!hasAvatar) {
+      return _buildDefaultProfileImage(context);
+    }
+
+    return Image.network(
+      avatarUrl!,
+      fit: BoxFit.cover,
+      width: context.w(52),
+      height: context.w(52),
+      errorBuilder: (_, _, _) {
+        return _buildDefaultProfileImage(context);
+      },
+    );
+  }
+
+  Widget _buildDefaultProfileImage(BuildContext context) {
+    return Image.asset(
+      Assets.images.profile.path,
+      fit: BoxFit.cover,
+      width: context.w(52),
+      height: context.w(52),
+      errorBuilder: (_, _, _) {
+        return const Icon(Icons.person);
+      },
     );
   }
 }
