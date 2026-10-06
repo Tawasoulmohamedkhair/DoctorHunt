@@ -1,4 +1,4 @@
-import 'package:doctor_hunt/apps/Patient/core/widget/custom_elevated_button.dart';
+import 'package:doctor_hunt/apps/core/widget/custom_elevated_button.dart';
 import 'package:doctor_hunt/apps/Patient/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:doctor_hunt/apps/Patient/features/auth/presentation/cubit/auth_cubit_state.dart';
 import 'package:doctor_hunt/apps/Patient/features/auth/presentation/screens/signup_screen.dart';

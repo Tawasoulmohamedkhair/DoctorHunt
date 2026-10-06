@@ -1,6 +1,6 @@
 import 'dart:async';
-
 import 'package:doctor_hunt/apps/Patient/features/auth/data/Repository/auth_repo.dart';
+import 'package:doctor_hunt/apps/Patient/features/chooserole/presentation/cubit/role_selection_state.dart';
 import 'package:doctor_hunt/i18n/strings.g.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -12,7 +12,12 @@ class AuthCubit extends Cubit<AuthCubitState> {
   AuthCubit(this._authRepository) : super(const AuthCubitState());
 
   // ---------------- LOGIN ----------------
-  Future<void> login({required String email, required String password}) async {
+
+  Future<void> login({
+    required String email,
+    required String password,
+    required UserRole role,
+  }) async {
     emit(state.copyWith(status: AuthStatus.loading, errorMessage: null));
 
     try {
@@ -43,6 +48,21 @@ class AuthCubit extends Cubit<AuthCubitState> {
         return;
       }
 
+      // Verify that the account belongs to the selected role.
+      if (userProfile.role != role.name) {
+        await _authRepository.logOut();
+
+        emit(
+          state.copyWith(
+            status: AuthStatus.failure,
+            errorMessage: role == UserRole.admin
+                ? 'This account is not registered as an admin.'
+                : 'This account is not registered as a patient.',
+          ),
+        );
+        return;
+      }
+
       emit(state.copyWith(status: AuthStatus.success, user: userProfile));
     } catch (e) {
       emit(
@@ -50,6 +70,7 @@ class AuthCubit extends Cubit<AuthCubitState> {
       );
     }
   }
+
   // ---------------- SIGN UP ----------------
 
   Future<void> signUp({
@@ -85,22 +106,50 @@ class AuthCubit extends Cubit<AuthCubitState> {
 
   // ---------------- GOOGLE ----------------
 
-  Future<void> signInWithGoogle() async {
+  Future<void> signInWithGoogle({required UserRole role}) async {
     emit(state.copyWith(status: AuthStatus.loading, errorMessage: null));
 
     try {
       final response = await _authRepository.signInWithGoogle();
 
-      if (response.user != null) {
-        emit(state.copyWith(status: AuthStatus.success));
-      } else {
+      if (response.user == null) {
         emit(
           state.copyWith(
             status: AuthStatus.failure,
             errorMessage: t.googleSigninFailed,
           ),
         );
+        return;
       }
+
+      final userProfile = await _authRepository.getCurrentUserProfile();
+
+      if (userProfile == null) {
+        emit(
+          state.copyWith(
+            status: AuthStatus.failure,
+            errorMessage: 'User profile not found.',
+          ),
+        );
+        return;
+      }
+
+      // Verify that the Google account belongs to the selected role.
+      if (userProfile.role != role.name) {
+        await _authRepository.logOut();
+
+        emit(
+          state.copyWith(
+            status: AuthStatus.failure,
+            errorMessage: role == UserRole.admin
+                ? 'This account is not registered as an admin.'
+                : 'This account is not registered as a patient.',
+          ),
+        );
+        return;
+      }
+
+      emit(state.copyWith(status: AuthStatus.success, user: userProfile));
     } catch (e) {
       emit(
         state.copyWith(status: AuthStatus.failure, errorMessage: e.toString()),

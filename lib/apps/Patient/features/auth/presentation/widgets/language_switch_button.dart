@@ -1,5 +1,5 @@
-import 'package:doctor_hunt/apps/Patient/core/extension/responsive_media_query.dart';
-import 'package:doctor_hunt/apps/Patient/core/themes/app_colors.dart';
+import 'package:doctor_hunt/apps/core/extension/responsive_media_query.dart';
+import 'package:doctor_hunt/apps/core/themes/app_colors.dart';
 import 'package:doctor_hunt/generated/style_atoms.dart';
 import 'package:doctor_hunt/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
@@ -9,8 +9,9 @@ class LanguageSwitchButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isEnglish = LocaleSettings.currentLocale == AppLocale.en;
-
+    
+    final isEnglish =
+        TranslationProvider.of(context).flutterLocale.languageCode == 'en';
     return Align(
       alignment: Alignment.topRight,
       child: Container(

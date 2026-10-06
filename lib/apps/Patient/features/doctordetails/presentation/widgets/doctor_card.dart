@@ -1,5 +1,6 @@
-import 'package:doctor_hunt/apps/Patient/core/themes/app_colors.dart';
-import 'package:doctor_hunt/apps/Patient/core/widget/custom_elevated_button.dart';
+import 'package:doctor_hunt/apps/core/themes/app_colors.dart';
+import 'package:doctor_hunt/apps/core/widget/custom_elevated_button.dart';
+import 'package:doctor_hunt/apps/core/extension/responsive_media_query.dart';
 import 'package:doctor_hunt/apps/Patient/features/doctordetails/data/model/doctor_details_model.dart';
 import 'package:doctor_hunt/apps/Patient/features/doctordetails/presentation/cubit/doctordetails_cubit.dart';
 import 'package:doctor_hunt/apps/Patient/features/home/enum/doctor_specialty.dart';
@@ -15,10 +16,10 @@ class DoctorCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(context.w(16)),
       decoration: BoxDecoration(
         color: AppColors.white,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(context.r(16)),
         boxShadow: [
           BoxShadow(
             color: AppColors.black.withValues(alpha: 0.05),
@@ -33,15 +34,16 @@ class DoctorCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ClipRRect(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(context.r(12)),
                 child: Image.asset(
                   doctor.imageUrl,
-                  width: 80,
-                  height: 120,
+                  width: context.w(80),
+                  height: context.h(120),
                   fit: BoxFit.cover,
+                  alignment: Alignment.topCenter,
                 ),
               ),
-              const SizedBox(width: 14),
+              SizedBox(width: context.w(14)),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -62,17 +64,19 @@ class DoctorCard extends StatelessWidget {
                             doctor.isFavorite
                                 ? Icons.favorite
                                 : Icons.favorite_border,
-                            color: doctor.isFavorite ? AppColors.danger : AppColors.grey,
+                            color: doctor.isFavorite
+                                ? AppColors.danger
+                                : AppColors.grey,
                           ),
                         ),
                       ],
                     ),
-                    const SizedBox(height: 4),
+                    SizedBox(height: context.h(4)),
                     Text(
                       _getSpecialty(context, doctor.specialty),
-                      style:context.light13textSub
+                      style: context.light13textSub,
                     ),
-                    const SizedBox(height: 6),
+                    SizedBox(height: context.h(6)),
                     Row(
                       children: [
                         ...List.generate(5, (i) {
@@ -81,7 +85,7 @@ class DoctorCard extends StatelessWidget {
                                 ? Icons.star
                                 : Icons.star_border,
                             color: AppColors.rating,
-                            size: 16,
+                            size: context.sp(16),
                           );
                         }),
                         const Spacer(),
@@ -99,18 +103,16 @@ class DoctorCard extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: context.h(16)),
           CustomElevatedButton(
             onPressed: () {},
-            label: Text(
-              t.bookNow,
-              style: context.medium14white
-            ),
+            label: Text(t.bookNow, style: context.medium14white),
           ),
         ],
       ),
     );
   }
+
   String _getName(BuildContext context, String key) {
     switch (key) {
       case 'pediatrician':

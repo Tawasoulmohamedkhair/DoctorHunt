@@ -1,11 +1,12 @@
 // doctor_details_screen.dart
 
-import 'package:doctor_hunt/apps/Patient/core/themes/app_colors.dart';
+import 'package:doctor_hunt/apps/core/themes/app_colors.dart';
 import 'package:doctor_hunt/apps/Patient/features/doctordetails/enum/doctor_service.dart';
 import 'package:doctor_hunt/apps/Patient/features/doctordetails/presentation/cubit/doctordetails_cubit.dart';
 import 'package:doctor_hunt/apps/Patient/features/doctordetails/presentation/cubit/doctordetails_state.dart';
 import 'package:doctor_hunt/apps/Patient/features/doctordetails/presentation/widgets/doctor_card.dart';
-import 'package:doctor_hunt/apps/Patient/core/widget/header_widget.dart';
+import 'package:doctor_hunt/apps/core/widget/header_widget.dart';
+import 'package:doctor_hunt/apps/core/extension/responsive_media_query.dart';
 import 'package:doctor_hunt/apps/Patient/features/doctordetails/presentation/widgets/stats_row.dart';
 import 'package:doctor_hunt/generated/assets.gen.dart';
 import 'package:doctor_hunt/generated/style_atoms.dart';
@@ -33,6 +34,8 @@ class _DoctorDetailsScreenState extends State<DoctorDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final t = Translations.of(context);
+
     return Scaffold(
       body: Stack(
         children: [
@@ -50,56 +53,68 @@ class _DoctorDetailsScreenState extends State<DoctorDetailsScreen> {
               if (state is DoctorDetailsLoaded) {
                 final doctor = state.doctor;
                 return SingleChildScrollView(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(height: 10),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: context.w(16),
+                    vertical: context.h(16),
+                  ),
+                  child: SafeArea(
+                    top: true,
+                    bottom: false,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        SizedBox(height: context.h(10)),
 
-                      HeaderAppBar(
-                        title: t.doctorDetails,
-                        actionIcon: Icons.search,
-                      ),
-                      // ===== Doctor Card =====
-                      DoctorCard(doctor: doctor),
-                      const SizedBox(height: 16),
+                        HeaderAppBar(
+                          title: t.doctorDetails,
+                          actionIcon: Icons.search,
+                        ),
 
-                      // ===== Stats =====
-                      StatsRow(doctor: doctor),
-                      const SizedBox(height: 24),
+                        // ===== Doctor Card =====
+                        DoctorCard(doctor: doctor),
+                        SizedBox(height: context.h(16)),
 
-                      // ===== Services =====
-                      Text(t.service, style: context.medium18textSecondary),
-                      const SizedBox(height: 12),
-                      ...List.generate(doctor.services.length, (index) {
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 10),
-                          child: Text(
-                            '${index + 1}.   ${_getService(context, doctor.services[index])}',
-                            style: context.light13textSub,
-                          ),
-                        );
-                      }),
-                      const SizedBox(height: 20),
+                        // ===== Stats =====
+                        StatsRow(doctor: doctor),
+                        SizedBox(height: context.h(24)),
 
-                      // ===== Map =====
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(16),
-                        child: Image.asset(
-                          Assets.images.map.path,
-                          height: 180,
-                          width: double.infinity,
-                          fit: BoxFit.cover,
-                          errorBuilder: (_, _, _) => Container(
-                            height: 180,
-                            color: AppColors.darkgray,
-                            child: const Center(
-                              child: Icon(Icons.map, size: 50),
+                        // ===== Services =====
+                        Text(t.service, style: context.medium18textSecondary),
+                        SizedBox(height: context.h(12)),
+                        ...List.generate(doctor.services.length, (index) {
+                          return Padding(
+                            padding: EdgeInsets.only(bottom: context.h(10)),
+                            child: Text(
+                              '${index + 1}.   ${_getService(context, doctor.services[index])}',
+                              style: context.light13textSub,
                             ),
+                          );
+                        }),
+                        SizedBox(height: context.h(20)),
+
+                        // ===== Map =====
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(context.r(16)),
+                          child: Image.asset(
+                            Assets.images.map.path,
+                            height: context.h(180),
+                            width: double.infinity,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) =>
+                                Container(
+                                  height: context.h(180),
+                                  color: AppColors.darkgray,
+                                  child: Center(
+                                    child: Icon(
+                                      Icons.map,
+                                      size: context.sp(50),
+                                    ),
+                                  ),
+                                ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 );
               }
@@ -111,7 +126,7 @@ class _DoctorDetailsScreenState extends State<DoctorDetailsScreen> {
     );
   }
 
-String _getService(BuildContext context, DoctorService service) {
+  String _getService(BuildContext context, DoctorService service) {
     switch (service) {
       case DoctorService.patientCare:
         return t.patientCare;

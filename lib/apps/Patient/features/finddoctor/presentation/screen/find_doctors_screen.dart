@@ -1,6 +1,6 @@
-import 'package:doctor_hunt/apps/Patient/core/extension/responsive_media_query.dart';
-import 'package:doctor_hunt/apps/Patient/core/themes/app_colors.dart';
-import 'package:doctor_hunt/apps/Patient/core/widget/header_widget.dart';
+import 'package:doctor_hunt/apps/core/extension/responsive_media_query.dart';
+import 'package:doctor_hunt/apps/core/themes/app_colors.dart';
+import 'package:doctor_hunt/apps/core/widget/header_widget.dart';
 import 'package:doctor_hunt/apps/Patient/features/auth/presentation/widgets/app_text_field.dart';
 import 'package:doctor_hunt/apps/Patient/features/finddoctor/presentation/cubit/finddoctor_cubit.dart';
 import 'package:doctor_hunt/apps/Patient/features/finddoctor/presentation/cubit/finddoctor_state.dart';
@@ -36,6 +36,8 @@ class _FindDoctorsScreenState extends State<FindDoctorsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final t = Translations.of(context);
+
     return Scaffold(
       backgroundColor: AppColors.lightgray,
       body: Stack(
@@ -52,7 +54,7 @@ class _FindDoctorsScreenState extends State<FindDoctorsScreen> {
                   horizontal: context.w(16),
                   vertical: context.h(8),
                 ),
-                child: AppTextField(
+                child: CustomAppTextField(
                   hintText: t.search_hint,
                   controller: _controller,
                   onSubmitted: (value) {

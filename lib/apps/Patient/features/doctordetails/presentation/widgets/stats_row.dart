@@ -3,6 +3,7 @@ import 'package:doctor_hunt/apps/Patient/features/doctordetails/data/model/docto
 import 'package:doctor_hunt/apps/Patient/features/doctordetails/presentation/widgets/stat_item.dart';
 import 'package:doctor_hunt/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
+import 'package:doctor_hunt/apps/core/extension/responsive_media_query.dart';
 
 class StatsRow extends StatelessWidget {
   final DoctorDetailsModel doctor;
@@ -13,16 +14,11 @@ class StatsRow extends StatelessWidget {
     return Row(
       children: [
         StatItem(value: '${doctor.running}', label: t.running),
-        const SizedBox(width: 12),
+        SizedBox(width: context.w(12)),
         StatItem(value: '${doctor.ongoing}', label: t.ongoing),
-        const SizedBox(width: 12),
-        StatItem(
-          value: '${doctor.patients}',
-          label:t.patient,
-        ),
+        SizedBox(width: context.w(12)),
+        StatItem(value: '${doctor.patients}', label: t.patient),
       ],
     );
   }
 }
-
-

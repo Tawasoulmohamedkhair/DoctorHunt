@@ -1,4 +1,3 @@
-import 'package:doctor_hunt/apps/Patient/core/supabase/supabase_client.dart';
 import 'package:doctor_hunt/apps/Patient/features/auth/data/models/user_model.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -36,7 +35,6 @@ class AuthRepository {
   }
 
   // ---------------- GOOGLE ----------------
-
   Future<AuthResponse> signInWithGoogle() async {
     final googleSignIn = GoogleSignIn.instance;
     final webClientId = dotenv.env['GOOGLE_WEB_CLIENT_ID'];
@@ -67,11 +65,13 @@ class AuthRepository {
 
     final accessToken = authorization.accessToken;
 
-    return await _supabase.auth.signInWithIdToken(
+    final response = await _supabase.auth.signInWithIdToken(
       provider: OAuthProvider.google,
       idToken: idToken,
       accessToken: accessToken,
     );
+
+    return response;
   }
 
   // ---------------- FORGOT PASSWORD ----------------
@@ -107,18 +107,30 @@ class AuthRepository {
     return _supabase.auth.onAuthStateChange;
   }
 
+ 
   Future<UserModel?> getCurrentUserProfile() async {
-    final user = supabase.auth.currentUser;
-    if (user == null) return null;
+    final user = _supabase.auth.currentUser;
 
-    final response = await supabase
+    if (user == null) {
+      return null;
+    }
+
+    final response = await _supabase
         .from('users')
         .select()
         .eq('id', user.id)
         .maybeSingle();
 
-    if (response == null) return null;
+    if (response == null) {
+      return null;
+    }
 
-    return UserModel.fromJson(response); // أو حسب الـ UserModel عندك
+    final userProfile = UserModel.fromJson(response);
+
+    return userProfile;
+  }
+
+  Future<void> logOut() async {
+    await _supabase.auth.signOut();
   }
 }

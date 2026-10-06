@@ -95,7 +95,7 @@ class TranslationsAr with BaseTranslations<AppLocale, Translations> implements T
 	@override String get findDoctor => 'اعثر على طبيبك';
 	@override String get search => 'بحث';
 	@override String get liveDoctor => 'أطباء مباشرون';
-	@override String get popularDoctor => 'الأطباء الأكثر شعبية';
+	@override String get popularDoctor => 'الطبيب الأكثر طلبًا';
 	@override String get seeAll => 'عرض الكل';
 	@override String get drFill => 'د. Fillerup Grab';
 	@override String get medicineSpecialist => 'اختصاصي طب';
@@ -154,9 +154,11 @@ class TranslationsAr with BaseTranslations<AppLocale, Translations> implements T
 	@override String get eye => 'العين';
 	@override String get body => 'الجسم';
 	@override String get home => 'الرئيسية';
-	@override String get favorite => 'المفضلة';
 	@override String get book => 'الحجوزات';
 	@override String get chat => 'المحادثة';
+	@override String get myappointments => 'مواعيدي';
+	@override String get settings => 'الإعدادات';
+	@override String get favorites => 'المفضلة';
 	@override String get selecttime => 'اختر الوقت';
 	@override String get dentalclinic => 'عيادة Upasana للأسنان، سولت ليك';
 	@override String get today => 'اليوم';
@@ -174,6 +176,24 @@ class TranslationsAr with BaseTranslations<AppLocale, Translations> implements T
 	@override String get passwordNumber => 'يجب أن تحتوي على رقم';
 	@override String get passwordSpecialChar => 'يجب أن تحتوي على رمز خاص';
 	@override String get signUpSuccess => 'تم إنشاء الحساب بنجاح';
+	@override String get logout => 'تسجيل الخروج';
+	@override String get populardoctor => 'الأطباء الأكثر طلبًا';
+	@override String get tapphoto => 'اضغط على الصورة لتغييرها';
+	@override String get fullname => 'الاسم الكامل';
+	@override String get emailaddress => 'عنوان البريد الإلكتروني';
+	@override String get cliniclocation => ' موقع العيادة';
+	@override String get adminhintemail => 'admin@doctorhunt.com';
+	@override String get doctorhunthq => 'عيادة DoctorHunt HQ';
+	@override String get enterfullname => 'أدخل الاسم الكامل';
+	@override String get savechange => 'حفظ التغييرات';
+	@override String get administrator => ' مسؤول';
+	@override String get adminprofile => 'ملف المسؤول';
+	@override String get editsuperadmin => 'تحرير تفاصيل وصلاحيات المسؤول الأعلى';
+	@override String get changepassword => 'تغيير كلمة المرور';
+	@override String get updatecredentials => 'تحديث بيانات الاعتماد الأمنية الرئيسية';
+	@override String get appinfo => 'معلومات التطبيق';
+	@override String get buildversion => 'إصدار البناء';
+	@override String get version => 'v1.0.0';
 }
 
 // Path: onboarding
@@ -293,7 +313,7 @@ extension on TranslationsAr {
 			'findDoctor' => 'اعثر على طبيبك',
 			'search' => 'بحث',
 			'liveDoctor' => 'أطباء مباشرون',
-			'popularDoctor' => 'الأطباء الأكثر شعبية',
+			'popularDoctor' => 'الطبيب الأكثر طلبًا',
 			'seeAll' => 'عرض الكل',
 			'drFill' => 'د. Fillerup Grab',
 			'medicineSpecialist' => 'اختصاصي طب',
@@ -352,9 +372,11 @@ extension on TranslationsAr {
 			'eye' => 'العين',
 			'body' => 'الجسم',
 			'home' => 'الرئيسية',
-			'favorite' => 'المفضلة',
 			'book' => 'الحجوزات',
 			'chat' => 'المحادثة',
+			'myappointments' => 'مواعيدي',
+			'settings' => 'الإعدادات',
+			'favorites' => 'المفضلة',
 			'selecttime' => 'اختر الوقت',
 			'dentalclinic' => 'عيادة Upasana للأسنان، سولت ليك',
 			'today' => 'اليوم',
@@ -372,6 +394,24 @@ extension on TranslationsAr {
 			'passwordNumber' => 'يجب أن تحتوي على رقم',
 			'passwordSpecialChar' => 'يجب أن تحتوي على رمز خاص',
 			'signUpSuccess' => 'تم إنشاء الحساب بنجاح',
+			'logout' => 'تسجيل الخروج',
+			'populardoctor' => 'الأطباء الأكثر طلبًا',
+			'tapphoto' => 'اضغط على الصورة لتغييرها',
+			'fullname' => 'الاسم الكامل',
+			'emailaddress' => 'عنوان البريد الإلكتروني',
+			'cliniclocation' => ' موقع العيادة',
+			'adminhintemail' => 'admin@doctorhunt.com',
+			'doctorhunthq' => 'عيادة DoctorHunt HQ',
+			'enterfullname' => 'أدخل الاسم الكامل',
+			'savechange' => 'حفظ التغييرات',
+			'administrator' => ' مسؤول',
+			'adminprofile' => 'ملف المسؤول',
+			'editsuperadmin' => 'تحرير تفاصيل وصلاحيات المسؤول الأعلى',
+			'changepassword' => 'تغيير كلمة المرور',
+			'updatecredentials' => 'تحديث بيانات الاعتماد الأمنية الرئيسية',
+			'appinfo' => 'معلومات التطبيق',
+			'buildversion' => 'إصدار البناء',
+			'version' => 'v1.0.0',
 			_ => null,
 		};
 	}

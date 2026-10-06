@@ -1,5 +1,5 @@
-import 'package:doctor_hunt/apps/Patient/core/extension/responsive_media_query.dart';
-import 'package:doctor_hunt/apps/Patient/core/themes/app_colors.dart';
+import 'package:doctor_hunt/apps/core/extension/responsive_media_query.dart';
+import 'package:doctor_hunt/apps/core/themes/app_colors.dart';
 import 'package:doctor_hunt/apps/Patient/features/home/data/model/doctor_model.dart';
 import 'package:doctor_hunt/apps/Patient/features/home/presentation/cubit/home_cubit.dart';
 import 'package:doctor_hunt/generated/style_atoms.dart';
@@ -14,6 +14,8 @@ class FeaturedDoctorsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = Translations.of(context);
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -34,17 +36,17 @@ class FeaturedDoctorsSection extends StatelessWidget {
                     onPressed: () {},
                     child: Text(t.seeall, style: context.light12textSub),
                   ),
-                  const Icon(Icons.arrow_forward_ios, size: 16),
+                  Icon(Icons.arrow_forward_ios, size: context.sp(16)),
                 ],
               ),
             ],
           ),
         ),
         SizedBox(
-          height: context.height < 500 ? 150 : context.h(170),
+          height: context.height < 500 ? 160 : context.h(180),
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: EdgeInsets.symmetric(horizontal: context.w(16)),
             itemCount: doctors.length,
             itemBuilder: (context, index) {
               final doctor = doctors[index];
@@ -65,6 +67,8 @@ class FeaturedDoctorsSection extends StatelessWidget {
                   ],
                 ),
                 child: Column(
+                  mainAxisSize: MainAxisSize.min,
+
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -77,7 +81,7 @@ class FeaturedDoctorsSection extends StatelessWidget {
                             doctor.isFavorite
                                 ? Icons.favorite
                                 : Icons.favorite_border,
-                            size: 20,
+                            size: context.sp(20),
                             color: doctor.isFavorite
                                 ? AppColors.danger
                                 : AppColors.grey,
@@ -86,9 +90,9 @@ class FeaturedDoctorsSection extends StatelessWidget {
                         Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            const Icon(
+                            Icon(
                               Icons.star,
-                              size: 11,
+                              size: context.sp(11),
                               color: AppColors.rating,
                             ),
                             SizedBox(width: context.w(2)),
@@ -102,7 +106,7 @@ class FeaturedDoctorsSection extends StatelessWidget {
                     ),
                     SizedBox(height: context.h(10)),
                     CircleAvatar(
-                      radius: context.r(32),
+                      radius: context.r(30),
                       backgroundImage: AssetImage(doctor.imageUrl),
                     ),
                     Text(

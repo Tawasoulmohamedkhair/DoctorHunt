@@ -1,8 +1,8 @@
-import 'package:doctor_hunt/apps/Patient/core/extension/responsive_media_query.dart';
-import 'package:doctor_hunt/apps/Patient/core/extension/validator_extension.dart';
-import 'package:doctor_hunt/apps/Patient/core/router/app_routers.dart';
-import 'package:doctor_hunt/apps/Patient/core/themes/app_colors.dart';
-import 'package:doctor_hunt/apps/Patient/core/widget/custom_elevated_button.dart';
+import 'package:doctor_hunt/apps/core/extension/responsive_media_query.dart';
+import 'package:doctor_hunt/apps/core/extension/validator_extension.dart';
+import 'package:doctor_hunt/apps/router/app_routers.dart';
+import 'package:doctor_hunt/apps/core/themes/app_colors.dart';
+import 'package:doctor_hunt/apps/core/widget/custom_elevated_button.dart';
 import 'package:doctor_hunt/apps/Patient/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:doctor_hunt/apps/Patient/features/auth/presentation/cubit/auth_cubit_state.dart';
 import 'package:doctor_hunt/apps/Patient/features/auth/presentation/widgets/app_text_field.dart';
@@ -52,6 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
     context.read<AuthCubit>().login(
       email: _emailController.text.trim(),
       password: _passwordController.text,
+      role: widget.role,
     );
   }
 
@@ -85,11 +86,17 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final t = Translations.of(context);
+
     return BlocListener<AuthCubit, AuthCubitState>(
       listener: (context, state) {
         switch (state.status) {
           case AuthStatus.success:
-            const HomeRoute().go(context);
+            if (widget.role == UserRole.admin) {
+              const AdminSettingsRoute().go(context);
+            } else {
+              const HomeRoute().go(context);
+            }
             break;
 
           case AuthStatus.forgotPasswordSuccess:
@@ -163,14 +170,16 @@ class _LoginScreenState extends State<LoginScreen> {
 
                     SocialMediaWidget(
                       onGooglePressed: () {
-                        context.read<AuthCubit>().signInWithGoogle();
+                        context.read<AuthCubit>().signInWithGoogle(
+                          role: widget.role,
+                        );
                       },
                     ),
 
                     SizedBox(height: context.h(28)),
 
                     // Email
-                    AppTextField(
+                    CustomAppTextField(
                       controller: _emailController,
                       hintText: t.email,
                       type: AppTextFieldType.email,
@@ -183,7 +192,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     SizedBox(height: context.h(16)),
 
                     // Password
-                    AppTextField(
+                    CustomAppTextField(
                       controller: _passwordController,
                       hintText: t.password,
                       type: AppTextFieldType.password,

@@ -154,9 +154,11 @@
   "body": "Body",
 
   "home": "Home",
-  "favorite": "Favorite",
   "book": "Book",
   "chat": "Chat",
+  "myappointments": "My Appointments",
+  "settings": "Settings",
+  "favorites": "Favorites",
 
   "selecttime": "Select Time",
   "dentalclinic": "Upasana Dental Clinic, salt lake",
@@ -174,5 +176,23 @@
   "passwordUpperCase": "Must contain an uppercase letter",
   "passwordNumber": "Must contain a number",
   "passwordSpecialChar": "Must contain a special character",
-  "signUpSuccess": "Account created successfully"
+  "signUpSuccess": "Account created successfully",
+  "logout": "Logout",
+  "populardoctor": "Popular Doctors",
+  "tapphoto":"Tap photo to change",
+  "fullname": "FULL NAME",
+  "emailaddress": "EMAIL ADDRESS",
+  "cliniclocation": "CLINIC LOCATION",
+  "adminhintemail":"admin@doctorhunt.com",
+  "doctorhunthq":"DoctorHunt HQ Clinic",
+  "enterfullname":"EnterFullName",
+  "savechange": "Save Changes",
+  "administrator": "Administrator",
+  "adminprofile":"Admin Profile",
+  "editsuperadmin":"Edit super admin details & permissions",
+  "changepassword":"Change Password",
+  "updatecredentials":"Update master security credentials",
+  "appinfo":"App Information",
+  "buildversion":"Build version",
+  "version":"v1.0.0"
 }

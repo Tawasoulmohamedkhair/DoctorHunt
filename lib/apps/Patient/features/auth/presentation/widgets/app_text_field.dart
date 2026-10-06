@@ -1,12 +1,12 @@
-import 'package:doctor_hunt/apps/Patient/core/extension/responsive_media_query.dart';
-import 'package:doctor_hunt/apps/Patient/core/themes/app_colors.dart';
+import 'package:doctor_hunt/apps/core/extension/responsive_media_query.dart';
+import 'package:doctor_hunt/apps/core/themes/app_colors.dart';
 import 'package:doctor_hunt/generated/style_atoms.dart';
 import 'package:flutter/material.dart';
 
 enum AppTextFieldType { text, email, password, phone, search, multiline }
 
-class AppTextField extends StatefulWidget {
-  const AppTextField({
+class CustomAppTextField extends StatefulWidget {
+  const CustomAppTextField({
     super.key,
     required this.hintText,
     this.type = AppTextFieldType.text,
@@ -38,10 +38,10 @@ class AppTextField extends StatefulWidget {
 
 
   @override
-  State<AppTextField> createState() => _AppTextFieldState();
+  State<CustomAppTextField> createState() => _AppTextFieldState();
 }
 
-class _AppTextFieldState extends State<AppTextField> {
+class _AppTextFieldState extends State<CustomAppTextField> {
   bool _obscurePassword = true;
 
   @override

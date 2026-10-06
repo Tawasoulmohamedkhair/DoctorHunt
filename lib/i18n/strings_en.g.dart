@@ -389,14 +389,20 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	/// en: 'Home'
 	String get home => 'Home';
 
-	/// en: 'Favorite'
-	String get favorite => 'Favorite';
-
 	/// en: 'Book'
 	String get book => 'Book';
 
 	/// en: 'Chat'
 	String get chat => 'Chat';
+
+	/// en: 'My Appointments'
+	String get myappointments => 'My Appointments';
+
+	/// en: 'Settings'
+	String get settings => 'Settings';
+
+	/// en: 'Favorites'
+	String get favorites => 'Favorites';
 
 	/// en: 'Select Time'
 	String get selecttime => 'Select Time';
@@ -448,6 +454,60 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 
 	/// en: 'Account created successfully'
 	String get signUpSuccess => 'Account created successfully';
+
+	/// en: 'Logout'
+	String get logout => 'Logout';
+
+	/// en: 'Popular Doctors'
+	String get populardoctor => 'Popular Doctors';
+
+	/// en: 'Tap photo to change'
+	String get tapphoto => 'Tap photo to change';
+
+	/// en: 'FULL NAME'
+	String get fullname => 'FULL NAME';
+
+	/// en: 'EMAIL ADDRESS'
+	String get emailaddress => 'EMAIL ADDRESS';
+
+	/// en: 'CLINIC LOCATION'
+	String get cliniclocation => 'CLINIC LOCATION';
+
+	/// en: 'admin@doctorhunt.com'
+	String get adminhintemail => 'admin@doctorhunt.com';
+
+	/// en: 'DoctorHunt HQ Clinic'
+	String get doctorhunthq => 'DoctorHunt HQ Clinic';
+
+	/// en: 'EnterFullName'
+	String get enterfullname => 'EnterFullName';
+
+	/// en: 'Save Changes'
+	String get savechange => 'Save Changes';
+
+	/// en: 'Administrator'
+	String get administrator => 'Administrator';
+
+	/// en: 'Admin Profile'
+	String get adminprofile => 'Admin Profile';
+
+	/// en: 'Edit super admin details & permissions'
+	String get editsuperadmin => 'Edit super admin details & permissions';
+
+	/// en: 'Change Password'
+	String get changepassword => 'Change Password';
+
+	/// en: 'Update master security credentials'
+	String get updatecredentials => 'Update master security credentials';
+
+	/// en: 'App Information'
+	String get appinfo => 'App Information';
+
+	/// en: 'Build version'
+	String get buildversion => 'Build version';
+
+	/// en: 'v1.0.0'
+	String get version => 'v1.0.0';
 }
 
 // Path: onboarding
@@ -638,9 +698,11 @@ extension on Translations {
 			'eye' => 'Eye',
 			'body' => 'Body',
 			'home' => 'Home',
-			'favorite' => 'Favorite',
 			'book' => 'Book',
 			'chat' => 'Chat',
+			'myappointments' => 'My Appointments',
+			'settings' => 'Settings',
+			'favorites' => 'Favorites',
 			'selecttime' => 'Select Time',
 			'dentalclinic' => 'Upasana Dental Clinic, salt lake',
 			'today' => 'Today',
@@ -658,6 +720,24 @@ extension on Translations {
 			'passwordNumber' => 'Must contain a number',
 			'passwordSpecialChar' => 'Must contain a special character',
 			'signUpSuccess' => 'Account created successfully',
+			'logout' => 'Logout',
+			'populardoctor' => 'Popular Doctors',
+			'tapphoto' => 'Tap photo to change',
+			'fullname' => 'FULL NAME',
+			'emailaddress' => 'EMAIL ADDRESS',
+			'cliniclocation' => 'CLINIC LOCATION',
+			'adminhintemail' => 'admin@doctorhunt.com',
+			'doctorhunthq' => 'DoctorHunt HQ Clinic',
+			'enterfullname' => 'EnterFullName',
+			'savechange' => 'Save Changes',
+			'administrator' => 'Administrator',
+			'adminprofile' => 'Admin Profile',
+			'editsuperadmin' => 'Edit super admin details & permissions',
+			'changepassword' => 'Change Password',
+			'updatecredentials' => 'Update master security credentials',
+			'appinfo' => 'App Information',
+			'buildversion' => 'Build version',
+			'version' => 'v1.0.0',
 			_ => null,
 		};
 	}

@@ -1,4 +1,4 @@
-import 'package:doctor_hunt/apps/Patient/core/extension/responsive_media_query.dart';
+import 'package:doctor_hunt/apps/core/extension/responsive_media_query.dart';
 import 'package:doctor_hunt/apps/Patient/features/home/data/model/doctor_model.dart';
 import 'package:doctor_hunt/generated/style_atoms.dart';
 import 'package:doctor_hunt/i18n/strings.g.dart';
@@ -11,6 +11,8 @@ class LiveDoctorsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = Translations.of(context);
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -45,6 +47,7 @@ class LiveDoctorsSection extends StatelessWidget {
                         height: context.h(150),
                         width: context.w(120),
                         fit: BoxFit.cover,
+                        alignment: Alignment.topCenter,
                       ),
                     ),
                     // ...

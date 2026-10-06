@@ -1,5 +1,5 @@
-import 'package:doctor_hunt/apps/Patient/core/extension/responsive_media_query.dart';
-import 'package:doctor_hunt/apps/Patient/core/themes/app_colors.dart';
+import 'package:doctor_hunt/apps/core/extension/responsive_media_query.dart';
+import 'package:doctor_hunt/apps/core/themes/app_colors.dart';
 import 'package:doctor_hunt/apps/Patient/features/home/data/model/doctor_model.dart';
 import 'package:doctor_hunt/apps/Patient/features/home/enum/doctor_specialty.dart';
 import 'package:doctor_hunt/generated/style_atoms.dart';
@@ -20,6 +20,8 @@ class PopularDoctorsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = Translations.of(context);
+
     return Column(
       children: [
         Padding(
@@ -48,7 +50,7 @@ class PopularDoctorsSection extends StatelessWidget {
         SizedBox(
           height: context.isTablet || context.height < 500
               ? 220
-              : context.h(250),
+              : context.h(251.2),
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             padding: EdgeInsets.symmetric(horizontal: context.w(16)),
@@ -58,9 +60,10 @@ class PopularDoctorsSection extends StatelessWidget {
               return GestureDetector(
                 onTap: () => onDoctorTap?.call(doctor),
                 child: Container(
-                  width: context.w(160),
+                  width: context.w(180),
+                  height: context.w(180) * 264 / 190,
                   margin: EdgeInsets.only(right: context.w(12)),
-                  padding: EdgeInsets.all(context.w(12)),
+                  padding: EdgeInsets.all(context.w(8)),
                   decoration: BoxDecoration(
                     color: AppColors.white,
                     borderRadius: BorderRadius.circular(context.r(16)),
@@ -83,7 +86,7 @@ class PopularDoctorsSection extends StatelessWidget {
                           borderRadius: BorderRadius.circular(context.r(12)),
                           image: DecorationImage(
                             image: AssetImage(doctor.imageUrl),
-                            fit: BoxFit.cover,
+                            fit: BoxFit.contain,
                           ),
                         ),
                       ),

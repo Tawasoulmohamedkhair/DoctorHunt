@@ -1,4 +1,4 @@
-import 'package:doctor_hunt/apps/Patient/core/constant/app_regex.dart';
+import 'package:doctor_hunt/apps/core/constant/app_regex.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

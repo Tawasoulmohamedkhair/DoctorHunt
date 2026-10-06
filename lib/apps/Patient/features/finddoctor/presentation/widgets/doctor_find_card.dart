@@ -1,7 +1,7 @@
-import 'package:doctor_hunt/apps/Patient/core/extension/responsive_media_query.dart';
-import 'package:doctor_hunt/apps/Patient/core/router/app_routers.dart';
-import 'package:doctor_hunt/apps/Patient/core/themes/app_colors.dart';
-import 'package:doctor_hunt/apps/Patient/core/widget/custom_elevated_button.dart';
+import 'package:doctor_hunt/apps/core/extension/responsive_media_query.dart';
+import 'package:doctor_hunt/apps/router/app_routers.dart';
+import 'package:doctor_hunt/apps/core/themes/app_colors.dart';
+import 'package:doctor_hunt/apps/core/widget/custom_elevated_button.dart';
 import 'package:doctor_hunt/apps/Patient/features/finddoctor/data/find_doctor_model.dart';
 import 'package:doctor_hunt/apps/Patient/features/home/enum/doctor_specialty.dart';
 import 'package:doctor_hunt/generated/style_atoms.dart';

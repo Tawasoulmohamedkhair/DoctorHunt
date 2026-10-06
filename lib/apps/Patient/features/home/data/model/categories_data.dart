@@ -1,4 +1,4 @@
-import 'package:doctor_hunt/apps/Patient/core/themes/app_colors.dart';
+import 'package:doctor_hunt/apps/core/themes/app_colors.dart';
 import 'package:doctor_hunt/generated/assets.gen.dart';
 
 class CategoriesData {

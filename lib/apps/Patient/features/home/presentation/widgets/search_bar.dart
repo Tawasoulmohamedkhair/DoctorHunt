@@ -1,5 +1,5 @@
-import 'package:doctor_hunt/apps/Patient/core/extension/responsive_media_query.dart';
-import 'package:doctor_hunt/apps/Patient/core/router/app_routers.dart';
+import 'package:doctor_hunt/apps/core/extension/responsive_media_query.dart';
+import 'package:doctor_hunt/apps/router/app_routers.dart';
 import 'package:doctor_hunt/apps/Patient/features/auth/presentation/widgets/app_text_field.dart';
 import 'package:doctor_hunt/apps/Patient/features/finddoctor/presentation/cubit/finddoctor_cubit.dart';
 import 'package:doctor_hunt/i18n/strings.g.dart';
@@ -36,9 +36,11 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
 
   @override
   Widget build(BuildContext context) {
+    final t = Translations.of(context);
+
     return SizedBox(
       height: context.h(52),
-      child: AppTextField(
+      child: CustomAppTextField(
         controller: _controller,
         onTap: () => const FindDoctorsRoute(query: '').push(context),
         type: AppTextFieldType.search,

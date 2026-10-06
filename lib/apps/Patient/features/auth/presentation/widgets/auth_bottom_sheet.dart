@@ -1,6 +1,6 @@
-import 'package:doctor_hunt/apps/Patient/core/extension/responsive_media_query.dart';
-import 'package:doctor_hunt/apps/Patient/core/themes/app_colors.dart';
-import 'package:doctor_hunt/apps/Patient/core/widget/custom_elevated_button.dart';
+import 'package:doctor_hunt/apps/core/extension/responsive_media_query.dart';
+import 'package:doctor_hunt/apps/core/themes/app_colors.dart';
+import 'package:doctor_hunt/apps/core/widget/custom_elevated_button.dart';
 import 'package:doctor_hunt/apps/Patient/features/auth/presentation/widgets/app_text_field.dart';
 import 'package:doctor_hunt/generated/style_atoms.dart';
 import 'package:flutter/material.dart';
@@ -84,7 +84,7 @@ class _AuthBottomSheetState extends State<AuthBottomSheet> {
             Text(widget.description, style: context.regular14textSub),
             SizedBox(height: context.h(24)),
 
-            AppTextField(
+            CustomAppTextField(
               controller: _controller,
               hintText: widget.hintText,
               type: AppTextFieldType.email,

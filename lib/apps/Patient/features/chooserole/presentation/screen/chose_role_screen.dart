@@ -1,8 +1,8 @@
-import 'package:doctor_hunt/apps/Patient/core/di/injection.dart';
-import 'package:doctor_hunt/apps/Patient/core/extension/responsive_media_query.dart';
-import 'package:doctor_hunt/apps/Patient/core/router/app_routers.dart';
-import 'package:doctor_hunt/apps/Patient/core/themes/app_colors.dart';
-import 'package:doctor_hunt/apps/Patient/core/widget/custom_elevated_button.dart';
+import 'package:doctor_hunt/apps/core/di/injection.dart';
+import 'package:doctor_hunt/apps/core/extension/responsive_media_query.dart';
+import 'package:doctor_hunt/apps/router/app_routers.dart';
+import 'package:doctor_hunt/apps/core/themes/app_colors.dart';
+import 'package:doctor_hunt/apps/core/widget/custom_elevated_button.dart';
 import 'package:doctor_hunt/apps/Patient/features/auth/presentation/widgets/auth_background.dart';
 import 'package:doctor_hunt/apps/Patient/features/chooserole/presentation/cubit/role_selection_cubit.dart';
 import 'package:doctor_hunt/apps/Patient/features/chooserole/presentation/cubit/role_selection_state.dart';
@@ -113,9 +113,9 @@ class _ChooseRoleView extends StatelessWidget {
                           builder: (context, state) {
                             return CustomElevatedButton(
                               onPressed: () {
-                                LoginRoute(
-                                  role: state.selectedRole,
-                                ).go(context);
+                                final selectedRole = state.selectedRole;
+
+                                LoginRoute(role: selectedRole).go(context);
                               },
                               label: Text(
                                 t.kContinue,
@@ -125,6 +125,21 @@ class _ChooseRoleView extends StatelessWidget {
                           },
                         ),
 
+                        // BlocBuilder<RoleSelectionCubit, RoleSelectionState>(
+                        //   builder: (context, state) {
+                        //     return CustomElevatedButton(
+                        //       onPressed: () {
+                        //         LoginRoute(
+                        //           role: state.selectedRole,
+                        //         ).go(context);
+                        //       },
+                        //       label: Text(
+                        //         t.kContinue,
+                        //         style: context.semiBold16white,
+                        //       ),
+                        //     );
+                        //   },
+                        // ),
                         SizedBox(height: context.h(16)),
                       ],
                     ),

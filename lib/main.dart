@@ -50,9 +50,9 @@
 //     );
 //   }
 // }
-import 'package:doctor_hunt/apps/Patient/core/di/injection.dart';
-import 'package:doctor_hunt/apps/Patient/core/router/app_router.dart';
-import 'package:doctor_hunt/apps/Patient/core/themes/app_theme.dart';
+import 'package:doctor_hunt/apps/core/di/injection.dart';
+import 'package:doctor_hunt/apps/router/app_router.dart';
+import 'package:doctor_hunt/apps/core/themes/app_theme.dart';
 import 'package:doctor_hunt/apps/Patient/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:doctor_hunt/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
@@ -75,11 +75,7 @@ Future<void> main() async {
 
   await setupDependencies();
 
-  runApp(
-    TranslationProvider(
-      child: const MyApp(),
-    ),
-  );
+  runApp(TranslationProvider(child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -93,7 +89,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: t.appName,
         routerConfig: appRouter,
-        locale: TranslationProvider.of(context).flutterLocale,
+        //locale: TranslationProvider.of(context).flutterLocale,
         supportedLocales: AppLocaleUtils.supportedLocales,
         localizationsDelegates: GlobalMaterialLocalizations.delegates,
         theme: AppTheme.lightTheme,

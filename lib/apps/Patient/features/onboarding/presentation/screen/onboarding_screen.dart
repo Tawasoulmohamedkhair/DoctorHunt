@@ -1,7 +1,7 @@
-import 'package:doctor_hunt/apps/Patient/core/extension/responsive_media_query.dart';
-import 'package:doctor_hunt/apps/Patient/core/router/app_routers.dart';
-import 'package:doctor_hunt/apps/Patient/core/themes/app_colors.dart';
-import 'package:doctor_hunt/apps/Patient/core/widget/custom_elevated_button.dart';
+import 'package:doctor_hunt/apps/core/extension/responsive_media_query.dart';
+import 'package:doctor_hunt/apps/router/app_routers.dart';
+import 'package:doctor_hunt/apps/core/themes/app_colors.dart';
+import 'package:doctor_hunt/apps/core/widget/custom_elevated_button.dart';
 import 'package:doctor_hunt/apps/Patient/features/onboarding/data/models/onboarding_data.dart';
 import 'package:doctor_hunt/apps/Patient/features/onboarding/presentation/cubit/onboarding_cubit.dart';
 import 'package:doctor_hunt/apps/Patient/features/onboarding/presentation/widgets/onbarding_page.dart';
@@ -66,6 +66,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final t = Translations.of(context);
+
     final isLastPage = _currentIndex == onboardingData.length - 1;
 
     return Scaffold(
@@ -110,8 +112,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         style: context.medium18white,
                       ),
                     ),
-
-                   
                   ),
                 ),
                 SizedBox(height: context.h(8)),

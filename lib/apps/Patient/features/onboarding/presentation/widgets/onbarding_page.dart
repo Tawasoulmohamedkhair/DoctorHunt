@@ -1,5 +1,5 @@
-import 'package:doctor_hunt/apps/Patient/core/extension/responsive_media_query.dart';
-import 'package:doctor_hunt/apps/Patient/core/themes/app_colors.dart';
+import 'package:doctor_hunt/apps/core/extension/responsive_media_query.dart';
+import 'package:doctor_hunt/apps/core/themes/app_colors.dart';
 import 'package:doctor_hunt/apps/Patient/features/onboarding/data/models/onboarding_model.dart';
 import 'package:doctor_hunt/generated/style_atoms.dart';
 import 'package:doctor_hunt/i18n/strings.g.dart';
@@ -21,22 +21,20 @@ class OnboardingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final page = context.t.onboarding.pages[index];
 
-
     return Stack(
       children: [
         // Top ellipse.
         Positioned(
-          top: -50,
-          left: isRight ? null : -70,
-          right: isRight ? -70 : null,
+          top: -context.h(50),
+          left: isRight ? null : -context.w(70),
+          right: isRight ? -context.w(70) : null,
           child: Container(
-            width: 300,
-            height: 300,
+            width: context.w(300),
+            height: context.w(300),
             decoration: const BoxDecoration(
               gradient: LinearGradient(
                 colors: [AppColors.primary, AppColors.primaryLight],
               ),
-              //color: ,
               shape: BoxShape.circle,
             ),
           ),
@@ -49,9 +47,16 @@ class OnboardingPage extends StatelessWidget {
               SizedBox(height: context.h(24)),
 
               // Doctor image.
+              // Clamp image to safeWidth - padding to avoid overflow on narrow screens.
               Container(
-                width: 336,
-                height: 336,
+                width: (context.safeWidth - context.w(60)).clamp(
+                  0.0,
+                  context.w(336),
+                ),
+                height: (context.safeWidth - context.w(60)).clamp(
+                  0.0,
+                  context.w(336),
+                ),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   image: DecorationImage(

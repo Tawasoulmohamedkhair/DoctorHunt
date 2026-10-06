@@ -1,9 +1,9 @@
-import 'package:doctor_hunt/apps/Patient/core/extension/responsive_media_query.dart';
+import 'package:doctor_hunt/apps/core/extension/responsive_media_query.dart';
+import 'package:doctor_hunt/apps/router/app_routers.dart';
 import 'package:doctor_hunt/apps/Patient/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:doctor_hunt/apps/Patient/features/auth/presentation/cubit/auth_cubit_state.dart';
 import 'package:doctor_hunt/apps/Patient/features/home/presentation/cubit/home_cubit.dart';
 import 'package:doctor_hunt/apps/Patient/features/home/presentation/cubit/home_state.dart';
-import 'package:doctor_hunt/apps/Patient/features/home/presentation/widgets/bottom_navbar.dart';
 import 'package:doctor_hunt/apps/Patient/features/home/presentation/widgets/categories_section.dart';
 import 'package:doctor_hunt/apps/Patient/features/home/presentation/widgets/featured_doctors_section.dart';
 import 'package:doctor_hunt/apps/Patient/features/home/presentation/widgets/header_widget.dart';
@@ -12,6 +12,7 @@ import 'package:doctor_hunt/apps/Patient/features/home/presentation/widgets/popu
 import 'package:doctor_hunt/generated/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -29,6 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       body: Stack(
         children: [
@@ -59,6 +61,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           return HeaderWidget(
                             userName: userName,
                             avatarUrl: avatarUrl,
+                            onMenuPressed: () =>
+                                ZoomDrawer.of(context)?.toggle(),
                           );
                         },
                       ),
@@ -75,7 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     SliverToBoxAdapter(
                       child: PopularDoctorsSection(
                         doctors: homeState.popularDoctors,
-                        onSeeAllTap: () {},
+                        onSeeAllTap: () => const PopularRoute().go(context),
                       ),
                     ),
 
@@ -95,7 +99,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      bottomNavigationBar: const BottomNavBar(),
     );
   }
 }

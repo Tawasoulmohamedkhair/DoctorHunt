@@ -1,5 +1,5 @@
-import 'package:doctor_hunt/apps/Patient/core/themes/app_colors.dart';
-import 'package:doctor_hunt/apps/Patient/core/widget/custom_elevated_button.dart';
+import 'package:doctor_hunt/apps/core/themes/app_colors.dart';
+import 'package:doctor_hunt/apps/core/widget/custom_elevated_button.dart';
 import 'package:doctor_hunt/apps/Patient/features/auth/presentation/widgets/app_text_field.dart';
 import 'package:doctor_hunt/generated/style_atoms.dart';
 import 'package:doctor_hunt/i18n/strings.g.dart';
@@ -74,7 +74,7 @@ class _ResetPasswordBottomSheetState extends State<ResetPasswordBottomSheet> {
           SizedBox(height: 24),
 
           // New Password
-          AppTextField(
+          CustomAppTextField(
             controller: passwordController,
             type: AppTextFieldType.password,
 
@@ -97,7 +97,7 @@ class _ResetPasswordBottomSheetState extends State<ResetPasswordBottomSheet> {
           SizedBox(height: 16),
 
           // Confirm Password
-          AppTextField(
+          CustomAppTextField(
             controller: confirmPasswordController,
             type: AppTextFieldType.password,
 

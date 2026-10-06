@@ -1,4 +1,4 @@
-import 'package:doctor_hunt/apps/Patient/core/extension/validator_extension.dart';
+import 'package:doctor_hunt/apps/core/extension/validator_extension.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

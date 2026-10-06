@@ -1,8 +1,8 @@
-import 'package:doctor_hunt/apps/Patient/core/extension/responsive_media_query.dart';
-import 'package:doctor_hunt/apps/Patient/core/extension/validator_extension.dart';
-import 'package:doctor_hunt/apps/Patient/core/router/app_routers.dart';
-import 'package:doctor_hunt/apps/Patient/core/themes/app_colors.dart';
-import 'package:doctor_hunt/apps/Patient/core/widget/custom_elevated_button.dart';
+import 'package:doctor_hunt/apps/core/extension/responsive_media_query.dart';
+import 'package:doctor_hunt/apps/core/extension/validator_extension.dart';
+import 'package:doctor_hunt/apps/router/app_routers.dart';
+import 'package:doctor_hunt/apps/core/themes/app_colors.dart';
+import 'package:doctor_hunt/apps/core/widget/custom_elevated_button.dart';
 import 'package:doctor_hunt/apps/Patient/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:doctor_hunt/apps/Patient/features/auth/presentation/cubit/auth_cubit_state.dart';
 import 'package:doctor_hunt/apps/Patient/features/auth/presentation/widgets/app_text_field.dart';
@@ -44,6 +44,8 @@ class _SignupScreenState extends State<SignupScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final t = Translations.of(context);
+
     return BlocListener<AuthCubit, AuthCubitState>(
       listener: (context, state) {
         if (state.status == AuthStatus.signUpSuccess) {
@@ -86,14 +88,16 @@ class _SignupScreenState extends State<SignupScreen> {
 
                     SocialMediaWidget(
                       onGooglePressed: () {
-                        context.read<AuthCubit>().signInWithGoogle();
+                        context.read<AuthCubit>().signInWithGoogle(
+                          role: UserRole.patient,
+                        );
                       },
                     ),
 
                     SizedBox(height: context.h(28)),
 
                     // Name
-                    AppTextField(
+                    CustomAppTextField(
                       controller: _nameController,
                       hintText: t.name,
                       validator: (value) =>
@@ -103,7 +107,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     SizedBox(height: context.h(16)),
 
                     // Email
-                    AppTextField(
+                    CustomAppTextField(
                       controller: _emailController,
                       hintText: t.email,
                       type: AppTextFieldType.email,
@@ -116,7 +120,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     SizedBox(height: context.h(16)),
 
                     // Password
-                    AppTextField(
+                    CustomAppTextField(
                       controller: _passwordController,
                       hintText: t.password,
                       type: AppTextFieldType.password,

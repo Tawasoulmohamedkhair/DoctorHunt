@@ -87,7 +87,7 @@
   "findDoctor": "اعثر على طبيبك",
   "search": "بحث",
   "liveDoctor": "أطباء مباشرون",
-  "popularDoctor": "الأطباء الأكثر شعبية",
+  "popularDoctor": "الطبيب الأكثر طلبًا",
   "seeAll": "عرض الكل",
   "drFill": "د. Fillerup Grab",
   "medicineSpecialist": "اختصاصي طب",
@@ -154,9 +154,12 @@
   "body": "الجسم",
 
   "home": "الرئيسية",
-  "favorite": "المفضلة",
+
   "book": "الحجوزات",
   "chat": "المحادثة",
+  "myappointments": "مواعيدي",
+  "settings": "الإعدادات",
+  "favorites": "المفضلة",
 
   "selecttime": "اختر الوقت",
   "dentalclinic": "عيادة Upasana للأسنان، سولت ليك",
@@ -174,5 +177,24 @@
   "passwordUpperCase": "يجب أن تحتوي على حرف كبير",
   "passwordNumber": "يجب أن تحتوي على رقم",
   "passwordSpecialChar": "يجب أن تحتوي على رمز خاص",
-  "signUpSuccess": "تم إنشاء الحساب بنجاح"
+  "signUpSuccess": "تم إنشاء الحساب بنجاح",
+  "logout": "تسجيل الخروج",
+  "populardoctor": "الأطباء الأكثر طلبًا",
+  "tapphoto": "اضغط على الصورة لتغييرها",
+
+  "fullname": "الاسم الكامل",
+  "emailaddress": "عنوان البريد الإلكتروني",
+  "cliniclocation": " موقع العيادة",
+  "adminhintemail": "admin@doctorhunt.com",
+  "doctorhunthq": "عيادة DoctorHunt HQ",
+  "enterfullname": "أدخل الاسم الكامل",
+  "savechange": "حفظ التغييرات",
+  "administrator": " مسؤول",
+  "adminprofile": "ملف المسؤول",
+  "editsuperadmin": "تحرير تفاصيل وصلاحيات المسؤول الأعلى",
+  "changepassword": "تغيير كلمة المرور",
+  "updatecredentials": "تحديث بيانات الاعتماد الأمنية الرئيسية",
+  "appinfo": "معلومات التطبيق",
+  "buildversion": "إصدار البناء",
+  "version": "v1.0.0"
 }
