@@ -14,10 +14,16 @@ List<RouteBase> get $appRoutes => [
   $signUpRoute,
   $patientShellRoute,
   $detailsRoute,
+  $selectTimeRoute,
   $findDoctorsRoute,
   $popularRoute,
   $adminProfileRoute,
+  $createDoctorRoute,
+  $editDoctorRoute,
+  $adminDoctorDetailsRoute,
   $adminShellRoute,
+  $adminAppointmentDetailsRoute,
+  $adminDoctorScheduleRoute,
 ];
 
 RouteBase get $splashRoute => GoRouteData.$route(
@@ -314,22 +320,22 @@ mixin $DetailsRoute on GoRouteData {
   void replace(BuildContext context) => context.replace(location);
 }
 
-RouteBase get $findDoctorsRoute => GoRouteData.$route(
-  path: '/find-doctors',
+RouteBase get $selectTimeRoute => GoRouteData.$route(
+  path: '/select-time',
   hasOverriddenOnExit: false,
-  factory: $FindDoctorsRoute._fromState,
+  factory: $SelectTimeRoute._fromState,
 );
 
-mixin $FindDoctorsRoute on GoRouteData {
-  static FindDoctorsRoute _fromState(GoRouterState state) =>
-      FindDoctorsRoute(query: state.uri.queryParameters['query']);
+mixin $SelectTimeRoute on GoRouteData {
+  static SelectTimeRoute _fromState(GoRouterState state) =>
+      SelectTimeRoute(doctorId: state.uri.queryParameters['doctor-id']!);
 
-  FindDoctorsRoute get _self => this as FindDoctorsRoute;
+  SelectTimeRoute get _self => this as SelectTimeRoute;
 
   @override
   String get location => GoRouteData.$location(
-    '/find-doctors',
-    queryParams: {if (_self.query != null) 'query': _self.query},
+    '/select-time',
+    queryParams: {'doctor-id': _self.doctorId},
   );
 
   @override
@@ -344,6 +350,70 @@ mixin $FindDoctorsRoute on GoRouteData {
 
   @override
   void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $findDoctorsRoute => GoRouteData.$route(
+  path: '/find-doctors',
+  hasOverriddenOnExit: false,
+  factory: $FindDoctorsRoute._fromState,
+);
+
+mixin $FindDoctorsRoute on GoRouteData {
+  static FindDoctorsRoute _fromState(GoRouterState state) => FindDoctorsRoute(
+    query: state.uri.queryParameters['query'],
+    sortByRating:
+        _$convertMapValue(
+          'sort-by-rating',
+          state.uri.queryParameters,
+          _$boolConverter,
+        ) ??
+        false,
+  );
+
+  FindDoctorsRoute get _self => this as FindDoctorsRoute;
+
+  @override
+  String get location => GoRouteData.$location(
+    '/find-doctors',
+    queryParams: {
+      if (_self.query != null) 'query': _self.query,
+      if (_self.sortByRating != false)
+        'sort-by-rating': _self.sortByRating.toString(),
+    },
+  );
+
+  @override
+  void go(BuildContext context) => context.go(location);
+
+  @override
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  @override
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  @override
+  void replace(BuildContext context) => context.replace(location);
+}
+
+T? _$convertMapValue<T>(
+  String key,
+  Map<String, String> map,
+  T? Function(String) converter,
+) {
+  final value = map[key];
+  return value == null ? null : converter(value);
+}
+
+bool _$boolConverter(String value) {
+  switch (value) {
+    case 'true':
+      return true;
+    case 'false':
+      return false;
+    default:
+      throw UnsupportedError('Cannot convert "$value" into a bool.');
+  }
 }
 
 RouteBase get $popularRoute => GoRouteData.$route(
@@ -384,6 +454,95 @@ mixin $AdminProfileRoute on GoRouteData {
 
   @override
   String get location => GoRouteData.$location('/admin-profile');
+
+  @override
+  void go(BuildContext context) => context.go(location);
+
+  @override
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  @override
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  @override
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $createDoctorRoute => GoRouteData.$route(
+  path: '/admin/doctors/create',
+  hasOverriddenOnExit: false,
+  factory: $CreateDoctorRoute._fromState,
+);
+
+mixin $CreateDoctorRoute on GoRouteData {
+  static CreateDoctorRoute _fromState(GoRouterState state) =>
+      const CreateDoctorRoute();
+
+  @override
+  String get location => GoRouteData.$location('/admin/doctors/create');
+
+  @override
+  void go(BuildContext context) => context.go(location);
+
+  @override
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  @override
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  @override
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $editDoctorRoute => GoRouteData.$route(
+  path: '/admin/doctors/:doctorId/edit',
+  hasOverriddenOnExit: false,
+  factory: $EditDoctorRoute._fromState,
+);
+
+mixin $EditDoctorRoute on GoRouteData {
+  static EditDoctorRoute _fromState(GoRouterState state) =>
+      EditDoctorRoute(doctorId: state.pathParameters['doctorId']!);
+
+  EditDoctorRoute get _self => this as EditDoctorRoute;
+
+  @override
+  String get location => GoRouteData.$location(
+    '/admin/doctors/${Uri.encodeComponent(_self.doctorId)}/edit',
+  );
+
+  @override
+  void go(BuildContext context) => context.go(location);
+
+  @override
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  @override
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  @override
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $adminDoctorDetailsRoute => GoRouteData.$route(
+  path: '/admin/doctors/:doctorId',
+  hasOverriddenOnExit: false,
+  factory: $AdminDoctorDetailsRoute._fromState,
+);
+
+mixin $AdminDoctorDetailsRoute on GoRouteData {
+  static AdminDoctorDetailsRoute _fromState(GoRouterState state) =>
+      AdminDoctorDetailsRoute(doctorId: state.pathParameters['doctorId']!);
+
+  AdminDoctorDetailsRoute get _self => this as AdminDoctorDetailsRoute;
+
+  @override
+  String get location => GoRouteData.$location(
+    '/admin/doctors/${Uri.encodeComponent(_self.doctorId)}',
+  );
 
   @override
   void go(BuildContext context) => context.go(location);
@@ -473,6 +632,71 @@ mixin $AdminSettingsRoute on GoRouteData {
 
   @override
   String get location => GoRouteData.$location('/admin/settings');
+
+  @override
+  void go(BuildContext context) => context.go(location);
+
+  @override
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  @override
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  @override
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $adminAppointmentDetailsRoute => GoRouteData.$route(
+  path: '/admin/appointments/:appointmentId',
+  hasOverriddenOnExit: false,
+  factory: $AdminAppointmentDetailsRoute._fromState,
+);
+
+mixin $AdminAppointmentDetailsRoute on GoRouteData {
+  static AdminAppointmentDetailsRoute _fromState(GoRouterState state) =>
+      AdminAppointmentDetailsRoute(
+        appointmentId: state.pathParameters['appointmentId']!,
+      );
+
+  AdminAppointmentDetailsRoute get _self =>
+      this as AdminAppointmentDetailsRoute;
+
+  @override
+  String get location => GoRouteData.$location(
+    '/admin/appointments/${Uri.encodeComponent(_self.appointmentId)}',
+  );
+
+  @override
+  void go(BuildContext context) => context.go(location);
+
+  @override
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  @override
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  @override
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $adminDoctorScheduleRoute => GoRouteData.$route(
+  path: '/admin/doctors/:doctorId/schedule',
+  hasOverriddenOnExit: false,
+  factory: $AdminDoctorScheduleRoute._fromState,
+);
+
+mixin $AdminDoctorScheduleRoute on GoRouteData {
+  static AdminDoctorScheduleRoute _fromState(GoRouterState state) =>
+      AdminDoctorScheduleRoute(doctorId: state.pathParameters['doctorId']!);
+
+  AdminDoctorScheduleRoute get _self => this as AdminDoctorScheduleRoute;
+
+  @override
+  String get location => GoRouteData.$location(
+    '/admin/doctors/${Uri.encodeComponent(_self.doctorId)}/schedule',
+  );
 
   @override
   void go(BuildContext context) => context.go(location);

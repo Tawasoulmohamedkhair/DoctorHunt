@@ -6,7 +6,7 @@ abstract final class AppColors {
   static const Color primaryLight = Color(0xFF07D9AD);
   static const Color primaryDark = Color(0xFF006C49);
 
-  // Text#D5E6E14D
+  // Text
   static const Color textMain = Color(0xFF222222);
   static const Color textSecondary = Color(0xFF333333);
   static const Color textSub = Color(0xFF677294);
@@ -32,10 +32,27 @@ abstract final class AppColors {
   static const Color redaura = Color(0xFFFF484C);
   static const Color pink = Color(0xffFFDAD6);
   static const Color grey = Color(0xff777EA5);
-  static const Color lightgray = Color(0xffFAFAFA);
+  static const Color lightgrey = Color(0xffE8F0E8);
+  static const Color rockblue = Color(0xff94A3B8);
   static const Color darkgray = Color(0xffC4C4C4);
   static const Color borderunselected = Color(0xffE6ECEA);
   static const Color lightGreys = Color(0xffE8F0E8);
+  static const Color success = Color(0xFF10C98B);
+  static const Color successDark = Color(0xFF078B5A);
+  static const Color successGreen = Color(0xFF219653);
+  static const Color textDeep = Color(0xFF161D19);
+  static const Color textMuted = Color(0xFF52625E);
+  static const Color surfaceMint = Color(0xFFE8F8F3);
+  static const Color surfaceGreen = Color(0xFFF3FBF4);
+  static const Color surfaceGreenAlt = Color(0xFFE5EEE8);
+  static const Color surfaceSlate = Color(0xFFF1F5F9);
+  static const Color surfaceRed = Color(0xFFFFEEEE);
+  static const Color borderMuted = Color(0x66BBCABF);
+  static const Color dangerSurface = Color(0x4CFFDAD6);
+  static const Color shadow = Color(0x0C000000);
+  static const Color slate = Color(0xFF1E293B);
+  static const Color slateBlue = Color(0xFF94A3B8);
+  static const Color dangerMuted = Color(0xFFD9534F);
   static const drawerTop = Color(0xFF6F7FA1);
   static const drawerBottom = Color(0xFF536184);
   static const drawerGradient = LinearGradient(

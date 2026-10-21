@@ -8,11 +8,13 @@ class CustomElevatedButton extends StatelessWidget {
   const CustomElevatedButton({
     super.key,
     required this.onPressed,
-    this.icon,
     required this.label,
+    this.icon,
     this.height,
     this.width,
     this.backgroundcolor = AppColors.primary,
+    this.disabledBackgroundColor,
+    this.expand = false,
   });
 
   final void Function()? onPressed;
@@ -21,13 +23,14 @@ class CustomElevatedButton extends StatelessWidget {
   final double? height;
   final double? width;
   final Color backgroundcolor;
+  final Color? disabledBackgroundColor;
+  final bool expand;
 
   @override
   Widget build(BuildContext context) {
     final buttonStyle = ElevatedButton.styleFrom(
-      // backgroundColor: AppColors.primary,
       backgroundColor: backgroundcolor,
-      disabledBackgroundColor: AppColors.primary,
+      disabledBackgroundColor: disabledBackgroundColor ?? AppColors.primary,
       foregroundColor: AppColors.white,
       disabledForegroundColor: AppColors.white,
       shape: RoundedRectangleBorder(
@@ -37,9 +40,12 @@ class CustomElevatedButton extends StatelessWidget {
       padding: EdgeInsets.zero,
     );
 
-    final calculatedWidth = width != null ? context.w(width!) : context.w(295);
     final maxAllowedWidth = context.safeWidth;
-    final finalWidth = math.min(calculatedWidth, maxAllowedWidth);
+    final calculatedWidth = width != null ? context.w(width!) : context.w(295);
+
+    final finalWidth = expand
+        ? maxAllowedWidth
+        : math.min(calculatedWidth, maxAllowedWidth);
 
     return SizedBox(
       width: finalWidth,
