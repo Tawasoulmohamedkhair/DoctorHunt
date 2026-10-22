@@ -9,10 +9,15 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class AuthRepository {
   final SupabaseClient _supabase;
   final AvatarStorageService _avatarStorageService;
+  final String? _googleWebClientId;
 
-  AuthRepository(this._supabase, [AvatarStorageService? avatarStorageService])
-    : _avatarStorageService =
-          avatarStorageService ?? AvatarStorageService(_supabase);
+  AuthRepository(
+    this._supabase, [
+    AvatarStorageService? avatarStorageService,
+    String? googleWebClientId,
+  ]) : _avatarStorageService =
+           avatarStorageService ?? AvatarStorageService(_supabase),
+       _googleWebClientId = googleWebClientId;
 
   bool get hasCurrentUser => _supabase.auth.currentUser != null;
   String? get currentUserId => _supabase.auth.currentUser?.id;
@@ -47,8 +52,8 @@ class AuthRepository {
   // ---------------- GOOGLE ----------------
   Future<AuthResponse> signInWithGoogle() async {
     final googleSignIn = GoogleSignIn.instance;
-    final webClientId = dotenv.env['GOOGLE_WEB_CLIENT_ID'];
-
+    final webClientId =
+        _googleWebClientId ?? dotenv.env['GOOGLE_WEB_CLIENT_ID'];
     if (webClientId == null || webClientId.isEmpty) {
       throw AuthException('GOOGLE_WEB_CLIENT_ID is not configured.');
     }

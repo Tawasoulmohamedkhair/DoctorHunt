@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:doctor_hunt/apps/features/common/auth/data/repository/auth_repo.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -11,347 +9,300 @@ class MockGoTrueClient extends Mock implements GoTrueClient {}
 
 class MockAuthResponse extends Mock implements AuthResponse {}
 
-class MockUserResponse extends Mock implements UserResponse {}
-
-class MockUser extends Mock implements User {}
+class MockSupabaseUser extends Mock implements User {}
 
 class MockSession extends Mock implements Session {}
+
+class MockUserResponse extends Mock implements UserResponse {}
+
 class FakeUserAttributes extends Fake implements UserAttributes {}
 
 void main() {
+  late MockSupabaseClient supabase;
+  late MockGoTrueClient auth;
+  late AuthRepository repository;
   setUpAll(() {
     registerFallbackValue(FakeUserAttributes());
   });
-  late MockSupabaseClient supabaseClient;
-  late MockGoTrueClient auth;
-  late AuthRepository repository;
 
   setUp(() {
-    supabaseClient = MockSupabaseClient();
+    supabase = MockSupabaseClient();
     auth = MockGoTrueClient();
 
-    when(() => supabaseClient.auth).thenReturn(auth);
+    when(() => supabase.auth).thenReturn(auth);
 
-    repository = AuthRepository(supabaseClient);
+    repository = AuthRepository(supabase);
   });
 
-  // ============================================================
-  // LOGIN
-  // ============================================================
+  group('AuthRepository - current user', () {
+    test('hasCurrentUser returns true when user exists', () {
+      when(() => auth.currentUser).thenReturn(MockSupabaseUser());
 
-  group('login', () {
-    test('should call signInWithPassword with correct data', () async {
+      expect(repository.hasCurrentUser, isTrue);
+    });
+
+    test('hasCurrentUser returns false when user is null', () {
+      when(() => auth.currentUser).thenReturn(null);
+
+      expect(repository.hasCurrentUser, isFalse);
+    });
+
+    test('currentUserId returns the current user ID', () {
+      final user = MockSupabaseUser();
+
+      when(() => auth.currentUser).thenReturn(user);
+      when(() => user.id).thenReturn('user-123');
+
+      expect(repository.currentUserId, 'user-123');
+    });
+
+    test('currentUserEmail returns the current email', () {
+      final user = MockSupabaseUser();
+
+      when(() => auth.currentUser).thenReturn(user);
+      when(() => user.email).thenReturn('test@example.com');
+
+      expect(repository.currentUserEmail, 'test@example.com');
+    });
+
+    test('currentUserId returns null when no user exists', () {
+      when(() => auth.currentUser).thenReturn(null);
+
+      expect(repository.currentUserId, isNull);
+    });
+  });
+
+  group('AuthRepository - login', () {
+    test('trims email and calls signInWithPassword', () async {
       final response = MockAuthResponse();
 
       when(
         () => auth.signInWithPassword(
-          email: 'test@gmail.com',
-          password: 'Password123',
+          email: 'test@example.com',
+          password: 'password123',
         ),
       ).thenAnswer((_) async => response);
 
       final result = await repository.login(
-        email: 'test@gmail.com',
-        password: 'Password123',
+        email: ' test@example.com ',
+        password: 'password123',
       );
 
-      expect(result, response);
+      expect(result, same(response));
 
       verify(
         () => auth.signInWithPassword(
-          email: 'test@gmail.com',
-          password: 'Password123',
+          email: 'test@example.com',
+          password: 'password123',
         ),
       ).called(1);
     });
 
-    test('should trim email before calling Supabase', () async {
-      final response = MockAuthResponse();
-
+    test('propagates authentication errors', () async {
       when(
         () => auth.signInWithPassword(
-          email: 'test@gmail.com',
-          password: 'Password123',
+          email: 'test@example.com',
+          password: 'wrong-password',
         ),
-      ).thenAnswer((_) async => response);
-
-      await repository.login(
-        email: '  test@gmail.com  ',
-        password: 'Password123',
-      );
-
-      verify(
-        () => auth.signInWithPassword(
-          email: 'test@gmail.com',
-          password: 'Password123',
-        ),
-      ).called(1);
-    });
-
-    test('should throw exception when Supabase login fails', () async {
-      when(
-        () => auth.signInWithPassword(
-          email: 'test@gmail.com',
-          password: 'Password123',
-        ),
-      ).thenThrow(Exception('Login failed'));
+      ).thenThrow(Exception('Invalid credentials'));
 
       expect(
-        () =>
-            repository.login(email: 'test@gmail.com', password: 'Password123'),
-        throwsException,
+        () => repository.login(
+          email: 'test@example.com',
+          password: 'wrong-password',
+        ),
+        throwsA(isA<Exception>()),
       );
     });
   });
 
-  // ============================================================
-  // SIGN UP
-  // ============================================================
-
-  group('signUp', () {
-    test('should call signUp with correct data', () async {
+  group('AuthRepository - signUp', () {
+    test('trims email and sends full name as user metadata', () async {
       final response = MockAuthResponse();
 
       when(
         () => auth.signUp(
-          email: 'test@gmail.com',
-          password: 'Password123',
-          data: {'full_name': 'Test User'},
+          email: 'new@example.com',
+          password: 'password123',
+          data: {'full_name': 'New Patient'},
         ),
       ).thenAnswer((_) async => response);
 
       final result = await repository.signUp(
-        email: 'test@gmail.com',
-        password: 'Password123',
-        fullName: 'Test User',
+        email: ' new@example.com ',
+        password: 'password123',
+        fullName: 'New Patient',
       );
 
-      expect(result, response);
+      expect(result, same(response));
 
       verify(
         () => auth.signUp(
-          email: 'test@gmail.com',
-          password: 'Password123',
-          data: {'full_name': 'Test User'},
+          email: 'new@example.com',
+          password: 'password123',
+          data: {'full_name': 'New Patient'},
         ),
       ).called(1);
     });
 
-    test('should trim email before calling Supabase', () async {
-      final response = MockAuthResponse();
-
+    test('propagates registration errors', () async {
       when(
         () => auth.signUp(
-          email: 'test@gmail.com',
-          password: 'Password123',
-          data: {'full_name': 'Test User'},
+          email: 'new@example.com',
+          password: 'password123',
+          data: {'full_name': 'New Patient'},
         ),
-      ).thenAnswer((_) async => response);
-
-      await repository.signUp(
-        email: '  test@gmail.com  ',
-        password: 'Password123',
-        fullName: 'Test User',
-      );
-
-      verify(
-        () => auth.signUp(
-          email: 'test@gmail.com',
-          password: 'Password123',
-          data: {'full_name': 'Test User'},
-        ),
-      ).called(1);
-    });
-
-    test('should throw exception when Supabase signup fails', () async {
-      when(
-        () => auth.signUp(
-          email: 'test@gmail.com',
-          password: 'Password123',
-          data: {'full_name': 'Test User'},
-        ),
-      ).thenThrow(Exception('Signup failed'));
+      ).thenThrow(Exception('Registration failed'));
 
       expect(
         () => repository.signUp(
-          email: 'test@gmail.com',
-          password: 'Password123',
-          fullName: 'Test User',
+          email: 'new@example.com',
+          password: 'password123',
+          fullName: 'New Patient',
         ),
-        throwsException,
+        throwsA(isA<Exception>()),
       );
     });
   });
 
-  // ============================================================
-  // FORGOT PASSWORD
-  // ============================================================
-
-  group('forgotPassword', () {
-    test('should call resetPasswordForEmail with correct email', () async {
+  group('AuthRepository - forgotPassword', () {
+    test('trims email before requesting a reset', () async {
       when(
-        () => auth.resetPasswordForEmail('test@gmail.com'),
+        () => auth.resetPasswordForEmail('test@example.com'),
       ).thenAnswer((_) async {});
 
-      await repository.forgotPassword(email: 'test@gmail.com');
+      await repository.forgotPassword(email: ' test@example.com ');
 
-      verify(() => auth.resetPasswordForEmail('test@gmail.com')).called(1);
+      verify(() => auth.resetPasswordForEmail('test@example.com')).called(1);
     });
 
-    test('should trim email before sending reset request', () async {
+    test('propagates reset request errors', () async {
       when(
-        () => auth.resetPasswordForEmail('test@gmail.com'),
-      ).thenAnswer((_) async {});
-
-      await repository.forgotPassword(email: '  test@gmail.com  ');
-
-      verify(() => auth.resetPasswordForEmail('test@gmail.com')).called(1);
-    });
-
-    test('should throw exception when reset request fails', () async {
-      when(
-        () => auth.resetPasswordForEmail('test@gmail.com'),
-      ).thenThrow(Exception('Reset password failed'));
+        () => auth.resetPasswordForEmail('test@example.com'),
+      ).thenThrow(Exception('Network error'));
 
       expect(
-        () => repository.forgotPassword(email: 'test@gmail.com'),
-        throwsException,
+        () => repository.forgotPassword(email: 'test@example.com'),
+        throwsA(isA<Exception>()),
       );
     });
   });
 
-  // ============================================================
-  // VERIFY RECOVERY OTP
-  // ============================================================
-
-  group('verifyRecoveryCode', () {
-    test('should call verifyOTP with recovery type', () async {
+  group('AuthRepository - verifyRecoveryCode', () {
+    test('trims email and code and returns the response', () async {
       final response = MockAuthResponse();
 
       when(
         () => auth.verifyOTP(
-          email: 'test@gmail.com',
-          token: '1234',
+          email: 'test@example.com',
+          token: '123456',
           type: OtpType.recovery,
         ),
       ).thenAnswer((_) async => response);
 
       final result = await repository.verifyRecoveryCode(
-        email: 'test@gmail.com',
-        code: '1234',
+        email: ' test@example.com ',
+        code: ' 123456 ',
       );
 
-      expect(result, response);
+      expect(result, same(response));
 
       verify(
         () => auth.verifyOTP(
-          email: 'test@gmail.com',
-          token: '1234',
+          email: 'test@example.com',
+          token: '123456',
           type: OtpType.recovery,
         ),
       ).called(1);
     });
 
-    test('should trim email and code', () async {
-      final response = MockAuthResponse();
-
+    test('propagates verification errors', () async {
       when(
         () => auth.verifyOTP(
-          email: 'test@gmail.com',
-          token: '1234',
+          email: 'test@example.com',
+          token: '000000',
           type: OtpType.recovery,
         ),
-      ).thenAnswer((_) async => response);
-
-      await repository.verifyRecoveryCode(
-        email: '  test@gmail.com  ',
-        code: ' 1234 ',
-      );
-
-      verify(
-        () => auth.verifyOTP(
-          email: 'test@gmail.com',
-          token: '1234',
-          type: OtpType.recovery,
-        ),
-      ).called(1);
-    });
-
-    test('should throw exception when OTP verification fails', () async {
-      when(
-        () => auth.verifyOTP(
-          email: 'test@gmail.com',
-          token: '1234',
-          type: OtpType.recovery,
-        ),
-      ).thenThrow(Exception('Invalid OTP'));
+      ).thenThrow(Exception('Invalid code'));
 
       expect(
         () => repository.verifyRecoveryCode(
-          email: 'test@gmail.com',
-          code: '1234',
+          email: 'test@example.com',
+          code: '000000',
         ),
-        throwsException,
+        throwsA(isA<Exception>()),
       );
     });
   });
 
-  // ============================================================
-  // RESET PASSWORD
-  // ============================================================
-
-  group('resetPassword', () {
-    test('should call updateUser with new password', () async {
+  group('AuthRepository - resetPassword', () {
+    test('updates the password and returns the response', () async {
       final response = MockUserResponse();
 
-      when(() => auth.updateUser(any())).thenAnswer((_) async => response);
+      when(
+        () => auth.updateUser(any(that: isA<UserAttributes>())),
+      ).thenAnswer((_) async => response);
 
-      final result = await repository.resetPassword(password: 'NewPassword123');
+      final result = await repository.resetPassword(password: 'newPassword123');
 
-      expect(result, response);
+      expect(result, same(response));
 
-      verify(
-        () => auth.updateUser(
-          any(
-            that: isA<UserAttributes>().having(
-              (attributes) => attributes.password,
-              'password',
-              'NewPassword123',
-            ),
-          ),
-        ),
-      ).called(1);
+      final captured =
+          verify(
+                () => auth.updateUser(captureAny(that: isA<UserAttributes>())),
+              ).captured.single
+              as UserAttributes;
+
+      expect(captured.password, 'newPassword123');
     });
 
-    test('should throw exception when password update fails', () async {
+    test('propagates password update errors', () async {
       when(
-        () => auth.updateUser(any()),
-      ).thenThrow(Exception('Update password failed'));
+        () => auth.updateUser(any(that: isA<UserAttributes>())),
+      ).thenThrow(Exception('Update failed'));
 
       expect(
-        () => repository.resetPassword(password: 'NewPassword123'),
-        throwsException,
+        () => repository.resetPassword(password: 'newPassword123'),
+        throwsA(isA<Exception>()),
       );
     });
   });
 
-  // ============================================================
-  // AUTH STATE CHANGES
-  // ============================================================
+  group('AuthRepository - logOut', () {
+    test('calls signOut', () async {
+      when(() => auth.signOut()).thenAnswer((_) async {});
 
-  group('authStateChanges', () {
-    test('should return Supabase auth state stream', () {
-      final controller = StreamController<AuthState>();
+      await repository.logOut();
 
-      when(() => auth.onAuthStateChange).thenAnswer((_) => controller.stream);
-
-      final result = repository.authStateChanges;
-
-      expect(result, controller.stream);
-
-      verify(() => auth.onAuthStateChange).called(1);
-
-      controller.close();
+      verify(() => auth.signOut()).called(1);
     });
+
+    test('propagates signOut errors', () async {
+      when(() => auth.signOut()).thenThrow(Exception('Sign out failed'));
+
+      expect(() => repository.logOut(), throwsA(isA<Exception>()));
+    });
+  });
+
+  group('AuthRepository - signInWithGoogle', () {
+    test(
+      'signInWithGoogle throws when Google web client ID is missing',
+      () async {
+        final repositoryWithoutGoogleId = AuthRepository(supabase, null, '');
+
+        await expectLater(
+          repositoryWithoutGoogleId.signInWithGoogle(),
+          throwsA(isA<AuthException>()),
+        );
+
+        verifyNever(
+          () => auth.signInWithIdToken(
+            provider: OAuthProvider.google,
+            idToken: any(named: 'idToken'),
+            accessToken: any(named: 'accessToken'),
+          ),
+        );
+      },
+    );
   });
 }

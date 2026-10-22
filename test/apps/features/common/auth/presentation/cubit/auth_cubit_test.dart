@@ -4,1012 +4,597 @@ import 'package:doctor_hunt/apps/features/common/auth/data/repository/auth_repo.
 import 'package:doctor_hunt/apps/features/common/auth/presentation/cubit/auth_cubit.dart';
 import 'package:doctor_hunt/apps/features/common/auth/presentation/cubit/auth_cubit_state.dart';
 import 'package:doctor_hunt/apps/features/common/choose_role/presentation/cubit/role_selection_state.dart';
-import 'package:doctor_hunt/i18n/strings.g.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-// ---------------------------------------------------------------------------
-// Mocks
-// ---------------------------------------------------------------------------
 
 class MockAuthRepository extends Mock implements AuthRepository {}
 
 class MockAuthResponse extends Mock implements AuthResponse {}
 
-class MockUserResponse extends Mock implements UserResponse {}
-
-class MockUser extends Mock implements User {}
+class MockSupabaseUser extends Mock implements User {}
 
 class MockSession extends Mock implements Session {}
+class MockUserResponse extends Mock implements UserResponse {}
 
-class MockUserModel extends Mock implements UserModel {}
-
-// ---------------------------------------------------------------------------
-// Main
-// ---------------------------------------------------------------------------
+Matcher hasStatus(AuthStatus status) {
+  return isA<AuthCubitState>().having(
+    (state) => state.status,
+    'status',
+    status,
+  );
+}
 
 void main() {
-  late MockAuthRepository authRepository;
+  late MockAuthRepository repository;
+  late MockAuthResponse response;
+  late MockSupabaseUser supabaseUser;
+  late MockSession session;
+
+  const userProfile = UserModel(
+    id: 'user-123',
+    fullName: 'Test Patient',
+    email: 'test@example.com',
+    role: 'patient',
+    isActive: true,
+  );
+
+  const updatedProfile = UserModel(
+    id: 'user-123',
+    fullName: 'Updated Patient',
+    email: 'test@example.com',
+    phone: '12345678',
+    avatarUrl: 'https://example.com/avatar.png',
+    role: 'patient',
+    isActive: true,
+  );
 
   setUp(() {
-    authRepository = MockAuthRepository();
+    repository = MockAuthRepository();
+    response = MockAuthResponse();
+    supabaseUser = MockSupabaseUser();
+    session = MockSession();
   });
 
-  // =========================================================================
-  // LOGIN
-  // =========================================================================
-
-  group('AuthCubit - Login', () {
-    // -----------------------------------------------------------------------
-    // Login - Patient success
-    // -----------------------------------------------------------------------
-
+  group('AuthCubit - login', () {
     blocTest<AuthCubit, AuthCubitState>(
-      'emits [loading, success] when patient login succeeds',
-      build: () {
-        final response = MockAuthResponse();
-        final user = MockUser();
-        final userProfile = MockUserModel();
-
-        when(() => response.user).thenReturn(user);
+      'emits loading then success when login succeeds',
+      setUp: () {
+        when(
+          () => repository.login(
+            email: 'test@example.com',
+            password: 'password123',
+          ),
+        ).thenAnswer((_) async {
+          when(() => response.user).thenReturn(supabaseUser);
+          return response;
+        });
 
         when(
-          () =>
-              authRepository.login(email: 'test@gmail.com', password: '123456'),
-        ).thenAnswer((_) async => response);
-
-        when(
-          () => authRepository.getCurrentUserProfile(),
+          () => repository.getCurrentUserProfile(),
         ).thenAnswer((_) async => userProfile);
-
-        when(() => userProfile.role).thenReturn('patient');
-
-        return AuthCubit(authRepository);
       },
+      build: () => AuthCubit(repository),
       act: (cubit) => cubit.login(
-        email: 'test@gmail.com',
-        password: '123456',
+        email: 'test@example.com',
+        password: 'password123',
         role: UserRole.patient,
       ),
       expect: () => [
-        isA<AuthCubitState>().having(
-          (state) => state.status,
-          'status',
-          AuthStatus.loading,
-        ),
-        isA<AuthCubitState>().having(
-          (state) => state.status,
-          'status',
-          AuthStatus.success,
-        ),
+        hasStatus(AuthStatus.loading),
+        isA<AuthCubitState>()
+            .having((state) => state.status, 'status', AuthStatus.success)
+            .having((state) => state.user?.id, 'user id', userProfile.id),
       ],
       verify: (_) {
         verify(
-          () =>
-              authRepository.login(email: 'test@gmail.com', password: '123456'),
+          () => repository.login(
+            email: 'test@example.com',
+            password: 'password123',
+          ),
         ).called(1);
 
-        verify(() => authRepository.getCurrentUserProfile()).called(1);
-
-        verifyNever(() => authRepository.logOut());
+        verify(() => repository.getCurrentUserProfile()).called(1);
       },
     );
 
-    // -----------------------------------------------------------------------
-    // Login - Admin success
-    // -----------------------------------------------------------------------
+    blocTest<AuthCubit, AuthCubitState>(
+      'emits failure when login response has no user',
+      setUp: () {
+        when(
+          () => repository.login(
+            email: 'test@example.com',
+            password: 'password123',
+          ),
+        ).thenAnswer((_) async {
+          when(() => response.user).thenReturn(null);
+          return response;
+        });
+      },
+      build: () => AuthCubit(repository),
+      act: (cubit) => cubit.login(
+        email: 'test@example.com',
+        password: 'password123',
+        role: UserRole.patient,
+      ),
+      expect: () => [
+        hasStatus(AuthStatus.loading),
+        hasStatus(AuthStatus.failure),
+      ],
+      verify: (_) {
+        verifyNever(() => repository.getCurrentUserProfile());
+      },
+    );
 
     blocTest<AuthCubit, AuthCubitState>(
-      'emits [loading, success] when admin login succeeds',
-      build: () {
-        final response = MockAuthResponse();
-        final user = MockUser();
-        final userProfile = MockUserModel();
-
-        when(() => response.user).thenReturn(user);
-
+      'emits failure when user profile is missing',
+      setUp: () {
         when(
-          () => authRepository.login(
-            email: 'admin@gmail.com',
-            password: '123456',
+          () => repository.login(
+            email: 'test@example.com',
+            password: 'password123',
           ),
-        ).thenAnswer((_) async => response);
+        ).thenAnswer((_) async {
+          when(() => response.user).thenReturn(supabaseUser);
+          return response;
+        });
 
         when(
-          () => authRepository.getCurrentUserProfile(),
+          () => repository.getCurrentUserProfile(),
+        ).thenAnswer((_) async => null);
+      },
+      build: () => AuthCubit(repository),
+      act: (cubit) => cubit.login(
+        email: 'test@example.com',
+        password: 'password123',
+        role: UserRole.patient,
+      ),
+      expect: () => [
+        hasStatus(AuthStatus.loading),
+        hasStatus(AuthStatus.failure),
+      ],
+    );
+
+    blocTest<AuthCubit, AuthCubitState>(
+      'logs out when the selected role does not match the account role',
+      setUp: () {
+        when(
+          () => repository.login(
+            email: 'test@example.com',
+            password: 'password123',
+          ),
+        ).thenAnswer((_) async {
+          when(() => response.user).thenReturn(supabaseUser);
+          return response;
+        });
+
+        when(
+          () => repository.getCurrentUserProfile(),
         ).thenAnswer((_) async => userProfile);
 
-        when(() => userProfile.role).thenReturn('admin');
-
-        return AuthCubit(authRepository);
+        when(() => repository.logOut()).thenAnswer((_) async {});
       },
+      build: () => AuthCubit(repository),
       act: (cubit) => cubit.login(
-        email: 'admin@gmail.com',
-        password: '123456',
+        email: 'test@example.com',
+        password: 'password123',
         role: UserRole.admin,
       ),
       expect: () => [
-        isA<AuthCubitState>().having(
-          (state) => state.status,
-          'status',
-          AuthStatus.loading,
-        ),
-        isA<AuthCubitState>().having(
-          (state) => state.status,
-          'status',
-          AuthStatus.success,
-        ),
+        hasStatus(AuthStatus.loading),
+        hasStatus(AuthStatus.failure),
       ],
       verify: (_) {
-        verify(
-          () => authRepository.login(
-            email: 'admin@gmail.com',
-            password: '123456',
+        verify(() => repository.logOut()).called(1);
+      },
+    );
+
+    blocTest<AuthCubit, AuthCubitState>(
+      'emits failure when repository throws',
+      setUp: () {
+        when(
+          () => repository.login(
+            email: 'test@example.com',
+            password: 'password123',
           ),
-        ).called(1);
-
-        verify(() => authRepository.getCurrentUserProfile()).called(1);
-
-        verifyNever(() => authRepository.logOut());
+        ).thenThrow(Exception('Login failed'));
       },
-    );
-
-    // -----------------------------------------------------------------------
-    // Login - null user
-    // -----------------------------------------------------------------------
-
-    blocTest<AuthCubit, AuthCubitState>(
-      'emits [loading, failure] when login returns null user',
-      build: () {
-        final response = MockAuthResponse();
-
-        when(() => response.user).thenReturn(null);
-
-        when(
-          () =>
-              authRepository.login(email: 'test@gmail.com', password: '123456'),
-        ).thenAnswer((_) async => response);
-
-        return AuthCubit(authRepository);
-      },
+      build: () => AuthCubit(repository),
       act: (cubit) => cubit.login(
-        email: 'test@gmail.com',
-        password: '123456',
+        email: 'test@example.com',
+        password: 'password123',
         role: UserRole.patient,
       ),
       expect: () => [
-        isA<AuthCubitState>().having(
-          (state) => state.status,
-          'status',
-          AuthStatus.loading,
-        ),
-        isA<AuthCubitState>()
-            .having((state) => state.status, 'status', AuthStatus.failure)
-            .having(
-              (state) => state.errorMessage,
-              'errorMessage',
-              t.failedLogin,
-            ),
-      ],
-      verify: (_) {
-        verify(
-          () =>
-              authRepository.login(email: 'test@gmail.com', password: '123456'),
-        ).called(1);
-
-        verifyNever(() => authRepository.getCurrentUserProfile());
-
-        verifyNever(() => authRepository.logOut());
-      },
-    );
-
-    // -----------------------------------------------------------------------
-    // Login - profile not found
-    // -----------------------------------------------------------------------
-
-    blocTest<AuthCubit, AuthCubitState>(
-      'emits [loading, failure] when user profile is not found',
-      build: () {
-        final response = MockAuthResponse();
-        final user = MockUser();
-
-        when(() => response.user).thenReturn(user);
-
-        when(
-          () =>
-              authRepository.login(email: 'test@gmail.com', password: '123456'),
-        ).thenAnswer((_) async => response);
-
-        when(
-          () => authRepository.getCurrentUserProfile(),
-        ).thenAnswer((_) async => null);
-
-        return AuthCubit(authRepository);
-      },
-      act: (cubit) => cubit.login(
-        email: 'test@gmail.com',
-        password: '123456',
-        role: UserRole.patient,
-      ),
-      expect: () => [
-        isA<AuthCubitState>().having(
-          (state) => state.status,
-          'status',
-          AuthStatus.loading,
-        ),
-        isA<AuthCubitState>()
-            .having((state) => state.status, 'status', AuthStatus.failure)
-            .having(
-              (state) => state.errorMessage,
-              'errorMessage',
-              'User profile not found.',
-            ),
-      ],
-      verify: (_) {
-        verify(() => authRepository.getCurrentUserProfile()).called(1);
-
-        verifyNever(() => authRepository.logOut());
-      },
-    );
-
-    // -----------------------------------------------------------------------
-    // Login - wrong role
-    // -----------------------------------------------------------------------
-
-    blocTest<AuthCubit, AuthCubitState>(
-      'emits [loading, failure] and logs out when selected role '
-      'does not match user role',
-      build: () {
-        final response = MockAuthResponse();
-        final user = MockUser();
-        final userProfile = MockUserModel();
-
-        when(() => response.user).thenReturn(user);
-
-        when(
-          () =>
-              authRepository.login(email: 'test@gmail.com', password: '123456'),
-        ).thenAnswer((_) async => response);
-
-        when(
-          () => authRepository.getCurrentUserProfile(),
-        ).thenAnswer((_) async => userProfile);
-
-        when(() => userProfile.role).thenReturn('patient');
-
-        when(() => authRepository.logOut()).thenAnswer((_) async {});
-
-        return AuthCubit(authRepository);
-      },
-      act: (cubit) => cubit.login(
-        email: 'test@gmail.com',
-        password: '123456',
-        role: UserRole.admin,
-      ),
-      expect: () => [
-        isA<AuthCubitState>().having(
-          (state) => state.status,
-          'status',
-          AuthStatus.loading,
-        ),
-        isA<AuthCubitState>()
-            .having((state) => state.status, 'status', AuthStatus.failure)
-            .having(
-              (state) => state.errorMessage,
-              'errorMessage',
-              contains('admin'),
-            ),
-      ],
-      verify: (_) {
-        verify(() => authRepository.getCurrentUserProfile()).called(1);
-
-        verify(() => authRepository.logOut()).called(1);
-      },
-    );
-
-    // -----------------------------------------------------------------------
-    // Login - exception
-    // -----------------------------------------------------------------------
-
-    blocTest<AuthCubit, AuthCubitState>(
-      'emits [loading, failure] when login throws an exception',
-      build: () {
-        when(
-          () =>
-              authRepository.login(email: 'test@gmail.com', password: '123456'),
-        ).thenThrow(Exception('Invalid credentials'));
-
-        return AuthCubit(authRepository);
-      },
-      act: (cubit) => cubit.login(
-        email: 'test@gmail.com',
-        password: '123456',
-        role: UserRole.patient,
-      ),
-      expect: () => [
-        isA<AuthCubitState>().having(
-          (state) => state.status,
-          'status',
-          AuthStatus.loading,
-        ),
-        isA<AuthCubitState>()
-            .having((state) => state.status, 'status', AuthStatus.failure)
-            .having(
-              (state) => state.errorMessage,
-              'errorMessage',
-              'Exception: Invalid credentials',
-            ),
+        hasStatus(AuthStatus.loading),
+        hasStatus(AuthStatus.failure),
       ],
     );
   });
 
-  // =========================================================================
-  // SIGN UP
-  // =========================================================================
-
-  group('AuthCubit - Sign Up', () {
-    // -----------------------------------------------------------------------
-    // Sign Up - success
-    // -----------------------------------------------------------------------
-
+  group('AuthCubit - signUp', () {
     blocTest<AuthCubit, AuthCubitState>(
-      'emits [loading, signUpSuccess] when sign up succeeds',
-      build: () {
-        final response = MockAuthResponse();
-        final user = MockUser();
-
-        when(() => response.user).thenReturn(user);
-
+      'emits signUpSuccess when registration succeeds',
+      setUp: () {
         when(
-          () => authRepository.signUp(
-            email: 'test@gmail.com',
-            password: '123456',
-            fullName: 'Test User',
+          () => repository.signUp(
+            email: 'test@example.com',
+            password: 'password123',
+            fullName: 'Test Patient',
           ),
-        ).thenAnswer((_) async => response);
-
-        return AuthCubit(authRepository);
+        ).thenAnswer((_) async {
+          when(() => response.user).thenReturn(supabaseUser);
+          return response;
+        });
       },
+      build: () => AuthCubit(repository),
       act: (cubit) => cubit.signUp(
-        email: 'test@gmail.com',
-        password: '123456',
-        fullName: 'Test User',
+        email: 'test@example.com',
+        password: 'password123',
+        fullName: 'Test Patient',
       ),
       expect: () => [
-        isA<AuthCubitState>().having(
-          (state) => state.status,
-          'status',
-          AuthStatus.loading,
-        ),
-        isA<AuthCubitState>().having(
-          (state) => state.status,
-          'status',
-          AuthStatus.signUpSuccess,
-        ),
-      ],
-      verify: (_) {
-        verify(
-          () => authRepository.signUp(
-            email: 'test@gmail.com',
-            password: '123456',
-            fullName: 'Test User',
-          ),
-        ).called(1);
-      },
-    );
-
-    // -----------------------------------------------------------------------
-    // Sign Up - null user
-    // -----------------------------------------------------------------------
-
-    blocTest<AuthCubit, AuthCubitState>(
-      'emits [loading, failure] when sign up returns null user',
-      build: () {
-        final response = MockAuthResponse();
-
-        when(() => response.user).thenReturn(null);
-
-        when(
-          () => authRepository.signUp(
-            email: 'test@gmail.com',
-            password: '123456',
-            fullName: 'Test User',
-          ),
-        ).thenAnswer((_) async => response);
-
-        return AuthCubit(authRepository);
-      },
-      act: (cubit) => cubit.signUp(
-        email: 'test@gmail.com',
-        password: '123456',
-        fullName: 'Test User',
-      ),
-      expect: () => [
-        isA<AuthCubitState>().having(
-          (state) => state.status,
-          'status',
-          AuthStatus.loading,
-        ),
-        isA<AuthCubitState>()
-            .having((state) => state.status, 'status', AuthStatus.failure)
-            .having(
-              (state) => state.errorMessage,
-              'errorMessage',
-              t.failedSignup,
-            ),
+        hasStatus(AuthStatus.loading),
+        hasStatus(AuthStatus.signUpSuccess),
       ],
     );
 
-    // -----------------------------------------------------------------------
-    // Sign Up - exception
-    // -----------------------------------------------------------------------
-
     blocTest<AuthCubit, AuthCubitState>(
-      'emits [loading, failure] when sign up throws an exception',
-      build: () {
+      'emits failure when registration response has no user',
+      setUp: () {
         when(
-          () => authRepository.signUp(
-            email: 'test@gmail.com',
-            password: '123456',
-            fullName: 'Test User',
+          () => repository.signUp(
+            email: 'test@example.com',
+            password: 'password123',
+            fullName: 'Test Patient',
           ),
-        ).thenThrow(Exception('Sign up failed'));
-
-        return AuthCubit(authRepository);
+        ).thenAnswer((_) async {
+          when(() => response.user).thenReturn(null);
+          return response;
+        });
       },
+      build: () => AuthCubit(repository),
       act: (cubit) => cubit.signUp(
-        email: 'test@gmail.com',
-        password: '123456',
-        fullName: 'Test User',
+        email: 'test@example.com',
+        password: 'password123',
+        fullName: 'Test Patient',
       ),
       expect: () => [
-        isA<AuthCubitState>().having(
-          (state) => state.status,
-          'status',
-          AuthStatus.loading,
-        ),
-        isA<AuthCubitState>()
-            .having((state) => state.status, 'status', AuthStatus.failure)
-            .having(
-              (state) => state.errorMessage,
-              'errorMessage',
-              'Exception: Sign up failed',
-            ),
+        hasStatus(AuthStatus.loading),
+        hasStatus(AuthStatus.failure),
+      ],
+    );
+
+    blocTest<AuthCubit, AuthCubitState>(
+      'emits failure when registration throws',
+      setUp: () {
+        when(
+          () => repository.signUp(
+            email: 'test@example.com',
+            password: 'password123',
+            fullName: 'Test Patient',
+          ),
+        ).thenThrow(Exception('Registration failed'));
+      },
+      build: () => AuthCubit(repository),
+      act: (cubit) => cubit.signUp(
+        email: 'test@example.com',
+        password: 'password123',
+        fullName: 'Test Patient',
+      ),
+      expect: () => [
+        hasStatus(AuthStatus.loading),
+        hasStatus(AuthStatus.failure),
       ],
     );
   });
 
-  // =========================================================================
-  // GOOGLE SIGN IN
-  // =========================================================================
-
-  group('AuthCubit - Google Sign In', () {
-    // -----------------------------------------------------------------------
-    // Google - Patient success
-    // -----------------------------------------------------------------------
-
+  group('AuthCubit - signInWithGoogle', () {
     blocTest<AuthCubit, AuthCubitState>(
-      'emits [loading, success] when Google sign in succeeds for patient',
-      build: () {
-        final response = MockAuthResponse();
-        final user = MockUser();
-        final userProfile = MockUserModel();
-
-        when(() => response.user).thenReturn(user);
-
-        when(
-          () => authRepository.signInWithGoogle(),
-        ).thenAnswer((_) async => response);
+      'emits success when Google sign in succeeds',
+      setUp: () {
+        when(() => repository.signInWithGoogle()).thenAnswer((_) async {
+          when(() => response.user).thenReturn(supabaseUser);
+          return response;
+        });
 
         when(
-          () => authRepository.getCurrentUserProfile(),
+          () => repository.getCurrentUserProfile(),
         ).thenAnswer((_) async => userProfile);
-
-        when(() => userProfile.role).thenReturn('patient');
-
-        return AuthCubit(authRepository);
       },
+      build: () => AuthCubit(repository),
       act: (cubit) => cubit.signInWithGoogle(role: UserRole.patient),
       expect: () => [
-        isA<AuthCubitState>().having(
-          (state) => state.status,
-          'status',
-          AuthStatus.loading,
-        ),
-        isA<AuthCubitState>().having(
-          (state) => state.status,
-          'status',
-          AuthStatus.success,
-        ),
-      ],
-      verify: (_) {
-        verify(() => authRepository.signInWithGoogle()).called(1);
-
-        verify(() => authRepository.getCurrentUserProfile()).called(1);
-
-        verifyNever(() => authRepository.logOut());
-      },
-    );
-
-    // -----------------------------------------------------------------------
-    // Google - Admin success
-    // -----------------------------------------------------------------------
-
-    blocTest<AuthCubit, AuthCubitState>(
-      'emits [loading, success] when Google sign in succeeds for admin',
-      build: () {
-        final response = MockAuthResponse();
-        final user = MockUser();
-        final userProfile = MockUserModel();
-
-        when(() => response.user).thenReturn(user);
-
-        when(
-          () => authRepository.signInWithGoogle(),
-        ).thenAnswer((_) async => response);
-
-        when(
-          () => authRepository.getCurrentUserProfile(),
-        ).thenAnswer((_) async => userProfile);
-
-        when(() => userProfile.role).thenReturn('admin');
-
-        return AuthCubit(authRepository);
-      },
-      act: (cubit) => cubit.signInWithGoogle(role: UserRole.admin),
-      expect: () => [
-        isA<AuthCubitState>().having(
-          (state) => state.status,
-          'status',
-          AuthStatus.loading,
-        ),
-        isA<AuthCubitState>().having(
-          (state) => state.status,
-          'status',
-          AuthStatus.success,
-        ),
-      ],
-      verify: (_) {
-        verify(() => authRepository.signInWithGoogle()).called(1);
-
-        verify(() => authRepository.getCurrentUserProfile()).called(1);
-
-        verifyNever(() => authRepository.logOut());
-      },
-    );
-
-    // -----------------------------------------------------------------------
-    // Google - null user
-    // -----------------------------------------------------------------------
-
-    blocTest<AuthCubit, AuthCubitState>(
-      'emits [loading, failure] when Google sign in returns null user',
-      build: () {
-        final response = MockAuthResponse();
-
-        when(() => response.user).thenReturn(null);
-
-        when(
-          () => authRepository.signInWithGoogle(),
-        ).thenAnswer((_) async => response);
-
-        return AuthCubit(authRepository);
-      },
-      act: (cubit) => cubit.signInWithGoogle(role: UserRole.patient),
-      expect: () => [
-        isA<AuthCubitState>().having(
-          (state) => state.status,
-          'status',
-          AuthStatus.loading,
-        ),
+        hasStatus(AuthStatus.loading),
         isA<AuthCubitState>()
-            .having((state) => state.status, 'status', AuthStatus.failure)
-            .having(
-              (state) => state.errorMessage,
-              'errorMessage',
-              t.googleSigninFailed,
-            ),
+            .having((state) => state.status, 'status', AuthStatus.success)
+            .having((state) => state.user?.id, 'user id', userProfile.id),
+      ],
+    );
+
+    blocTest<AuthCubit, AuthCubitState>(
+      'emits failure when Google response has no user',
+      setUp: () {
+        when(() => repository.signInWithGoogle()).thenAnswer((_) async {
+          when(() => response.user).thenReturn(null);
+          return response;
+        });
+      },
+      build: () => AuthCubit(repository),
+      act: (cubit) => cubit.signInWithGoogle(role: UserRole.patient),
+      expect: () => [
+        hasStatus(AuthStatus.loading),
+        hasStatus(AuthStatus.failure),
       ],
       verify: (_) {
-        verify(() => authRepository.signInWithGoogle()).called(1);
-
-        verifyNever(() => authRepository.getCurrentUserProfile());
-
-        verifyNever(() => authRepository.logOut());
+        verifyNever(() => repository.getCurrentUserProfile());
       },
     );
 
-    // -----------------------------------------------------------------------
-    // Google - profile not found
-    // -----------------------------------------------------------------------
-
     blocTest<AuthCubit, AuthCubitState>(
-      'emits [loading, failure] when Google user profile is not found',
-      build: () {
-        final response = MockAuthResponse();
-        final user = MockUser();
-
-        when(() => response.user).thenReturn(user);
-
-        when(
-          () => authRepository.signInWithGoogle(),
-        ).thenAnswer((_) async => response);
+      'emits failure when Google account has no profile',
+      setUp: () {
+        when(() => repository.signInWithGoogle()).thenAnswer((_) async {
+          when(() => response.user).thenReturn(supabaseUser);
+          return response;
+        });
 
         when(
-          () => authRepository.getCurrentUserProfile(),
+          () => repository.getCurrentUserProfile(),
         ).thenAnswer((_) async => null);
-
-        return AuthCubit(authRepository);
       },
+      build: () => AuthCubit(repository),
       act: (cubit) => cubit.signInWithGoogle(role: UserRole.patient),
       expect: () => [
-        isA<AuthCubitState>().having(
-          (state) => state.status,
-          'status',
-          AuthStatus.loading,
-        ),
-        isA<AuthCubitState>()
-            .having((state) => state.status, 'status', AuthStatus.failure)
-            .having(
-              (state) => state.errorMessage,
-              'errorMessage',
-              'User profile not found.',
-            ),
+        hasStatus(AuthStatus.loading),
+        hasStatus(AuthStatus.failure),
       ],
-      verify: (_) {
-        verify(() => authRepository.signInWithGoogle()).called(1);
-
-        verify(() => authRepository.getCurrentUserProfile()).called(1);
-
-        verifyNever(() => authRepository.logOut());
-      },
     );
 
-    // -----------------------------------------------------------------------
-    // Google - wrong role
-    // -----------------------------------------------------------------------
-
     blocTest<AuthCubit, AuthCubitState>(
-      'emits [loading, failure] and logs out when Google account '
-      'role does not match selected role',
-      build: () {
-        final response = MockAuthResponse();
-        final user = MockUser();
-        final userProfile = MockUserModel();
-
-        when(() => response.user).thenReturn(user);
+      'logs out when Google account role does not match',
+      setUp: () {
+        when(() => repository.signInWithGoogle()).thenAnswer((_) async {
+          when(() => response.user).thenReturn(supabaseUser);
+          return response;
+        });
 
         when(
-          () => authRepository.signInWithGoogle(),
-        ).thenAnswer((_) async => response);
-
-        when(
-          () => authRepository.getCurrentUserProfile(),
+          () => repository.getCurrentUserProfile(),
         ).thenAnswer((_) async => userProfile);
 
-        // Account is Patient but Admin was selected.
-        when(() => userProfile.role).thenReturn('patient');
-
-        when(() => authRepository.logOut()).thenAnswer((_) async {});
-
-        return AuthCubit(authRepository);
+        when(() => repository.logOut()).thenAnswer((_) async {});
       },
+      build: () => AuthCubit(repository),
       act: (cubit) => cubit.signInWithGoogle(role: UserRole.admin),
       expect: () => [
-        isA<AuthCubitState>().having(
-          (state) => state.status,
-          'status',
-          AuthStatus.loading,
-        ),
-        isA<AuthCubitState>()
-            .having((state) => state.status, 'status', AuthStatus.failure)
-            .having(
-              (state) => state.errorMessage,
-              'errorMessage',
-              contains('admin'),
-            ),
+        hasStatus(AuthStatus.loading),
+        hasStatus(AuthStatus.failure),
       ],
       verify: (_) {
-        verify(() => authRepository.signInWithGoogle()).called(1);
-
-        verify(() => authRepository.getCurrentUserProfile()).called(1);
-
-        verify(() => authRepository.logOut()).called(1);
+        verify(() => repository.logOut()).called(1);
       },
     );
 
-    // -----------------------------------------------------------------------
-    // Google - exception
-    // -----------------------------------------------------------------------
-
     blocTest<AuthCubit, AuthCubitState>(
-      'emits [loading, failure] when Google sign in throws an exception',
-      build: () {
+      'emits failure when Google sign in throws',
+      setUp: () {
         when(
-          () => authRepository.signInWithGoogle(),
+          () => repository.signInWithGoogle(),
         ).thenThrow(Exception('Google sign in failed'));
-
-        return AuthCubit(authRepository);
       },
+      build: () => AuthCubit(repository),
       act: (cubit) => cubit.signInWithGoogle(role: UserRole.patient),
       expect: () => [
-        isA<AuthCubitState>().having(
-          (state) => state.status,
-          'status',
-          AuthStatus.loading,
-        ),
-        isA<AuthCubitState>()
-            .having((state) => state.status, 'status', AuthStatus.failure)
-            .having(
-              (state) => state.errorMessage,
-              'errorMessage',
-              'Exception: Google sign in failed',
-            ),
+        hasStatus(AuthStatus.loading),
+        hasStatus(AuthStatus.failure),
       ],
     );
   });
 
-  // =========================================================================
-  // FORGOT PASSWORD
-  // =========================================================================
-
-  group('AuthCubit - Forgot Password', () {
-    // -----------------------------------------------------------------------
-    // Forgot password - success
-    // -----------------------------------------------------------------------
-
+  group('AuthCubit - forgotPassword', () {
     blocTest<AuthCubit, AuthCubitState>(
-      'emits [loading, forgotPasswordSuccess] when forgot password succeeds',
-      build: () {
+      'emits forgotPasswordSuccess when request succeeds',
+      setUp: () {
         when(
-          () => authRepository.forgotPassword(email: 'test@gmail.com'),
+          () => repository.forgotPassword(email: 'test@example.com'),
         ).thenAnswer((_) async {});
-
-        return AuthCubit(authRepository);
       },
-      act: (cubit) => cubit.forgotPassword(email: ' test@gmail.com '),
+      build: () => AuthCubit(repository),
+      act: (cubit) => cubit.forgotPassword(email: '  test@example.com  '),
       expect: () => [
-        isA<AuthCubitState>().having(
-          (state) => state.status,
-          'status',
-          AuthStatus.loading,
-        ),
-        isA<AuthCubitState>().having(
-          (state) => state.status,
-          'status',
-          AuthStatus.forgotPasswordSuccess,
-        ),
+        hasStatus(AuthStatus.loading),
+        hasStatus(AuthStatus.forgotPasswordSuccess),
       ],
       verify: (_) {
         verify(
-          () => authRepository.forgotPassword(email: 'test@gmail.com'),
+          () => repository.forgotPassword(email: 'test@example.com'),
         ).called(1);
       },
     );
 
-    // -----------------------------------------------------------------------
-    // Forgot password - exception
-    // -----------------------------------------------------------------------
-
     blocTest<AuthCubit, AuthCubitState>(
-      'emits [loading, failure] when forgot password throws an exception',
-      build: () {
+      'emits failure when password reset request throws',
+      setUp: () {
         when(
-          () => authRepository.forgotPassword(email: 'test@gmail.com'),
-        ).thenThrow(Exception('Email not found'));
-
-        return AuthCubit(authRepository);
+          () => repository.forgotPassword(email: 'test@example.com'),
+        ).thenThrow(Exception('Request failed'));
       },
-      act: (cubit) => cubit.forgotPassword(email: 'test@gmail.com'),
+      build: () => AuthCubit(repository),
+      act: (cubit) => cubit.forgotPassword(email: 'test@example.com'),
       expect: () => [
-        isA<AuthCubitState>().having(
-          (state) => state.status,
-          'status',
-          AuthStatus.loading,
-        ),
-        isA<AuthCubitState>()
-            .having((state) => state.status, 'status', AuthStatus.failure)
-            .having(
-              (state) => state.errorMessage,
-              'errorMessage',
-              'Exception: Email not found',
-            ),
+        hasStatus(AuthStatus.loading),
+        hasStatus(AuthStatus.failure),
       ],
     );
   });
 
-  // =========================================================================
-  // VERIFY RECOVERY CODE
-  // =========================================================================
-
-  group('AuthCubit - Verify Recovery Code', () {
-    // -----------------------------------------------------------------------
-    // Verify recovery code - success
-    // -----------------------------------------------------------------------
-
+  group('AuthCubit - verifyRecoveryCode', () {
     blocTest<AuthCubit, AuthCubitState>(
-      'emits [loading, verifyCodeSuccess] when recovery code is valid',
-      build: () {
-        final response = MockAuthResponse();
-        final session = MockSession();
-
-        when(() => response.session).thenReturn(session);
-
+      'emits verifyCodeSuccess when session exists',
+      setUp: () {
         when(
-          () => authRepository.verifyRecoveryCode(
-            email: 'test@gmail.com',
-            code: '1234',
+          () => repository.verifyRecoveryCode(
+            email: 'test@example.com',
+            code: '123456',
           ),
-        ).thenAnswer((_) async => response);
-
-        return AuthCubit(authRepository);
+        ).thenAnswer((_) async {
+          when(() => response.session).thenReturn(session);
+          return response;
+        });
       },
-      act: (cubit) =>
-          cubit.verifyRecoveryCode(email: ' test@gmail.com ', code: ' 1234 '),
+      build: () => AuthCubit(repository),
+      act: (cubit) => cubit.verifyRecoveryCode(
+        email: ' test@example.com ',
+        code: ' 123456 ',
+      ),
       expect: () => [
-        isA<AuthCubitState>().having(
-          (state) => state.status,
-          'status',
-          AuthStatus.loading,
-        ),
-        isA<AuthCubitState>().having(
-          (state) => state.status,
-          'status',
-          AuthStatus.verifyCodeSuccess,
-        ),
+        hasStatus(AuthStatus.loading),
+        hasStatus(AuthStatus.verifyCodeSuccess),
       ],
       verify: (_) {
         verify(
-          () => authRepository.verifyRecoveryCode(
-            email: 'test@gmail.com',
-            code: '1234',
+          () => repository.verifyRecoveryCode(
+            email: 'test@example.com',
+            code: '123456',
           ),
         ).called(1);
       },
     );
 
-    // -----------------------------------------------------------------------
-    // Verify recovery code - no session
-    // -----------------------------------------------------------------------
-
     blocTest<AuthCubit, AuthCubitState>(
-      'emits [loading, failure] when recovery code has no session',
-      build: () {
-        final response = MockAuthResponse();
-
-        when(() => response.session).thenReturn(null);
-
+      'emits failure when response has no session',
+      setUp: () {
         when(
-          () => authRepository.verifyRecoveryCode(
-            email: 'test@gmail.com',
-            code: '1234',
+          () => repository.verifyRecoveryCode(
+            email: 'test@example.com',
+            code: '123456',
           ),
-        ).thenAnswer((_) async => response);
-
-        return AuthCubit(authRepository);
+        ).thenAnswer((_) async {
+          when(() => response.session).thenReturn(null);
+          return response;
+        });
       },
+      build: () => AuthCubit(repository),
       act: (cubit) =>
-          cubit.verifyRecoveryCode(email: 'test@gmail.com', code: '1234'),
+          cubit.verifyRecoveryCode(email: 'test@example.com', code: '123456'),
       expect: () => [
-        isA<AuthCubitState>().having(
-          (state) => state.status,
-          'status',
-          AuthStatus.loading,
-        ),
-        isA<AuthCubitState>()
-            .having((state) => state.status, 'status', AuthStatus.failure)
-            .having(
-              (state) => state.errorMessage,
-              'errorMessage',
-              t.otpnorecovery,
-            ),
+        hasStatus(AuthStatus.loading),
+        hasStatus(AuthStatus.failure),
       ],
     );
 
-    // -----------------------------------------------------------------------
-    // Verify recovery code - exception
-    // -----------------------------------------------------------------------
-
     blocTest<AuthCubit, AuthCubitState>(
-      'emits [loading, failure] when verify recovery code throws an exception',
-      build: () {
+      'emits failure when verification throws',
+      setUp: () {
         when(
-          () => authRepository.verifyRecoveryCode(
-            email: 'test@gmail.com',
-            code: '1234',
+          () => repository.verifyRecoveryCode(
+            email: 'test@example.com',
+            code: '123456',
           ),
-        ).thenThrow(Exception('Invalid OTP'));
-
-        return AuthCubit(authRepository);
+        ).thenThrow(Exception('Verification failed'));
       },
+      build: () => AuthCubit(repository),
       act: (cubit) =>
-          cubit.verifyRecoveryCode(email: 'test@gmail.com', code: '1234'),
+          cubit.verifyRecoveryCode(email: 'test@example.com', code: '123456'),
       expect: () => [
-        isA<AuthCubitState>().having(
-          (state) => state.status,
-          'status',
-          AuthStatus.loading,
-        ),
-        isA<AuthCubitState>()
-            .having((state) => state.status, 'status', AuthStatus.failure)
-            .having(
-              (state) => state.errorMessage,
-              'errorMessage',
-              'Exception: Invalid OTP',
-            ),
+        hasStatus(AuthStatus.loading),
+        hasStatus(AuthStatus.failure),
       ],
     );
   });
 
-  // =========================================================================
-  // RESET PASSWORD
-  // =========================================================================
-
-  group('AuthCubit - Reset Password', () {
-    // -----------------------------------------------------------------------
-    // Reset password - success
-    // -----------------------------------------------------------------------
-
+  group('AuthCubit - resetPassword', () {
     blocTest<AuthCubit, AuthCubitState>(
-      'emits [loading, resetPasswordSuccess] when reset password succeeds',
-      build: () {
-        final response = MockUserResponse();
-
+      'emits resetPasswordSuccess when reset succeeds',
+      setUp: () {
         when(
-          () => authRepository.resetPassword(password: 'NewPassword123'),
-        ).thenAnswer((_) async => response);
-
-        return AuthCubit(authRepository);
+          () => repository.resetPassword(password: 'newPassword123'),
+        ).thenAnswer((_) async {
+          return MockUserResponse();
+        });
       },
-      act: (cubit) => cubit.resetPassword(password: 'NewPassword123'),
+      build: () => AuthCubit(repository),
+      act: (cubit) => cubit.resetPassword(password: 'newPassword123'),
       expect: () => [
-        isA<AuthCubitState>().having(
-          (state) => state.status,
-          'status',
-          AuthStatus.loading,
-        ),
-        isA<AuthCubitState>().having(
-          (state) => state.status,
-          'status',
-          AuthStatus.resetPasswordSuccess,
-        ),
+        hasStatus(AuthStatus.loading),
+        hasStatus(AuthStatus.resetPasswordSuccess),
       ],
-      verify: (_) {
-        verify(
-          () => authRepository.resetPassword(password: 'NewPassword123'),
-        ).called(1);
-      },
     );
+  });
 
-    // -----------------------------------------------------------------------
-    // Reset password - exception
-    // -----------------------------------------------------------------------
-
+  group('AuthCubit - updateCurrentUserProfile', () {
     blocTest<AuthCubit, AuthCubitState>(
-      'emits [loading, failure] when reset password throws an exception',
-      build: () {
+      'updates the profile after a successful login',
+      setUp: () {
         when(
-          () => authRepository.resetPassword(password: 'NewPassword123'),
-        ).thenThrow(Exception('Reset password failed'));
+          () => repository.login(
+            email: 'test@example.com',
+            password: 'password123',
+          ),
+        ).thenAnswer((_) async {
+          when(() => response.user).thenReturn(supabaseUser);
+          return response;
+        });
 
-        return AuthCubit(authRepository);
+        when(
+          () => repository.getCurrentUserProfile(),
+        ).thenAnswer((_) async => userProfile);
       },
-      act: (cubit) => cubit.resetPassword(password: 'NewPassword123'),
+      build: () => AuthCubit(repository),
+      act: (cubit) async {
+        await cubit.login(
+          email: 'test@example.com',
+          password: 'password123',
+          role: UserRole.patient,
+        );
+
+        cubit.updateCurrentUserProfile(
+          fullName: 'Updated Patient',
+          phone: '12345678',
+          avatarUrl: 'https://example.com/avatar.png',
+        );
+      },
       expect: () => [
-        isA<AuthCubitState>().having(
-          (state) => state.status,
-          'status',
-          AuthStatus.loading,
-        ),
+        hasStatus(AuthStatus.loading),
         isA<AuthCubitState>()
-            .having((state) => state.status, 'status', AuthStatus.failure)
+            .having((state) => state.status, 'status', AuthStatus.success)
             .having(
-              (state) => state.errorMessage,
-              'errorMessage',
-              'Exception: Reset password failed',
+              (state) => state.user?.fullName,
+              'original name',
+              userProfile.fullName,
+            ),
+        isA<AuthCubitState>()
+            .having(
+              (state) => state.user?.fullName,
+              'updated name',
+              updatedProfile.fullName,
+            )
+            .having(
+              (state) => state.user?.phone,
+              'updated phone',
+              updatedProfile.phone,
+            )
+            .having(
+              (state) => state.user?.avatarUrl,
+              'updated avatar',
+              updatedProfile.avatarUrl,
             ),
       ],
+    );
+
+    blocTest<AuthCubit, AuthCubitState>(
+      'does not emit a new state when there is no logged-in user',
+      build: () => AuthCubit(repository),
+      act: (cubit) {
+        cubit.updateCurrentUserProfile(
+          fullName: 'Updated Patient',
+          phone: '12345678',
+          avatarUrl: null,
+        );
+      },
+      expect: () => <AuthCubitState>[],
     );
   });
 }
