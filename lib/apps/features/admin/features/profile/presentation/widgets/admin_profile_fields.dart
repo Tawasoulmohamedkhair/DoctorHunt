@@ -1,5 +1,5 @@
 import 'package:doctor_hunt/apps/core/extension/responsive_media_query.dart';
-import 'package:doctor_hunt/apps/core/widget/app_text_field.dart';
+import 'package:doctor_hunt/apps/core/widget/custom_app_text_field.dart';
 import 'package:flutter/material.dart';
 
 class AdminProfileFields extends StatelessWidget {

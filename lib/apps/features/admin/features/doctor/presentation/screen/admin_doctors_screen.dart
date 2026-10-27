@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:doctor_hunt/apps/core/di/injection.dart';
 import 'package:doctor_hunt/apps/core/extension/responsive_media_query.dart';
 import 'package:doctor_hunt/apps/core/themes/app_colors.dart';
-import 'package:doctor_hunt/apps/core/widget/app_text_field.dart';
+import 'package:doctor_hunt/apps/core/widget/custom_app_text_field.dart';
 import 'package:doctor_hunt/apps/core/widget/header_appbar.dart';
 import 'package:doctor_hunt/apps/features/admin/features/doctor/presentation/cubit/admindoctors_cubit.dart';
 import 'package:doctor_hunt/apps/features/admin/features/doctor/presentation/cubit/admindoctors_state.dart';

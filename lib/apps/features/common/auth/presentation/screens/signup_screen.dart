@@ -2,7 +2,7 @@ import 'package:doctor_hunt/apps/core/extension/responsive_media_query.dart';
 import 'package:doctor_hunt/apps/core/extension/validator_extension.dart';
 import 'package:doctor_hunt/apps/features/common/auth/presentation/cubit/auth_cubit.dart';
 import 'package:doctor_hunt/apps/features/common/auth/presentation/cubit/auth_cubit_state.dart';
-import 'package:doctor_hunt/apps/core/widget/app_text_field.dart';
+import 'package:doctor_hunt/apps/core/widget/custom_app_text_field.dart';
 import 'package:doctor_hunt/apps/features/common/auth/presentation/widgets/auth_background.dart';
 import 'package:doctor_hunt/apps/features/common/auth/presentation/widgets/auth_title_widget.dart';
 import 'package:doctor_hunt/apps/features/common/auth/presentation/widgets/language_switch_button.dart';

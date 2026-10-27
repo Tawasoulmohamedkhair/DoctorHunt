@@ -1,3 +1,4 @@
+
 import 'package:doctor_hunt/apps/core/widget/custom_elevated_button.dart';
 import 'package:doctor_hunt/apps/features/common/auth/presentation/cubit/auth_cubit.dart';
 import 'package:doctor_hunt/apps/features/common/auth/presentation/cubit/auth_cubit_state.dart';
@@ -10,7 +11,6 @@ import 'package:mocktail/mocktail.dart';
 
 import '../../../../../core/helpers/mocks.dart';
 
-
 void main() {
   late MockAuthCubit mockCubit;
 
@@ -21,7 +21,9 @@ void main() {
       () => mockCubit.state,
     ).thenReturn(const AuthCubitState(status: AuthStatus.initial));
 
-    when(() => mockCubit.stream).thenAnswer((_) => const Stream.empty());
+    when(
+      () => mockCubit.stream,
+    ).thenAnswer((_) => const Stream<AuthCubitState>.empty());
   });
 
   Widget buildSubject() {
@@ -35,9 +37,37 @@ void main() {
     );
   }
 
+  // Locate fields by their configured keyboard types, not their positions.
+  final nameField = find.byWidgetPredicate(
+    (widget) =>
+        widget is EditableText &&
+        widget.keyboardType == TextInputType.text,
+  );
+
+  final emailField = find.byWidgetPredicate(
+    (widget) =>
+        widget is EditableText &&
+        widget.keyboardType == TextInputType.emailAddress,
+  );
+
+  final passwordField = find.byWidgetPredicate(
+    (widget) =>
+        widget is EditableText &&
+        widget.keyboardType == TextInputType.visiblePassword,
+  );
+
+  Future<void> enterValidCredentials(WidgetTester tester) async {
+    expect(nameField, findsOneWidget);
+    expect(emailField, findsOneWidget);
+    expect(passwordField, findsOneWidget);
+
+    await tester.enterText(nameField, 'Ahmed Ali');
+    await tester.enterText(emailField, 'ahmed@test.com');
+    await tester.enterText(passwordField, 'Aa@12345');
+  }
+
   testWidgets('renders SignupScreen', (tester) async {
     await tester.pumpWidget(buildSubject());
-
     await tester.pumpAndSettle();
 
     expect(find.byType(SignupScreen), findsOneWidget);
@@ -53,98 +83,7 @@ void main() {
     ).thenAnswer((_) async {});
 
     await tester.pumpWidget(buildSubject());
-
     await tester.pumpAndSettle();
-
-    final signUpButton = find.byType(CustomElevatedButton);
-
-    expect(signUpButton, findsOneWidget);
-
-    await tester.tap(signUpButton);
-
-    await tester.pumpAndSettle();
-
-    verifyNever(
-      () => mockCubit.signUp(
-        fullName: any(named: 'fullName'),
-        email: any(named: 'email'),
-        password: any(named: 'password'),
-      ),
-    );
-  });
-
-  testWidgets('calls signUp when form is valid and privacy is accepted', (
-    tester,
-  ) async {
-    when(
-      () => mockCubit.signUp(
-        fullName: any(named: 'fullName'),
-        email: any(named: 'email'),
-        password: any(named: 'password'),
-      ),
-    ).thenAnswer((_) async {});
-
-    await tester.pumpWidget(buildSubject());
-
-    await tester.pumpAndSettle();
-
-    final fields = find.byType(TextFormField);
-
-    expect(fields, findsNWidgets(3));
-
-    await tester.enterText(fields.at(0), 'Ahmed Ali');
-
-    await tester.enterText(fields.at(1), 'ahmed@test.com');
-
-    await tester.enterText(fields.at(2), 'Aa@12345');
-
-    final checkbox = find.byType(Checkbox);
-
-    expect(checkbox, findsOneWidget);
-
-    await tester.tap(checkbox);
-
-    await tester.pump();
-
-    final signUpButton = find.byType(CustomElevatedButton);
-
-    expect(signUpButton, findsOneWidget);
-
-    await tester.tap(signUpButton);
-
-    await tester.pumpAndSettle();
-
-    verify(
-      () => mockCubit.signUp(
-        fullName: 'Ahmed Ali',
-        email: 'ahmed@test.com',
-        password: 'Aa@12345',
-      ),
-    ).called(1);
-  });
-  testWidgets('does not call signUp when privacy is not accepted', (
-    tester,
-  ) async {
-    when(
-      () => mockCubit.signUp(
-        fullName: any(named: 'fullName'),
-        email: any(named: 'email'),
-        password: any(named: 'password'),
-      ),
-    ).thenAnswer((_) async {});
-
-    await tester.pumpWidget(buildSubject());
-    await tester.pumpAndSettle();
-
-    final fields = find.byType(TextFormField);
-    expect(fields, findsNWidgets(3));
-
-    await tester.enterText(fields.at(0), 'Ahmed Ali');
-    await tester.enterText(fields.at(1), 'ahmed@test.com');
-    await tester.enterText(fields.at(2), 'Aa@12345');
-
-    // Privacy is NOT accepted.
-    // We intentionally do not tap the checkbox.
 
     final signUpButton = find.byType(CustomElevatedButton);
     expect(signUpButton, findsOneWidget);
@@ -160,9 +99,79 @@ void main() {
       ),
     );
   });
-  testWidgets( 'does not call signUp when email is invalid', (
-    tester,
-  ) async {
+
+  testWidgets(
+    'calls signUp when form is valid and privacy is accepted',
+    (tester) async {
+      when(
+        () => mockCubit.signUp(
+          fullName: any(named: 'fullName'),
+          email: any(named: 'email'),
+          password: any(named: 'password'),
+        ),
+      ).thenAnswer((_) async {});
+
+      await tester.pumpWidget(buildSubject());
+      await tester.pumpAndSettle();
+
+      await enterValidCredentials(tester);
+
+      final checkbox = find.byType(Checkbox);
+      expect(checkbox, findsOneWidget);
+
+      await tester.tap(checkbox);
+      await tester.pump();
+
+      final signUpButton = find.byType(CustomElevatedButton);
+      expect(signUpButton, findsOneWidget);
+
+      await tester.tap(signUpButton);
+      await tester.pumpAndSettle();
+
+      verify(
+        () => mockCubit.signUp(
+          fullName: 'Ahmed Ali',
+          email: 'ahmed@test.com',
+          password: 'Aa@12345',
+        ),
+      ).called(1);
+    },
+  );
+
+  testWidgets(
+    'does not call signUp when privacy is not accepted',
+    (tester) async {
+      when(
+        () => mockCubit.signUp(
+          fullName: any(named: 'fullName'),
+          email: any(named: 'email'),
+          password: any(named: 'password'),
+        ),
+      ).thenAnswer((_) async {});
+
+      await tester.pumpWidget(buildSubject());
+      await tester.pumpAndSettle();
+
+      await enterValidCredentials(tester);
+
+      // Privacy is intentionally not accepted.
+      final signUpButton = find.byType(CustomElevatedButton);
+      expect(signUpButton, findsOneWidget);
+
+      await tester.tap(signUpButton);
+      await tester.pumpAndSettle();
+
+      verifyNever(
+        () => mockCubit.signUp(
+          fullName: any(named: 'fullName'),
+          email: any(named: 'email'),
+          password: any(named: 'password'),
+        ),
+      );
+    },
+  );
+
+testWidgets('does not call signUp when email is invalid', (tester) async {
     when(
       () => mockCubit.signUp(
         fullName: any(named: 'fullName'),
@@ -172,27 +181,27 @@ void main() {
     ).thenAnswer((_) async {});
 
     await tester.pumpWidget(buildSubject());
-    await tester.pumpAndSettle();
+    await tester.pump();
 
-    final fields = find.byType(TextFormField);
-    expect(fields, findsNWidgets(3));
+    expect(nameField, findsOneWidget);
+    expect(emailField, findsOneWidget);
+    expect(passwordField, findsOneWidget);
 
-    await tester.enterText(fields.at(0), 'Ahmed Ali');
-    await tester.enterText(fields.at(1), 'ahmed@test');
-    await tester.enterText(fields.at(2), 'Aa@12345');
+    await tester.enterText(nameField, 'Ahmed Ali');
+    await tester.enterText(emailField, 'ahmed@test');
+    await tester.enterText(passwordField, 'Aa@12345');
+
     final checkbox = find.byType(Checkbox);
     expect(checkbox, findsOneWidget);
 
     await tester.tap(checkbox);
     await tester.pump();
 
-   
-
     final signUpButton = find.byType(CustomElevatedButton);
     expect(signUpButton, findsOneWidget);
 
     await tester.tap(signUpButton);
-    await tester.pumpAndSettle();
+    await tester.pump();
 
     verifyNever(
       () => mockCubit.signUp(

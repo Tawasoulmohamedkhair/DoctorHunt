@@ -3,11 +3,11 @@ import 'package:doctor_hunt/apps/features/common/auth/presentation/cubit/auth_cu
 import 'package:doctor_hunt/apps/features/common/auth/presentation/cubit/auth_cubit_state.dart';
 import 'package:doctor_hunt/apps/features/common/auth/presentation/screens/login_screen.dart';
 import 'package:doctor_hunt/apps/features/common/choose_role/presentation/cubit/role_selection_state.dart';
+import 'package:doctor_hunt/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:doctor_hunt/i18n/strings.g.dart';
 
 class MockAuthCubit extends MockCubit<AuthCubitState> implements AuthCubit {}
 
@@ -39,6 +39,19 @@ void main() {
       ),
     );
   }
+
+  // Find fields by their configured keyboard types instead of their positions.
+  final emailField = find.byWidgetPredicate(
+    (widget) =>
+        widget is EditableText &&
+        widget.keyboardType == TextInputType.emailAddress,
+  );
+
+  final passwordField = find.byWidgetPredicate(
+    (widget) =>
+        widget is EditableText &&
+        widget.keyboardType == TextInputType.visiblePassword,
+  );
 
   group('LoginScreen Widget Tests', () {
     testWidgets('renders login screen elements', (tester) async {
@@ -75,24 +88,25 @@ void main() {
     });
 
     testWidgets('calls login with entered credentials', (tester) async {
-       when(
+      when(
         () => authCubit.login(
           email: any(named: 'email'),
           password: any(named: 'password'),
           role: any(named: 'role'),
         ),
       ).thenAnswer((_) async {});
+
       await tester.pumpWidget(createWidgetUnderTest());
 
       final translations = Translations.of(
         tester.element(find.byType(LoginScreen)),
       );
 
-      final fields = find.byType(TextFormField);
-      expect(fields, findsAtLeastNWidgets(2));
+      expect(emailField, findsOneWidget);
+      expect(passwordField, findsOneWidget);
 
-      await tester.enterText(fields.at(0), 'test@example.com');
-      await tester.enterText(fields.at(1), 'password123');
+      await tester.enterText(emailField, 'test@example.com');
+      await tester.enterText(passwordField, 'password123');
 
       await tester.ensureVisible(find.text(translations.logIn));
       await tester.tap(find.text(translations.logIn));
@@ -107,16 +121,18 @@ void main() {
       ).called(1);
     });
 
-    testWidgets('disables login button and shows progress indicator '
-        'while loading', (tester) async {
-      when(
-        () => authCubit.state,
-      ).thenReturn(const AuthCubitState(status: AuthStatus.loading));
+    testWidgets(
+      'disables login button and shows progress indicator while loading',
+      (tester) async {
+        when(
+          () => authCubit.state,
+        ).thenReturn(const AuthCubitState(status: AuthStatus.loading));
 
-      await tester.pumpWidget(createWidgetUnderTest());
+        await tester.pumpWidget(createWidgetUnderTest());
 
-      expect(find.byType(CircularProgressIndicator), findsOneWidget);
-    });
+        expect(find.byType(CircularProgressIndicator), findsOneWidget);
+      },
+    );
 
     testWidgets('shows error message when login fails', (tester) async {
       const errorMessage = 'Unable to sign in';

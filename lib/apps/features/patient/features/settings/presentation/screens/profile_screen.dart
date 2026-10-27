@@ -6,7 +6,7 @@ import 'package:doctor_hunt/apps/core/extension/responsive_media_query.dart';
 import 'package:doctor_hunt/apps/features/common/auth/data/repository/auth_repo.dart';
 import 'package:doctor_hunt/apps/features/common/auth/presentation/cubit/auth_cubit.dart';
 import 'package:doctor_hunt/apps/core/widget/app_image.dart';
-import 'package:doctor_hunt/apps/core/widget/app_text_field.dart';
+import 'package:doctor_hunt/apps/core/widget/custom_app_text_field.dart';
 import 'package:doctor_hunt/apps/core/widget/custom_elevated_button.dart';
 import 'package:doctor_hunt/apps/core/widget/header_appbar.dart';
 import 'package:doctor_hunt/generated/assets.gen.dart';

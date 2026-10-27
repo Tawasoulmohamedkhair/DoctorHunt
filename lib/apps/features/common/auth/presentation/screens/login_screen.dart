@@ -2,7 +2,7 @@ import 'package:doctor_hunt/apps/core/extension/responsive_media_query.dart';
 import 'package:doctor_hunt/apps/core/extension/validator_extension.dart';
 import 'package:doctor_hunt/apps/features/common/auth/presentation/cubit/auth_cubit.dart';
 import 'package:doctor_hunt/apps/features/common/auth/presentation/cubit/auth_cubit_state.dart';
-import 'package:doctor_hunt/apps/core/widget/app_text_field.dart';
+import 'package:doctor_hunt/apps/core/widget/custom_app_text_field.dart';
 import 'package:doctor_hunt/apps/features/common/auth/presentation/widgets/auth_background.dart';
 import 'package:doctor_hunt/apps/features/common/auth/presentation/widgets/auth_bottom_sheet.dart';
 import 'package:doctor_hunt/apps/features/common/auth/presentation/widgets/auth_title_widget.dart';
@@ -184,6 +184,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       controller: _emailController,
                       hintText: t.email,
                       type: AppTextFieldType.email,
+                      key: const ValueKey('login_email_field'),
                       validator: (value) => value.validateEmail(
                         emptyMessage: t.enterEmail,
                         invalidMessage: t.enterValidEmail,
@@ -197,6 +198,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       controller: _passwordController,
                       hintText: t.password,
                       type: AppTextFieldType.password,
+                      key: const ValueKey('login_password_field'),
                       textAlign: Directionality.of(context) == TextDirection.rtl
                           ? TextAlign.right
                           : TextAlign.left,

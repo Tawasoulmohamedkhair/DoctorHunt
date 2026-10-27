@@ -12,6 +12,7 @@ enum AppTextFieldType {
   search,
   multiline,
 }
+
 class CustomAppTextField extends StatefulWidget {
   const CustomAppTextField({
     super.key,
@@ -29,6 +30,7 @@ class CustomAppTextField extends StatefulWidget {
     this.label,
     this.border,
     this.textAlign,
+    this.textFieldKey,
   });
 
   final String hintText;
@@ -45,6 +47,7 @@ class CustomAppTextField extends StatefulWidget {
   final Widget? label;
   final InputBorder? border;
   final TextAlign? textAlign;
+  final Key? textFieldKey;
 
   @override
   State<CustomAppTextField> createState() => _AppTextFieldState();
@@ -73,6 +76,8 @@ class _AppTextFieldState extends State<CustomAppTextField> {
     );
 
     return TextFormField(
+      key: widget.textFieldKey,
+
       controller: widget.controller,
       validator: widget.validator,
       readOnly: widget.readOnly,
@@ -82,7 +87,8 @@ class _AppTextFieldState extends State<CustomAppTextField> {
       obscureText: isPassword ? _obscurePassword : false,
       keyboardType: _getKeyboardType(),
       textDirection: isEmail ? TextDirection.ltr : Directionality.of(context),
-      textAlign: widget.textAlign ??
+      textAlign:
+          widget.textAlign ??
           (isEmail && isRtl
               ? TextAlign.right
               : isEmail
@@ -155,7 +161,8 @@ class _AppTextFieldState extends State<CustomAppTextField> {
       ),
     );
   }
-TextInputType _getKeyboardType() {
+
+  TextInputType _getKeyboardType() {
     switch (widget.type) {
       case AppTextFieldType.email:
         return TextInputType.emailAddress;
