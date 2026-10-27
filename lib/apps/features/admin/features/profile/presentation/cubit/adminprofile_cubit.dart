@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:doctor_hunt/apps/features/admin/core/repository/admin_repository.dart';
 import 'package:doctor_hunt/apps/features/admin/features/profile/presentation/cubit/adminprofile_state.dart';
 import 'package:doctor_hunt/i18n/strings.g.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AdminProfileCubit extends Cubit<AdminProfileState> {
@@ -33,11 +32,9 @@ class AdminProfileCubit extends Cubit<AdminProfileState> {
       emit(
         state.copyWith(status: AdminProfileStatus.success, profile: profile),
       );
-    } catch (e, stackTrace) {
+    } catch (e) {
       if (isClosed) return;
 
-      debugPrint('ADMIN PROFILE LOAD ERROR: $e');
-      debugPrint('STACK TRACE: $stackTrace');
 
       emit(
         state.copyWith(
@@ -90,9 +87,8 @@ class AdminProfileCubit extends Cubit<AdminProfileState> {
       if (isClosed) return;
 
       emit(state.copyWith(status: AdminProfileStatus.saved, profile: profile));
-    } catch (e, stackTrace) {
-      debugPrint('ADMIN PROFILE SAVE ERROR: $e');
-      debugPrint('STACK TRACE: $stackTrace');
+    } catch (e) {
+      
       if (isClosed) return;
 
       emit(

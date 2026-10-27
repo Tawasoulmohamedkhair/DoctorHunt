@@ -1,7 +1,6 @@
 import 'package:doctor_hunt/apps/core/models/doctor_model.dart';
 import 'package:doctor_hunt/apps/core/repository/doctor_repository.dart';
 import 'package:doctor_hunt/i18n/strings.g.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'doctordetails_state.dart';
@@ -33,9 +32,8 @@ class DoctorDetailsCubit extends Cubit<DoctorDetailsState> {
           reviews: reviews,
         ),
       );
-    } catch (e, stackTrace) {
-      debugPrint('Failed to load doctor details: $e');
-      debugPrintStack(stackTrace: stackTrace);
+    } catch (e) {
+      
       emit(DoctorDetailsError(t.unableToLoadDoctorDetails));
     }
   }

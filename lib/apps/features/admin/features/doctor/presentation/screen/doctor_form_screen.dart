@@ -4,6 +4,7 @@ import 'package:doctor_hunt/apps/core/extension/responsive_media_query.dart';
 import 'package:doctor_hunt/apps/core/helper/image_picker_helper.dart';
 import 'package:doctor_hunt/apps/core/widget/app_text_field.dart';
 import 'package:doctor_hunt/apps/core/widget/custom_elevated_button.dart';
+import 'package:doctor_hunt/apps/core/widget/custom_outlined_action_button.dart';
 import 'package:doctor_hunt/apps/core/widget/header_appbar.dart';
 import 'package:doctor_hunt/apps/features/admin/features/doctor/presentation/cubit/doctorform_cubit.dart';
 import 'package:doctor_hunt/apps/features/admin/features/doctor/presentation/cubit/doctorform_state.dart';
@@ -63,7 +64,6 @@ class _DoctorFormScreenState extends State<DoctorFormScreen> {
         extension: extension,
       );
     } catch (error) {
-      debugPrint('Pick image error: $error');
 
       if (mounted) {
         _showMessage(t.unableToSelectImage);
@@ -132,7 +132,7 @@ class _DoctorFormScreenState extends State<DoctorFormScreen> {
             return AlertDialog(
               title: Text(t.deleteDoctor),
               content: isDeleting
-                  ?  Column(
+                  ? Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         SizedBox(height: 12),
@@ -236,7 +236,10 @@ class _DoctorFormScreenState extends State<DoctorFormScreen> {
               return HeaderAppBar(
                 title: isEditMode ? t.editDoctor : t.createDoctor,
                 showAction: false,
-                titleStyle: context.semiBoldPx20.copyWith(fontSize: context.sp(20), color: AppColors.textDeep),
+                titleStyle: context.semiBoldPx20.copyWith(
+                  fontSize: context.sp(20),
+                  color: AppColors.textDeep,
+                ),
                 onBackPressed: () => Navigator.of(context).pop(),
               );
             },
@@ -274,6 +277,70 @@ class _DoctorFormScreenState extends State<DoctorFormScreen> {
           },
         ),
       ),
+    );
+  }
+
+  Widget _buildMedicalServices(
+    BuildContext context,
+    DoctorFormState state, {
+    required bool isBusy,
+  }) {
+    final cubit = context.read<DoctorFormCubit>();
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        DoctorFormFieldLabel(label: 'MEDICAL SERVICES'),
+        SizedBox(height: context.h(8)),
+        Container(
+          width: double.infinity,
+          padding: EdgeInsets.all(context.w(12)),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            border: Border.all(color: AppColors.borderMuted),
+            borderRadius: BorderRadius.circular(context.r(12)),
+          ),
+          child: state.isLoadingMedicalServices
+              ? const Center(
+                  child: Padding(
+                    padding: EdgeInsets.all(16),
+                    child: CircularProgressIndicator(color: AppColors.success),
+                  ),
+                )
+              : state.selectedSpecialtyId == null
+              ? const Text('Please select a specialty first.')
+              : state.medicalServices.isEmpty
+              ? const Text('No medical services available for this specialty.')
+              : Column(
+                  children: state.medicalServices.map((service) {
+                    final selected = state.selectedMedicalServiceIds.contains(
+                      service.id,
+                    );
+
+                    return Material(
+                      color: Colors.transparent,
+
+                      child: CheckboxListTile(
+                        value: selected,
+                        onChanged: isBusy
+                            ? null
+                            : (_) {
+                                cubit.toggleMedicalService(service.id);
+                              },
+                        title: Text(service.name),
+                        controlAffinity: ListTileControlAffinity.leading,
+                        contentPadding: EdgeInsets.zero,
+                        dense: true,
+                        activeColor: AppColors.success,
+                        tileColor: Colors.white,
+                        selectedTileColor: Colors.white,
+                        selected: false,
+                      ),
+                    );
+                  }).toList(),
+                ),
+        ),
+      ],
     );
   }
 
@@ -323,8 +390,12 @@ class _DoctorFormScreenState extends State<DoctorFormScreen> {
                 context.read<DoctorFormCubit>().selectSpecialty(value);
               },
             ),
+
+            SizedBox(height: context.h(20)),
+            _buildMedicalServices(context, state, isBusy: isBusy),
             SizedBox(height: context.h(20)),
             DoctorFormFieldLabel(label: t.consultationFee.toUpperCase()),
+
             SizedBox(height: context.h(8)),
             CustomAppTextField(
               controller: _feeController,
@@ -344,6 +415,7 @@ class _DoctorFormScreenState extends State<DoctorFormScreen> {
             ],
             SizedBox(height: context.h(32)),
             CustomElevatedButton(
+              width: double.infinity,
               label: Text(isEditMode ? t.savechange : t.createDoctor),
               onPressed: isBusy ? null : _saveDoctor,
             ),
@@ -352,31 +424,17 @@ class _DoctorFormScreenState extends State<DoctorFormScreen> {
               SizedBox(
                 width: double.infinity,
                 height: context.h(52),
-                child: OutlinedButton(
+                child: CustomOutlinedActionButton(
                   onPressed: isBusy ? null : _deleteDoctor,
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: AppColors.dangerMuted,
-                    side: const BorderSide(color: AppColors.dangerMuted),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(context.r(12)),
-                    ),
+                  text: t.deleteDoctor,
+                  icon: const Icon(
+                    Icons.delete_rounded,
+                    color: AppColors.dangerMuted,
                   ),
-                  child: isDeleting
-                      ? SizedBox(
-                          width: context.r(20),
-                          height: context.r(20),
-                          child: const CircularProgressIndicator(
-                            strokeWidth: 2,
-                            color: AppColors.dangerMuted,
-                          ),
-                        )
-                      : Text(
-                          t.deleteDoctor,
-                          style: context.semiBoldPx15.copyWith(fontSize: context.sp(15)),
-                        ),
                 ),
               ),
             ],
+
             SizedBox(height: context.h(12)),
           ],
         ),

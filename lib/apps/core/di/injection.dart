@@ -33,7 +33,7 @@ Future<void> setupDependencies() async {
   // Supabase
   getIt.registerLazySingleton<SupabaseClient>(() => Supabase.instance.client);
   getIt.registerLazySingleton<AvatarStorageService>(
-    () => AvatarStorageService(Supabase.instance.client),
+    () => AvatarStorageService(getIt<SupabaseClient>()),
   );
 
   // SharedPreferences
@@ -43,10 +43,8 @@ Future<void> setupDependencies() async {
 
   // Repositories
   getIt.registerLazySingleton<AuthRepository>(
-    () => AuthRepository(
-      getIt<SupabaseClient>(),
-      getIt<AvatarStorageService>(),
-    ),
+    () =>
+        AuthRepository(getIt<SupabaseClient>(), getIt<AvatarStorageService>()),
   );
   getIt.registerLazySingleton<AdminRepository>(
     () =>

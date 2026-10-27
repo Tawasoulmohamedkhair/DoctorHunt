@@ -83,7 +83,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       _phoneController.text = profile.phone ?? '';
       _avatarUrl = profile.avatarUrl;
     } catch (error) {
-      debugPrint('Load profile error: $error');
 
       if (mounted) {
         _showMessage(t.unableToLoadProfile);
@@ -111,7 +110,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
         _selectedImage = File(image.path);
       });
     } catch (error) {
-      debugPrint('Pick image error: $error');
 
       if (mounted) {
         _showMessage(t.unableToSelectImage);
@@ -159,11 +157,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
       );
 
       _showMessage(t.profileUpdatedSuccessfully);
-
-      // إرجاع نتيجة النجاح لتحديث الاسم والصورة في شاشة Settings.
+    
       Navigator.of(context).pop(true);
     } catch (error) {
-      debugPrint('Save profile error: $error');
 
       if (mounted) {
         _showMessage(

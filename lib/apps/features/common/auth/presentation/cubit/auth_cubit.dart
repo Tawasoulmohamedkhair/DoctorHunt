@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:flutter/foundation.dart';
 import 'package:doctor_hunt/apps/features/common/auth/data/models/user_model.dart';
 import 'package:doctor_hunt/apps/features/common/auth/data/repository/auth_repo.dart';
 import 'package:doctor_hunt/apps/features/common/choose_role/presentation/cubit/role_selection_state.dart';
@@ -89,9 +88,8 @@ class AuthCubit extends Cubit<AuthCubitState> {
       }
 
       emit(state.copyWith(status: AuthStatus.success, user: userProfile));
-    } catch (e, stackTrace) {
-      debugPrint('Login error: $e');
-      debugPrintStack(stackTrace: stackTrace);
+    } catch (e) {
+      
       emit(
         state.copyWith(status: AuthStatus.failure, errorMessage: t.unableToCompleteSignIn),
       );
@@ -124,9 +122,8 @@ class AuthCubit extends Cubit<AuthCubitState> {
           ),
         );
       }
-    } catch (e, stackTrace) {
-      debugPrint('Sign up error: $e');
-      debugPrintStack(stackTrace: stackTrace);
+    } catch (e) {
+
       emit(
         state.copyWith(status: AuthStatus.failure, errorMessage: t.failedSignup),
       );
@@ -179,9 +176,8 @@ class AuthCubit extends Cubit<AuthCubitState> {
       }
 
       emit(state.copyWith(status: AuthStatus.success, user: userProfile));
-    } catch (e, stackTrace) {
-      debugPrint('Google sign in error: $e');
-      debugPrintStack(stackTrace: stackTrace);
+    } catch (e) {
+      
       emit(
         state.copyWith(status: AuthStatus.failure, errorMessage: t.googleSigninFailed),
       );
@@ -197,9 +193,8 @@ class AuthCubit extends Cubit<AuthCubitState> {
       await _authRepository.forgotPassword(email: email.trim());
 
       emit(state.copyWith(status: AuthStatus.forgotPasswordSuccess));
-    } catch (e, stackTrace) {
-      debugPrint('Forgot password error: $e');
-      debugPrintStack(stackTrace: stackTrace);
+    } catch (e) {
+      
       emit(
         state.copyWith(status: AuthStatus.failure, errorMessage: t.unableToSendPasswordResetEmail),
       );
@@ -230,9 +225,8 @@ class AuthCubit extends Cubit<AuthCubitState> {
           ),
         );
       }
-    } catch (e, stackTrace) {
-      debugPrint('Verify recovery code error: $e');
-      debugPrintStack(stackTrace: stackTrace);
+    } catch (e) {
+
       emit(
         state.copyWith(status: AuthStatus.failure, errorMessage: t.unableToVerifyCode),
       );
@@ -248,9 +242,8 @@ class AuthCubit extends Cubit<AuthCubitState> {
       await _authRepository.resetPassword(password: password);
 
       emit(state.copyWith(status: AuthStatus.resetPasswordSuccess));
-    } catch (e, stackTrace) {
-      debugPrint('Reset password error: $e');
-      debugPrintStack(stackTrace: stackTrace);
+    } catch (e) {
+
       emit(
         state.copyWith(status: AuthStatus.failure, errorMessage: t.unableToResetPassword),
       );

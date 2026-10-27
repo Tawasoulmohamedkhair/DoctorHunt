@@ -37,16 +37,13 @@ class _AdminDoctorsView extends StatefulWidget {
 }
 
 class _AdminDoctorsViewState extends State<_AdminDoctorsView> {
-  static const _searchDebounce = Duration(milliseconds: 300);
-
   final _searchController = TextEditingController();
-  Timer? _debounce;
 
   AdminDoctorsCubit get _cubit => context.read<AdminDoctorsCubit>();
 
   @override
+  @override
   void dispose() {
-    _debounce?.cancel();
     _searchController.dispose();
     super.dispose();
   }
@@ -68,10 +65,7 @@ class _AdminDoctorsViewState extends State<_AdminDoctorsView> {
   }
 
   void _onSearchChanged(String query) {
-    _debounce?.cancel();
-    _debounce = Timer(_searchDebounce, () {
-      if (mounted) _cubit.searchDoctors(query);
-    });
+    _cubit.searchDoctors(query);
   }
 
   @override
@@ -166,7 +160,7 @@ class _DoctorsBody extends StatelessWidget {
                   context.w(20),
                   context.h(8),
                   context.w(20),
-                  context.h(100), 
+                  context.h(100),
                 ),
                 sliver: SliverList(
                   delegate: SliverChildListDelegate([
@@ -239,7 +233,6 @@ class _DoctorsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('UI FILTERED COUNT: ${state.filteredDoctors.length}');
     if (state.doctors.isEmpty) {
       return DoctorsEmptyState(
         title: context.t.nodoctorsyet,

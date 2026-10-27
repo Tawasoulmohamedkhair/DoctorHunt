@@ -1,6 +1,6 @@
-
 import 'package:doctor_hunt/apps/core/extension/responsive_media_query.dart';
 import 'package:doctor_hunt/apps/core/themes/app_colors.dart';
+import 'package:doctor_hunt/generated/style_atoms.dart';
 import 'package:doctor_hunt/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 
@@ -84,7 +84,7 @@ class PatientDrawer extends StatelessWidget {
                         isSelected: selectedIndex == 3,
                         onTap: onSettingsTap,
                       ),
-                      const Spacer(), 
+                      const Spacer(),
                       _DrawerItemTile(
                         icon: Icons.logout,
                         title: 'Logout',
@@ -131,14 +131,14 @@ class _DrawerHeaderProfile extends StatelessWidget {
         ),
         SizedBox(width: context.w(14)),
         Expanded(
-          child: Text(
-            userName,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-              color: AppColors.white,
-              fontSize: context.sp(18),
-              fontWeight: FontWeight.w600,
+          child: SizedBox(
+            width: double.infinity,
+            child: Text(
+              userName,
+              maxLines: 1,
+              softWrap: false,
+              overflow: TextOverflow.visible,
+              style: context.regular16white,
             ),
           ),
         ),

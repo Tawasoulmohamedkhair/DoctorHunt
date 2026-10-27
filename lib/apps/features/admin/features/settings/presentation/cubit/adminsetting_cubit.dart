@@ -1,7 +1,6 @@
 import 'package:doctor_hunt/apps/features/admin/core/repository/admin_repository.dart';
 import 'package:doctor_hunt/apps/features/admin/features/settings/presentation/cubit/adminsetting_state.dart';
 import 'package:doctor_hunt/i18n/strings.g.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AdminSettingsCubit extends Cubit<AdminSettingsState> {
@@ -25,11 +24,10 @@ class AdminSettingsCubit extends Cubit<AdminSettingsState> {
       if (isClosed) return;
 
       emit(state.copyWith(status: AdminSettingsStatus.success, admin: admin));
-    } catch (e, stackTrace) {
+    } catch (e) {
       if (isClosed) return;
 
-      debugPrint('Load admin settings error: $e');
-      debugPrintStack(stackTrace: stackTrace);
+      
 
       emit(
         state.copyWith(

@@ -94,9 +94,8 @@ class _AdminProfileScreenState extends State<AdminProfileScreen> {
         _selectedImageFile = File(image.path);
         _selectedImageExtension = _getExtension(image.name);
       });
-    } catch (e, stackTrace) {
-      debugPrint('Failed to pick profile image: $e');
-      debugPrintStack(stackTrace: stackTrace);
+    } catch (e) {
+
 
       if (!mounted) return;
 
@@ -140,9 +139,8 @@ class _AdminProfileScreenState extends State<AdminProfileScreen> {
       });
 
       await _loadLocationAddress(result);
-    } catch (e, stackTrace) {
-      debugPrint('Failed to select clinic location: $e');
-      debugPrintStack(stackTrace: stackTrace);
+    } catch (e) {
+      
 
       if (!mounted) return;
 
@@ -191,9 +189,8 @@ class _AdminProfileScreenState extends State<AdminProfileScreen> {
       setState(() {
         _locationController.text = addressParts.join(', ');
       });
-    } catch (e, stackTrace) {
-      debugPrint('Failed to get clinic address: $e');
-      debugPrintStack(stackTrace: stackTrace);
+    } catch (e) {
+      
 
       if (!mounted) return;
 

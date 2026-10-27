@@ -79,7 +79,6 @@ class _SettingScreenViewState extends State<_SettingScreenView> {
 
       _showMessage(t.passwordResetInstructionsSent);
     } catch (error) {
-      debugPrint('Password reset error: $error');
 
       if (!mounted) return;
 

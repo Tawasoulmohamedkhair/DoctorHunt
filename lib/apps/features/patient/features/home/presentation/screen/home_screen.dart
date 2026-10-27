@@ -48,6 +48,8 @@ class _HomeScreenState extends State<HomeScreen> {
           Positioned.fill(
             child: Image.asset(Assets.images.bg.path, fit: BoxFit.cover),
           ),
+          
+
 
           BlocBuilder<HomeCubit, HomeState>(
             builder: (context, homeState) {
@@ -74,6 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             onMenuPressed: () {
                               ZoomDrawer.of(context)?.toggle();
                             },
+
                             onSearchTap: () {
                               const FindDoctorsRoute().go(context);
                             },

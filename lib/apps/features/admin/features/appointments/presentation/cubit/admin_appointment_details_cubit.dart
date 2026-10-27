@@ -1,5 +1,4 @@
 import 'package:doctor_hunt/i18n/strings.g.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:doctor_hunt/apps/core/repository/appointment_repository.dart';
 
@@ -25,9 +24,8 @@ class AdminAppointmentDetailsCubit extends Cubit<AdminAppointmentDetailsState> {
       }
 
       emit(AdminAppointmentDetailsLoaded(appointment));
-    } catch (e, stackTrace) {
-      debugPrint('Load admin appointment details error: $e');
-      debugPrintStack(stackTrace: stackTrace);
+    } catch (e) {
+      
       emit(AdminAppointmentDetailsError(t.unableToLoadAppointmentDetails));
     }
   }
@@ -61,9 +59,8 @@ class AdminAppointmentDetailsCubit extends Cubit<AdminAppointmentDetailsState> {
     try {
       await action();
       await loadAppointment(appointmentId);
-    } catch (e, stackTrace) {
-      debugPrint('Admin appointment action error: $e');
-      debugPrintStack(stackTrace: stackTrace);
+    } catch (e) {
+      
       emit(AdminAppointmentDetailsError(t.operationfailed));
     }
   }

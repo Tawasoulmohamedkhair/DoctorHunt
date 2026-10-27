@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ScheduleRepository {
@@ -23,14 +22,11 @@ class ScheduleRepository {
 
       final services = List<Map<String, dynamic>>.from(response);
 
-      debugPrint('Schedule doctorId: $doctorId');
-      debugPrint('Assigned active services: ${services.length}');
-      debugPrint('Services response: $services');
+     
 
       return services;
-    } catch (error, stackTrace) {
-      debugPrint('getDoctorServices error: $error');
-      debugPrintStack(stackTrace: stackTrace);
+    } catch (error) {
+     
       rethrow;
     }
   }

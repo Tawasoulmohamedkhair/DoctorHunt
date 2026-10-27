@@ -81,7 +81,6 @@ class AdminSettingScreen extends StatelessWidget {
                     } catch (e) {
                       if (!context.mounted) return;
 
-                      debugPrint('Admin logout error: $e');
 
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text(t.logoutFailed)),

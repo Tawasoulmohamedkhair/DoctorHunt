@@ -56,10 +56,16 @@ class AdminDoctorsState extends Equatable {
 
     if (searchQuery.isNotEmpty) {
       result = result.where((doctor) {
-        final name = doctor.fullName.toLowerCase();
+        final firstName = doctor.fullName
+            .trim()
+            .split(RegExp(r'\s+'))
+            .first
+            .toLowerCase();
+
         final specialty = doctor.specialtyName.toLowerCase();
 
-        return name.startsWith(searchQuery) || specialty.contains(searchQuery);
+        return firstName.contains(searchQuery) ||
+            specialty.contains(searchQuery);
       }).toList();
     }
 

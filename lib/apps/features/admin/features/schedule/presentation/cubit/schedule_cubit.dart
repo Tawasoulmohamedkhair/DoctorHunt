@@ -126,30 +126,21 @@ class ScheduleCubit extends Cubit<ScheduleState> {
         return;
       }
 
-      debugPrint('Saving schedule for doctor: $doctorId');
-      debugPrint('Saving month: ${monthStart.toIso8601String()}');
-      debugPrint('Saving dates: $dates');
-
+     
       final scheduleId = await _repository.saveDraft(
         doctorId: doctorId,
         month: monthStart,
         availabilityRows: rowsToSave,
       );
 
-      debugPrint('Saved schedule ID: $scheduleId');
 
       await loadMonth(doctorId: doctorId, month: monthStart);
 
       if (state.status == ScheduleStatus.failure) {
-        debugPrint('Reload failed after saving: ${state.errorMessage}');
         return;
       }
 
-      final savedDates = state.availability
-          .map((row) => row['work_date'].toString().substring(0, 10))
-          .toList();
 
-      debugPrint('Dates returned from database: $savedDates');
 
       emit(
         state.copyWith(
@@ -253,7 +244,6 @@ class ScheduleCubit extends Cubit<ScheduleState> {
 
     emit(state.copyWith(status: ScheduleStatus.saving, clearError: true));
 
-    final stopwatch = Stopwatch()..start();
 
     try {
       await _repository.updatePublishedAvailability(
@@ -266,22 +256,17 @@ class ScheduleCubit extends Cubit<ScheduleState> {
         slotDurationMinutes: slotDurationMinutes,
       );
 
-      debugPrint(
-        'UPDATE AVAILABILITY RPC: ${stopwatch.elapsedMilliseconds} ms',
-      );
+     
 
-      final reloadStopwatch = Stopwatch()..start();
 
       await loadMonth(doctorId: doctorId, month: month);
 
-      debugPrint('RELOAD SCHEDULE: ${reloadStopwatch.elapsedMilliseconds} ms');
 
       if (state.status == ScheduleStatus.failure) return;
 
       emit(state.copyWith(status: ScheduleStatus.success, clearError: true));
-    } catch (error, stackTrace) {
-      debugPrint('Update availability error: $error');
-      debugPrintStack(stackTrace: stackTrace);
+    } catch (error) {
+     
 
       emit(
         state.copyWith(
@@ -289,10 +274,7 @@ class ScheduleCubit extends Cubit<ScheduleState> {
           errorMessage: t.unableToUpdateAvailability,
         ),
       );
-    } finally {
-      stopwatch.stop();
-      debugPrint('TOTAL UPDATE TIME: ${stopwatch.elapsedMilliseconds} ms');
-    }
+    } 
   }
   
 Future<void> addPublishedAvailability({

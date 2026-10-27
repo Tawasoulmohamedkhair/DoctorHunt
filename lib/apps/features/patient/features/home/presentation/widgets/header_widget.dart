@@ -53,17 +53,32 @@ class HeaderWidget extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                IconButton(
-                  onPressed: onMenuPressed,
-                  padding: EdgeInsets.zero,
-                  constraints: const BoxConstraints(),
-                  icon: Icon(
-                    Icons.menu,
-                    color: AppColors.white,
-                    size: context.sp(28),
+                // IconButton(
+                //   onPressed: onMenuPressed,
+                //   padding: EdgeInsets.zero,
+                //   icon: Icon(
+                //     Icons.menu,
+                //     color: AppColors.white,
+                //     size: context.sp(28),
+                //   ),
+                // ),
+                SizedBox(
+                  width: 48,
+                  height: 48,
+                  child: IconButton(
+                    onPressed: onMenuPressed,
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(
+                      minWidth: 48,
+                      minHeight: 48,
+                    ),
+                    icon: Icon(
+                      Icons.menu,
+                      color: AppColors.white,
+                      size: context.sp(28),
+                    ),
                   ),
                 ),
-                SizedBox(width: context.w(14)),
                 Expanded(
                   child: Align(
                     alignment: Alignment.topLeft,
@@ -71,12 +86,17 @@ class HeaderWidget extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(height: isShort ? 0 : context.h(15)),
-                        Text(
-                          '${t.hi} $userName',
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: context.regular20lightgray,
+                        SizedBox(height: isShort ? 0 : context.h(20)),
+                        Flexible(
+                          child: FittedBox(
+                            fit: BoxFit.scaleDown,
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              '${t.hi} $userName',
+                              maxLines: 1,
+                              style: context.regular20lightgray,
+                            ),
+                          ),
                         ),
                         SizedBox(height: isShort ? 0 : context.h(4)),
                         Text(
@@ -90,7 +110,6 @@ class HeaderWidget extends StatelessWidget {
                   ),
                 ),
 
-              
                 CircleAvatar(
                   radius: context.r(26),
                   backgroundColor: AppColors.white,

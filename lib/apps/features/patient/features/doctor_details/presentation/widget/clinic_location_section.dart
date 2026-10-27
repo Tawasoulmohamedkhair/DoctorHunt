@@ -41,11 +41,7 @@ class _ClinicLocationSectionState extends State<ClinicLocationSection> {
             }
 
             if (snapshot.hasError) {
-              debugPrint('Clinic location error: ${snapshot.error}');
-
-              return Text(
-                t.unableToLoadClinicLocation,
-              );
+              return Text(t.unableToLoadClinicLocation);
             }
 
             final data = snapshot.data;
@@ -117,9 +113,6 @@ class _ClinicLocationSectionState extends State<ClinicLocationSection> {
                               tileProvider: NetworkTileProvider(),
                               maxZoom: 19,
                               keepBuffer: 2,
-                              errorTileCallback: (tile, error, stackTrace) {
-                                debugPrint('Map tile error: $error');
-                              },
                             ),
 
                             MarkerLayer(
@@ -164,4 +157,3 @@ class _ClinicLocationSectionState extends State<ClinicLocationSection> {
     );
   }
 }
-

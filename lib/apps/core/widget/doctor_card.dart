@@ -32,8 +32,6 @@ class DoctorCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final translations = Translations.of(context);
-
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -92,7 +90,23 @@ class DoctorCard extends StatelessWidget {
                 style: context.regular12primary,
               ),
               SizedBox(height: context.h(5)),
-              Icon(Icons.star, color: Colors.amber, size: context.sp(16)),
+              //  Icon(Icons.star, color: Colors.amber, size: context.sp(16)),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: List.generate(5, (i) {
+                  final rating = doctor.rating.clamp(0.0, 5.0);
+
+                  return Icon(
+                    i < rating.floor()
+                        ? Icons.star
+                        : i < rating
+                        ? Icons.star_half
+                        : Icons.star_border,
+                    color: AppColors.rating,
+                    size: context.sp(16),
+                  );
+                }),
+              ),
             ],
           ),
         ),
@@ -172,7 +186,6 @@ class DoctorCard extends StatelessWidget {
                   ),
                   SizedBox(width: context.w(8)),
 
-                  // Ø§Ù„Ù…ÙØ¶Ù„Ø© ÙˆØ§Ù„Ø³Ø¹Ø± ÙÙŠ Ø¹Ù…ÙˆØ¯ ÙˆØ§Ø­Ø¯
                   _buildFavoriteButton(context),
                   SizedBox(height: context.h(8)),
                 ],
@@ -180,14 +193,27 @@ class DoctorCard extends StatelessWidget {
               SizedBox(height: context.h(8)),
               Row(
                 children: [
-                  Icon(Icons.star, color: Colors.amber, size: context.sp(16)),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: List.generate(5, (i) {
+                      final rating = doctor.rating.clamp(0.0, 5.0);
+
+                      return Icon(
+                        i < rating.floor()
+                            ? Icons.star
+                            : i < rating
+                            ? Icons.star_half
+                            : Icons.star_border,
+                        color: AppColors.rating,
+                        size: context.sp(16),
+                      );
+                    }),
+                  ),
                   const Spacer(),
                   if (showFee) ...[
-                    SizedBox(
-                      height: context.h(12),
-                    ), // Ø§Ù„Ù…Ø³Ø§ÙØ© Ø¨ÙŠÙ†Ù‡Ù…Ø§
+                    SizedBox(height: context.h(12)),
                     Text(
-                      '\$${doctor.fee.toStringAsFixed(2)}/${t.hours}',
+                      '\$${doctor.fee.toStringAsFixed(3)}/${t.hours}',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: context.light13textSub,

@@ -62,6 +62,7 @@ class _PatientShellState extends State<PatientShell> {
     return ZoomDrawer(
       controller: _drawerController,
       style: DrawerStyle.defaultStyle,
+      
       angle: -12,
       borderRadius: context.r(30),
       showShadow: true,

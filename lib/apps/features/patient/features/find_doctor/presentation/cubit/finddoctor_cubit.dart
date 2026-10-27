@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:doctor_hunt/apps/core/repository/doctor_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:doctor_hunt/apps/core/models/doctor_model.dart';
@@ -13,6 +15,7 @@ class FindDoctorsCubit extends Cubit<FindDoctorsState> {
   List<DoctorModel> _allDoctors = [];
 
   bool _sortByRating = false;
+  Timer? _debounceTimer;
 
   Future<void> loadDoctors({
     String query = '',
@@ -32,9 +35,14 @@ class FindDoctorsCubit extends Cubit<FindDoctorsState> {
   }
 
   void search(String query) {
-    _filterDoctors(query);
-  }
+    _debounceTimer?.cancel();
 
+    _debounceTimer = Timer(const Duration(milliseconds: 500), () {
+      if (isClosed) return;
+
+      _filterDoctors(query);
+    });
+  }
 
   void _filterDoctors(String query) {
     final normalizedQuery = query.trim().toLowerCase();
@@ -57,5 +65,11 @@ class FindDoctorsCubit extends Cubit<FindDoctorsState> {
     }
 
     emit(FindDoctorsLoaded(doctors: filteredDoctors, query: query));
+  }
+
+  @override
+  Future<void> close() {
+    _debounceTimer?.cancel();
+    return super.close();
   }
 }

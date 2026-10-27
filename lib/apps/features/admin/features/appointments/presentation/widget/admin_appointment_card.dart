@@ -184,6 +184,7 @@ class AdminAppointmentCard extends StatelessWidget {
   }
 }
 
+
 String _formatTime(String value) {
   final parts = value.split(':');
   return parts.length >= 2 ? '${parts[0]}:${parts[1]}' : value;

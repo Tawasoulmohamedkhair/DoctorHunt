@@ -104,9 +104,8 @@ class SelectTimeCubit extends Cubit<SelectTimeState> {
           slotsByDate: slotsByDate,
         ),
       );
-    } catch (e, stackTrace) {
-      debugPrint('Failed to load appointment slots: $e');
-      debugPrintStack(stackTrace: stackTrace);
+    } catch (e) {
+
 
       emit(
         SelectTimeState(
@@ -164,16 +163,12 @@ class SelectTimeCubit extends Cubit<SelectTimeState> {
         clearBookingId: true,
       ),
     );
-    debugPrint('Confirm booking tapped');
-    debugPrint('Selected date: ${state.selectedDate}');
-    debugPrint('Availability ID: ${slot.availabilityId}');
-    debugPrint('Appointment time: ${slot.time}');
+   
     try {
       final bookingId = await _appointmentRepository.bookAppointment(
         availabilityId: slot.availabilityId,
         appointmentTime: '${slot.time}:00',
       );
-      debugPrint('Booking succeeded. Booking ID: $bookingId');
       emit(
         state.copyWith(
           isBooking: false,
@@ -181,9 +176,8 @@ class SelectTimeCubit extends Cubit<SelectTimeState> {
           clearBookingError: true,
         ),
       );
-    } catch (e, stackTrace) {
-      debugPrint('Appointment booking failed: $e');
-      debugPrintStack(stackTrace: stackTrace);
+    } catch (e) {
+      
 
       emit(
         state.copyWith(

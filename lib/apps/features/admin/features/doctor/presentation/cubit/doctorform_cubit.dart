@@ -1,7 +1,6 @@
 import 'dart:io';
-import 'package:doctor_hunt/i18n/strings.g.dart';
-import 'package:flutter/foundation.dart';
 
+import 'package:doctor_hunt/i18n/strings.g.dart';
 import 'package:doctor_hunt/apps/core/repository/doctor_repository.dart';
 import 'package:doctor_hunt/apps/features/admin/features/doctor/presentation/cubit/doctorform_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,11 +8,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class DoctorFormCubit extends Cubit<DoctorFormState> {
   final DoctorRepository _repository;
 
+  int _medicalServicesRequestId = 0;
+
   DoctorFormCubit(this._repository) : super(const DoctorFormState());
 
   bool get isEditMode => state.doctor != null;
 
   Future<void> initialize({String? doctorId}) async {
+    // Invalidate any service request started by a previous form state.
+    final requestId = ++_medicalServicesRequestId;
+
     emit(
       state.copyWith(
         status: DoctorFormStatus.loading,
@@ -22,18 +26,44 @@ class DoctorFormCubit extends Cubit<DoctorFormState> {
         clearSelectedSpecialtyId: true,
         clearSelectedImageFile: true,
         clearImageExtension: true,
+        clearMedicalServices: true,
+        clearSelectedMedicalServiceIds: true,
+        isLoadingMedicalServices: false,
       ),
     );
 
     try {
       final specialtiesFuture = _repository.getSpecialties();
-
       final doctorFuture = doctorId != null
           ? _repository.getDoctorById(doctorId)
           : null;
 
       final specialties = await specialtiesFuture;
       final doctor = doctorFuture != null ? await doctorFuture : null;
+
+      List<dynamic> services = [];
+      List<String> selectedServiceIds = [];
+
+      if (doctor != null) {
+        final results = await Future.wait([
+          _repository.getMedicalServicesBySpecialty(doctor.specialtyId),
+          _repository.getDoctorMedicalServiceIds(doctor.id),
+        ]);
+
+        services = results[0] as List;
+        final existingIds = results[1] as List<String>;
+
+        final availableIds = services
+            .map((service) => service.id as String)
+            .toSet();
+
+        selectedServiceIds = existingIds
+            .where((id) => availableIds.contains(id))
+            .toSet()
+            .toList();
+      }
+
+      if (isClosed || requestId != _medicalServicesRequestId) return;
 
       emit(
         state.copyWith(
@@ -42,11 +72,15 @@ class DoctorFormCubit extends Cubit<DoctorFormState> {
           doctor: doctor,
           selectedSpecialtyId: doctor?.specialtyId,
           isActive: doctor?.isActive ?? true,
+          medicalServices: services.cast(),
+          selectedMedicalServiceIds: selectedServiceIds,
         ),
       );
-    } catch (e, stackTrace) {
-      debugPrint('Load doctor form error: $e');
-      debugPrintStack(stackTrace: stackTrace);
+    } catch (e) {
+      if (isClosed || requestId != _medicalServicesRequestId) return;
+
+      
+
       emit(
         state.copyWith(
           status: DoctorFormStatus.failure,
@@ -56,11 +90,76 @@ class DoctorFormCubit extends Cubit<DoctorFormState> {
     }
   }
 
-  void selectSpecialty(String? specialtyId) {
-    if (specialtyId == null) return;
+  Future<void> selectSpecialty(String? specialtyId) async {
+    if (specialtyId == null || specialtyId == state.selectedSpecialtyId) {
+      return;
+    }
+
+    final requestId = ++_medicalServicesRequestId;
 
     emit(
-      state.copyWith(selectedSpecialtyId: specialtyId, clearErrorMessage: true),
+      state.copyWith(
+        selectedSpecialtyId: specialtyId,
+        clearMedicalServices: true,
+        clearSelectedMedicalServiceIds: true,
+        clearErrorMessage: true,
+        isLoadingMedicalServices: true,
+      ),
+    );
+
+    try {
+      final services = await _repository.getMedicalServicesBySpecialty(
+        specialtyId,
+      );
+
+      // Ignore outdated results if another specialty was selected meanwhile.
+      if (isClosed ||
+          requestId != _medicalServicesRequestId ||
+          state.selectedSpecialtyId != specialtyId) {
+        return;
+      }
+
+      emit(
+        state.copyWith(
+          medicalServices: services,
+          isLoadingMedicalServices: false,
+        ),
+      );
+    } catch (e) {
+      if (isClosed || requestId != _medicalServicesRequestId) return;
+
+      
+
+      emit(
+        state.copyWith(
+          clearMedicalServices: true,
+          clearSelectedMedicalServiceIds: true,
+          isLoadingMedicalServices: false,
+          errorMessage: t.unableToLoadDoctorForm,
+        ),
+      );
+    }
+  }
+
+  void toggleMedicalService(String serviceId) {
+    if (state.isLoadingMedicalServices ||
+        !state.medicalServices.any((service) => service.id == serviceId)) {
+      return;
+    }
+
+    final selectedIds = List<String>.from(state.selectedMedicalServiceIds);
+
+    if (selectedIds.contains(serviceId)) {
+      selectedIds.remove(serviceId);
+    } else {
+      selectedIds.add(serviceId);
+    }
+
+    emit(
+      state.copyWith(
+        selectedMedicalServiceIds: selectedIds,
+        clearErrorMessage: true,
+      ),
     );
   }
 
@@ -94,6 +193,8 @@ class DoctorFormCubit extends Cubit<DoctorFormState> {
       return;
     }
 
+    if (state.isLoadingMedicalServices) return;
+
     emit(
       state.copyWith(status: DoctorFormStatus.saving, clearErrorMessage: true),
     );
@@ -105,15 +206,18 @@ class DoctorFormCubit extends Cubit<DoctorFormState> {
         await _createDoctor(fullName: fullName, fee: fee);
       }
 
+      if (isClosed) return;
+
       emit(
         state.copyWith(
           status: DoctorFormStatus.success,
           clearErrorMessage: true,
         ),
       );
-    } catch (e, stackTrace) {
-      debugPrint('Save doctor error: $e');
-      debugPrintStack(stackTrace: stackTrace);
+    } catch (e) {
+      if (isClosed) return;
+
+
       emit(
         state.copyWith(
           status: DoctorFormStatus.failure,
@@ -134,8 +238,13 @@ class DoctorFormCubit extends Cubit<DoctorFormState> {
       isActive: state.isActive,
     );
 
-    // احتفظ بالسجل الذي أُنشئ قبل محاولة رفع الصورة.
+    // Keep the created record if a subsequent operation fails.
     emit(state.copyWith(doctor: doctor));
+
+    await _repository.saveDoctorMedicalServices(
+      doctorId: doctor.id,
+      medicalServiceIds: state.selectedMedicalServiceIds,
+    );
 
     final imageFile = state.selectedImageFile;
 
@@ -159,6 +268,11 @@ class DoctorFormCubit extends Cubit<DoctorFormState> {
       fullName: fullName,
       specialtyId: state.selectedSpecialtyId!,
       fee: fee,
+    );
+
+    await _repository.saveDoctorMedicalServices(
+      doctorId: doctor.id,
+      medicalServiceIds: state.selectedMedicalServiceIds,
     );
 
     final imageFile = state.selectedImageFile;
@@ -210,15 +324,19 @@ class DoctorFormCubit extends Cubit<DoctorFormState> {
     try {
       await _repository.deleteDoctor(doctor.id);
 
+      if (isClosed) return;
+
       emit(
         state.copyWith(
           status: DoctorFormStatus.success,
           clearErrorMessage: true,
         ),
       );
-    } catch (e, stackTrace) {
-      debugPrint('Delete doctor error: $e');
-      debugPrintStack(stackTrace: stackTrace);
+    } catch (e) {
+      if (isClosed) return;
+
+     
+
       emit(
         state.copyWith(
           status: DoctorFormStatus.failure,

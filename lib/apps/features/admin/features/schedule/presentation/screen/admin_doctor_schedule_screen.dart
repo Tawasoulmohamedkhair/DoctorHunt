@@ -1192,9 +1192,8 @@ class _AdminDoctorScheduleScreenState extends State<AdminDoctorScheduleScreen> {
         slotDurationMinutes:
             (row['slot_duration_minutes'] as num?)?.toInt() ?? 30,
       );
-    } catch (error, stackTrace) {
-      debugPrint('Edit availability error: $error');
-      debugPrintStack(stackTrace: stackTrace);
+    } catch (error) {
+      
       if (mounted) {
         _showMessage(t.unableToEditAvailability);
       }

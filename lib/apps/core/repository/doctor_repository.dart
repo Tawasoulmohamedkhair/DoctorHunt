@@ -6,6 +6,7 @@ import 'package:doctor_hunt/apps/core/models/clinic_location_model.dart';
 import 'package:doctor_hunt/apps/core/models/doctor_model.dart';
 import 'package:doctor_hunt/apps/core/service/avatar_storage_service.dart';
 import 'package:doctor_hunt/apps/features/admin/core/model/specialty_model.dart';
+import 'package:doctor_hunt/apps/features/admin/features/doctor/data/models/medical_service_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class DoctorRepository {
@@ -178,6 +179,61 @@ class DoctorRepository {
         )
         .toList();
   }
+  
+  /// Fetches active medical services for the selected specialty.
+  Future<List<MedicalServiceModel>> getMedicalServicesBySpecialty(
+    String specialtyId,
+  ) async {
+    final response = await _supabase
+        .from('medical_services')
+        .select('id, specialty_id, name, is_active')
+        .eq('specialty_id', specialtyId)
+        .eq('is_active', true)
+        .order('name');
+
+    return (response as List)
+        .map(
+          (service) =>
+              MedicalServiceModel.fromMap(Map<String, dynamic>.from(service)),
+        )
+        .toList();
+  }
+
+  /// Fetches the selected medical service IDs for a doctor.
+  Future<List<String>> getDoctorMedicalServiceIds(String doctorId) async {
+    final response = await _supabase
+        .from('doctor_services')
+        .select('medical_service_id')
+        .eq('doctor_id', doctorId);
+
+    return (response as List)
+        .map((item) => item['medical_service_id'] as String)
+        .toList();
+  }
+
+  /// Replaces all medical service links assigned to a doctor.
+  Future<void> saveDoctorMedicalServices({
+    required String doctorId,
+    required List<String> medicalServiceIds,
+  }) async {
+    // Remove existing links first, including when the selection is empty.
+    await _supabase.from('doctor_services').delete().eq('doctor_id', doctorId);
+
+    if (medicalServiceIds.isEmpty) return;
+
+    final rows = medicalServiceIds
+        .toSet()
+        .map(
+          (serviceId) => {
+            'doctor_id': doctorId,
+            'medical_service_id': serviceId,
+          },
+        )
+        .toList();
+
+    await _supabase.from('doctor_services').insert(rows);
+  }
+
 
   Future<DoctorModel> createDoctor({
     required String fullName,

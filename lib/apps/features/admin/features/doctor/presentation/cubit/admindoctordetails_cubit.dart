@@ -2,7 +2,6 @@
 import 'package:doctor_hunt/apps/core/repository/doctor_repository.dart';
 import 'package:doctor_hunt/apps/features/admin/features/doctor/presentation/cubit/admindoctordetails_state.dart';
 import 'package:doctor_hunt/i18n/strings.g.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AdminDoctorDetailsCubit extends Cubit<AdminDoctorDetailsState> {
@@ -33,9 +32,8 @@ class AdminDoctorDetailsCubit extends Cubit<AdminDoctorDetailsState> {
           clearErrorMessage: true,
         ),
       );
-    } catch (e, stackTrace) {
-      debugPrint('Load admin doctor details error: $e');
-      debugPrintStack(stackTrace: stackTrace);
+    } catch (e) {
+      
 
       emit(
         state.copyWith(

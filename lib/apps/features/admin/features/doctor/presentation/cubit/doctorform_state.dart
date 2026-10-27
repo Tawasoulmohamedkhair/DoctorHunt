@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:doctor_hunt/apps/core/models/doctor_model.dart';
 import 'package:doctor_hunt/apps/features/admin/core/model/specialty_model.dart';
+import 'package:doctor_hunt/apps/features/admin/features/doctor/data/models/medical_service_model.dart';
 import 'package:equatable/equatable.dart';
 
 enum DoctorFormStatus {
@@ -24,6 +25,11 @@ class DoctorFormState extends Equatable {
   final bool isActive;
   final String? errorMessage;
 
+  // Medical services
+  final List<MedicalServiceModel> medicalServices;
+  final List<String> selectedMedicalServiceIds;
+  final bool isLoadingMedicalServices;
+
   const DoctorFormState({
     this.status = DoctorFormStatus.initial,
     this.doctor,
@@ -33,6 +39,9 @@ class DoctorFormState extends Equatable {
     this.imageExtension,
     this.isActive = true,
     this.errorMessage,
+    this.medicalServices = const [],
+    this.selectedMedicalServiceIds = const [],
+    this.isLoadingMedicalServices = false,
   });
 
   DoctorFormState copyWith({
@@ -44,11 +53,16 @@ class DoctorFormState extends Equatable {
     String? imageExtension,
     bool? isActive,
     String? errorMessage,
+    List<MedicalServiceModel>? medicalServices,
+    List<String>? selectedMedicalServiceIds,
+    bool? isLoadingMedicalServices,
     bool clearErrorMessage = false,
     bool clearDoctor = false,
     bool clearSelectedSpecialtyId = false,
     bool clearSelectedImageFile = false,
     bool clearImageExtension = false,
+    bool clearMedicalServices = false,
+    bool clearSelectedMedicalServiceIds = false,
   }) {
     return DoctorFormState(
       status: status ?? this.status,
@@ -67,6 +81,14 @@ class DoctorFormState extends Equatable {
       errorMessage: clearErrorMessage
           ? null
           : errorMessage ?? this.errorMessage,
+      medicalServices: clearMedicalServices
+          ? const []
+          : medicalServices ?? this.medicalServices,
+      selectedMedicalServiceIds: clearSelectedMedicalServiceIds
+          ? const []
+          : selectedMedicalServiceIds ?? this.selectedMedicalServiceIds,
+      isLoadingMedicalServices:
+          isLoadingMedicalServices ?? this.isLoadingMedicalServices,
     );
   }
 
@@ -80,5 +102,8 @@ class DoctorFormState extends Equatable {
     imageExtension,
     isActive,
     errorMessage,
+    medicalServices,
+    selectedMedicalServiceIds,
+    isLoadingMedicalServices,
   ];
 }
