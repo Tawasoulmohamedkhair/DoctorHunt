@@ -19,7 +19,7 @@ import 'package:doctor_hunt/apps/core/widget/admin_shell.dart';
 import 'package:doctor_hunt/apps/core/widget/patient_shell.dart';
 import 'package:doctor_hunt/apps/features/patient/features/find_doctor/presentation/cubit/finddoctor_cubit.dart';
 import 'package:doctor_hunt/apps/features/patient/features/find_doctor/presentation/screen/find_doctors_screen.dart';
-import 'package:doctor_hunt/apps/features/patient/features/poplular/presentation/screens/poplular_screen.dart';
+import 'package:doctor_hunt/apps/features/patient/features/popular/presentation/screens/popular_screen.dart';
 import 'package:doctor_hunt/apps/features/patient/features/select_time/presentation/screen/select_time_screen.dart';
 import 'package:doctor_hunt/apps/features/patient/features/settings/presentation/screens/setting_screen.dart';
 import 'package:doctor_hunt/apps/features/common/auth/presentation/screens/login_screen.dart';
@@ -251,11 +251,11 @@ class FindDoctorsRoute extends GoRouteData with $FindDoctorsRoute {
 // Popular Doctors
 // ============================================================
 
+
 @TypedGoRoute<PopularRoute>(path: '/popular')
 class PopularRoute extends GoRouteData with $PopularRoute {
   const PopularRoute();
 
-  @override
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return BlocProvider<HomeCubit>(
@@ -264,7 +264,6 @@ class PopularRoute extends GoRouteData with $PopularRoute {
     );
   }
 }
-
 // ============================================================
 // Admin Profile
 // ============================================================

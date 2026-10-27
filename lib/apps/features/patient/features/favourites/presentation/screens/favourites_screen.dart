@@ -15,14 +15,14 @@ import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class FavouritesScreen extends StatefulWidget {
-  const FavouritesScreen({super.key});
+  final String? patientId;
 
+  const FavouritesScreen({super.key, this.patientId});
   @override
   State<FavouritesScreen> createState() => _FavouritesScreenState();
 }
 
 class _FavouritesScreenState extends State<FavouritesScreen> {
-  final SupabaseClient _supabase = Supabase.instance.client;
   final TextEditingController _controller = TextEditingController();
 
   late final FavoritesCubit _favoritesCubit;
@@ -36,7 +36,8 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
     super.initState();
 
     _favoritesCubit = context.read<FavoritesCubit>();
-    _patientId = _supabase.auth.currentUser?.id;
+    _patientId =
+        widget.patientId ?? Supabase.instance.client.auth.currentUser?.id;
 
     _doctorsFuture = getIt<DoctorRepository>().getActiveDoctors();
 

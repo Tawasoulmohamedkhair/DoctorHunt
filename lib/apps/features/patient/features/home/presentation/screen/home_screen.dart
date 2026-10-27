@@ -48,8 +48,6 @@ class _HomeScreenState extends State<HomeScreen> {
           Positioned.fill(
             child: Image.asset(Assets.images.bg.path, fit: BoxFit.cover),
           ),
-          
-
 
           BlocBuilder<HomeCubit, HomeState>(
             builder: (context, homeState) {
