@@ -74,13 +74,13 @@ class DoctorImagePicker extends StatelessWidget {
                       color: AppColors.success,
                       shape: BoxShape.circle,
                       border: Border.all(
-                        color: Colors.white,
+                        color: AppColors.white,
                         width: context.w(2),
                       ),
                     ),
                     child: Icon(
                       Icons.edit,
-                      color: Colors.white,
+                      color: AppColors.white,
                       size: context.r(16),
                     ),
                   ),

@@ -18,7 +18,7 @@ class AdminMenu extends StatelessWidget {
       width: double.infinity,
       padding: EdgeInsets.all(context.w(16)),
       decoration: ShapeDecoration(
-        color: Colors.white,
+        color: AppColors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(context.r(16)),
         ),

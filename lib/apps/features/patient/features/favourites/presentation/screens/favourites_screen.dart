@@ -1,6 +1,7 @@
 import 'package:doctor_hunt/apps/core/di/injection.dart';
 import 'package:doctor_hunt/apps/core/extension/responsive_media_query.dart';
 import 'package:doctor_hunt/apps/core/models/doctor_model.dart';
+import 'package:doctor_hunt/apps/core/themes/app_colors.dart';
 import 'package:doctor_hunt/apps/core/widget/custom_search_field.dart';
 import 'package:doctor_hunt/apps/core/widget/header_appbar.dart';
 import 'package:doctor_hunt/apps/core/repository/doctor_repository.dart';
@@ -61,7 +62,7 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
     }
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.white,
 
       body: BlocBuilder<FavoritesCubit, FavoritesState>(
         bloc: _favoritesCubit,

@@ -21,7 +21,7 @@ class DoctorStatusCard extends StatelessWidget {
       width: double.infinity,
       padding: EdgeInsets.all(context.w(16)),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.white,
         borderRadius: BorderRadius.circular(context.r(16)),
         border: Border.all(
           color: AppColors.borderMuted,
@@ -71,7 +71,7 @@ class DoctorStatusCard extends StatelessWidget {
           Switch(
             value: isActive,
             onChanged: onChanged,
-            activeThumbColor: Colors.white,
+            activeThumbColor: AppColors.white,
             activeTrackColor: AppColors.success,
           ),
         ],

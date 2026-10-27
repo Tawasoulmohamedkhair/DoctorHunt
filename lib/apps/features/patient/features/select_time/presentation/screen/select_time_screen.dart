@@ -110,7 +110,7 @@ class _SelectTimeContent extends StatelessWidget {
           showDialog<void>(
             context: context,
             barrierDismissible: false,
-            barrierColor: Colors.black54,
+            barrierColor: AppColors.black,
             builder: (dialogContext) {
               return BookingSuccessDialog(
                 doctor: doctor,

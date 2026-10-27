@@ -24,7 +24,7 @@ class AdminDoctorCard extends StatelessWidget {
         child: Container(
           padding: EdgeInsets.all(context.w(12)),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: AppColors.white,
             borderRadius: BorderRadius.circular(context.r(16)),
             border: Border.all(color: const Color(0xFFF1F5F9)),
             boxShadow: const [

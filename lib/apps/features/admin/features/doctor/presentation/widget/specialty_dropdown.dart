@@ -27,7 +27,7 @@ class SpecialtyDropdown extends StatelessWidget {
         horizontal: context.w(14),
       ),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.white,
         borderRadius: BorderRadius.circular(context.r(12)),
         border: Border.all(
           color: AppColors.borderMuted,

@@ -20,12 +20,12 @@ class DoctorDetailsInfoCard extends StatelessWidget {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.white,
         borderRadius: BorderRadius.circular(
           context.r(16),
         ),
         border: Border.all(
-          color: const Color(0xFFE4ECE6),
+          color: AppColors.white,
         ),
       ),
       child: Column(

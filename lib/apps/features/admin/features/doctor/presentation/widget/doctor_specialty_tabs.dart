@@ -91,7 +91,7 @@ class _SpecialtyTab extends StatelessWidget {
           child: Center(
             child: Text(
               '$title ($count)',
-              style: context.regularPx11.copyWith(fontSize: context.sp(11), fontWeight: isSelected ? FontWeight.w700 : FontWeight.w400, color: isSelected ? Colors.white : const Color(0xFF64748B)),
+              style: context.regularPx11.copyWith(fontSize: context.sp(11), fontWeight: isSelected ? FontWeight.w700 : FontWeight.w400, color: isSelected ? AppColors.white : const Color(0xFF64748B)),
             ),
           ),
         ),

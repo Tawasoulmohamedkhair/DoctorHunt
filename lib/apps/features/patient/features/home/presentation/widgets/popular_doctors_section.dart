@@ -96,7 +96,7 @@ class PopularDoctorsSection extends StatelessWidget {
                                   borderRadius: context.r(12),
                                   fallback: const Icon(
                                     Icons.medical_services,
-                                    color: Colors.grey,
+                                    color: AppColors.borderMuted,
                                   ),
                                   showLoadingIndicator: true,
                                 ),

@@ -1,3 +1,4 @@
+import 'package:doctor_hunt/apps/core/themes/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:doctor_hunt/i18n/strings.g.dart';
 
@@ -9,7 +10,7 @@ class LogoutConfirmationDialog extends StatelessWidget {
     final t = Translations.of(context);
 
     return AlertDialog(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.white,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       title: Text(
         t.logout,

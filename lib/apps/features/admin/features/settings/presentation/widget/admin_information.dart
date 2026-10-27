@@ -31,7 +31,7 @@ class AdminInformation extends StatelessWidget {
             height: context.w(56),
             shape: AppImageShape.circle,
             fit: BoxFit.cover,
-            backgroundColor: Colors.white,
+            backgroundColor: AppColors.white,
             fallback: Image.asset(
               Assets.images.profile.path,
               fit: BoxFit.cover,
@@ -140,7 +140,7 @@ class _AdminInformationCard extends StatelessWidget {
       width: double.infinity,
       padding: EdgeInsets.all(context.w(16)),
       decoration: ShapeDecoration(
-        color: Colors.white,
+        color: AppColors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(context.r(16)),
         ),

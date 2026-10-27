@@ -56,7 +56,7 @@ class _AdminAppointmentsViewState extends State<_AdminAppointmentsView> {
             onPressed: () => Navigator.pop(dialogContext, true),
             child: Text(
               t.cancelAppointment,
-              style: context.regular.copyWith(color: Colors.red),
+              style: context.regular.copyWith(color: AppColors.red),
             ),
           ),
         ],

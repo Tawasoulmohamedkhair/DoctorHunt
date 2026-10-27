@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:doctor_hunt/apps/core/themes/app_colors.dart';
 import 'package:doctor_hunt/apps/core/widget/app_image.dart';
 import 'package:doctor_hunt/apps/features/admin/core/model/admin_model.dart';
 import 'package:doctor_hunt/apps/core/extension/responsive_media_query.dart';
@@ -32,7 +33,7 @@ class AdminProfileImage extends StatelessWidget {
             width: context.r(100),
             height: context.r(100),
             shape: AppImageShape.circle,
-            backgroundColor: Colors.white,
+            backgroundColor: AppColors.white,
             fallback: Image.asset(
               Assets.images.profile.path,
               fit: BoxFit.cover,

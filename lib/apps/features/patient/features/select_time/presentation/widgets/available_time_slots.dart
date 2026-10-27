@@ -32,15 +32,15 @@ class AvailableTimeSlots extends StatelessWidget {
           label: Text(
             slot.label,
             style: context.medium.copyWith(
-              color: isSelected ? Colors.white : AppColors.primary,
+              color: isSelected ? AppColors.white : AppColors.primary,
             ),
           ),
           selected: isSelected,
           onSelected: (_) => onSlotSelected(slot),
           selectedColor: AppColors.primary,
-          backgroundColor: Colors.white,
+          backgroundColor: AppColors.white,
           side: BorderSide(
-            color: isSelected ? AppColors.primary : Colors.grey.shade300,
+            color: isSelected ? AppColors.primary : AppColors.darkgray,
           ),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(context.r(10)),

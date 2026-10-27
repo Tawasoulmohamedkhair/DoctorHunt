@@ -1,4 +1,5 @@
 import 'package:doctor_hunt/apps/core/helper/specialty_localization.dart';
+import 'package:doctor_hunt/apps/core/themes/app_colors.dart';
 import 'package:doctor_hunt/apps/core/widget/app_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -38,7 +39,7 @@ class AdminAppointmentDetailsScreen extends StatelessWidget {
                         const Icon(
                           Icons.error_outline,
                           size: 48,
-                          color: Colors.red,
+                          color: AppColors.red,
                         ),
                         const SizedBox(height: 12),
                         Text(state.message, textAlign: TextAlign.center),
@@ -120,7 +121,7 @@ class AdminAppointmentDetailsScreen extends StatelessWidget {
                             width: 125,
                             child: Text(
                               t.medicalService,
-                              style: context.regular.copyWith(color: Colors.grey),
+                              style: context.regular.copyWith(color: AppColors.grey),
                             ),
                           ),
                           Expanded(
@@ -232,7 +233,7 @@ class _InfoRow extends StatelessWidget {
         children: [
           SizedBox(
             width: 125,
-            child: Text(label, style: context.regular.copyWith(color: Colors.grey)),
+            child: Text(label, style: context.regular.copyWith(color: AppColors.grey)),
           ),
           Expanded(
             child: Text(
@@ -273,7 +274,7 @@ class _PersonHeader extends StatelessWidget {
           height: imageSize,
           fit: BoxFit.cover,
           borderRadius: 12,
-          backgroundColor: Colors.grey.shade100,
+          backgroundColor: AppColors.lightGreys,
           fallback: Icon(
             Icons.person,
             size: imageSize * 0.55,
@@ -298,7 +299,7 @@ class _PersonHeader extends StatelessWidget {
                   subtitle,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: context.regularPx12.copyWith(color: Colors.grey),
+                  style: context.regularPx12.copyWith(color: AppColors.grey),
                 ),
               ],
             ],

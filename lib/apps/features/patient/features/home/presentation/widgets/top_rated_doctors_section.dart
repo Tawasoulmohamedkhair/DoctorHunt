@@ -87,7 +87,7 @@ class TopRatedDoctorsSection extends StatelessWidget {
                                         ? Icons.favorite
                                         : Icons.favorite_border,
                                     size: context.sp(17),
-                                    color: favorite ? Colors.red : Colors.grey,
+                                    color: favorite ? AppColors.red : AppColors.borderMuted,
                                   ),
                                 ),
                                 Flexible(
@@ -123,7 +123,7 @@ class TopRatedDoctorsSection extends StatelessWidget {
                                 shape: AppImageShape.circle,
                                 fallback: const Icon(
                                   Icons.medical_services,
-                                  color: Colors.grey,
+                                  color: AppColors.grey,
                                   size: 28,
                                 ),
                               ),

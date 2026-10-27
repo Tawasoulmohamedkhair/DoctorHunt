@@ -171,7 +171,7 @@ class _DrawerItemTile extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(bottom: context.h(8)),
       child: Material(
-        color: isSelected ? Colors.white.withAlpha(30) : Colors.transparent,
+        color: isSelected ? AppColors.white.withAlpha(30) : Colors.transparent,
         borderRadius: BorderRadius.circular(context.r(12)),
         child: InkWell(
           onTap: onTap,

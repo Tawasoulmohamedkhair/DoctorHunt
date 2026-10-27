@@ -286,7 +286,7 @@ class _ReviewCard extends StatelessWidget {
       width: double.infinity,
       padding: EdgeInsets.all(context.w(14)),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.white,
         borderRadius: BorderRadius.circular(context.r(12)),
         border: Border.all(color: AppColors.darkgray.withValues(alpha: 0.15)),
         boxShadow: const [

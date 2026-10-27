@@ -53,15 +53,7 @@ class HeaderWidget extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // IconButton(
-                //   onPressed: onMenuPressed,
-                //   padding: EdgeInsets.zero,
-                //   icon: Icon(
-                //     Icons.menu,
-                //     color: AppColors.white,
-                //     size: context.sp(28),
-                //   ),
-                // ),
+              
                 SizedBox(
                   width: 48,
                   height: 48,

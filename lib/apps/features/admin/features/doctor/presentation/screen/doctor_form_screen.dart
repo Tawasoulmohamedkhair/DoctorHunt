@@ -156,7 +156,7 @@ class _DoctorFormScreenState extends State<DoctorFormScreen> {
                         onPressed: cubit.deleteDoctor,
                         child: Text(
                           t.deleteDoctor,
-                          style: context.regular.copyWith(color: Colors.red),
+                          style: context.regular.copyWith(color: AppColors.red),
                         ),
                       ),
                     ],
@@ -296,7 +296,7 @@ class _DoctorFormScreenState extends State<DoctorFormScreen> {
           width: double.infinity,
           padding: EdgeInsets.all(context.w(12)),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: AppColors.white,
             border: Border.all(color: AppColors.borderMuted),
             borderRadius: BorderRadius.circular(context.r(12)),
           ),
@@ -332,8 +332,8 @@ class _DoctorFormScreenState extends State<DoctorFormScreen> {
                         contentPadding: EdgeInsets.zero,
                         dense: true,
                         activeColor: AppColors.success,
-                        tileColor: Colors.white,
-                        selectedTileColor: Colors.white,
+                        tileColor: AppColors.white,
+                        selectedTileColor: AppColors.white,
                         selected: false,
                       ),
                     );

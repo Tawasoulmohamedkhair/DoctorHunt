@@ -38,7 +38,7 @@ class AppointmentCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.white,
         borderRadius: BorderRadius.circular(10),
         boxShadow: const [BoxShadow(color: Color(0x14000000), blurRadius: 20)],
       ),
@@ -106,7 +106,7 @@ class AppointmentCard extends StatelessWidget {
                   fontSize: 11,
                   fontWeight: FontWeight.w500,
                   borderRadius: 6,
-                  backgroundColor: Colors.white,
+                  backgroundColor: AppColors.white,
                   foregroundColor: _green,
                   borderColor: _green,
                   onPressed: () => _showDetails(

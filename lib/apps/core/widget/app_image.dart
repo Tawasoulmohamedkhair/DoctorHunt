@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:doctor_hunt/apps/core/themes/app_colors.dart';
 import 'package:flutter/material.dart';
 
 enum AppImageShape { rectangle, circle }
@@ -38,7 +39,7 @@ class AppImage extends StatelessWidget {
       height: height,
       color: backgroundColor,
       alignment: Alignment.center,
-      child: fallback ?? const Icon(Icons.person, color: Colors.grey, size: 32),
+      child: fallback ?? const Icon(Icons.person, color: AppColors.grey, size: 32),
     );
   }
 

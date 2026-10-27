@@ -90,7 +90,6 @@ class DoctorCard extends StatelessWidget {
                 style: context.regular12primary,
               ),
               SizedBox(height: context.h(5)),
-              //  Icon(Icons.star, color: Colors.amber, size: context.sp(16)),
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: List.generate(5, (i) {

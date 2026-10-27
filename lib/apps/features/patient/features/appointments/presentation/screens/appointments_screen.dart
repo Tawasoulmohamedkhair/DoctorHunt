@@ -47,7 +47,7 @@ class _AppointmentsViewState extends State<_AppointmentsView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.white,
       body: Stack(
         children: [
           Positioned.fill(
@@ -161,7 +161,7 @@ class _AppointmentsViewState extends State<_AppointmentsView> {
                     tabs[index],
                     style: context.regularPx12.copyWith(
                       fontWeight: selected ? FontWeight.w500 : FontWeight.w400,
-                      color: selected ? Colors.white : AppColors.primary,
+                      color: selected ? AppColors.white : AppColors.primary,
                       letterSpacing: -0.2,
                     ),
                   ),

@@ -2,6 +2,8 @@ import 'package:doctor_hunt/apps/core/extension/responsive_media_query.dart';
 import 'package:doctor_hunt/apps/core/themes/app_colors.dart';
 import 'package:doctor_hunt/apps/core/widget/custom_search_field.dart';
 import 'package:doctor_hunt/apps/core/widget/header_appbar.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:doctor_hunt/i18n/strings.g.dart';
 import 'package:doctor_hunt/apps/features/patient/features/favourites/presentation/cubit/favorites_cubit.dart';
 import 'package:doctor_hunt/apps/features/patient/features/favourites/presentation/cubit/favorites_state.dart';
 import 'package:doctor_hunt/apps/features/patient/features/find_doctor/presentation/cubit/finddoctor_cubit.dart';
@@ -9,11 +11,9 @@ import 'package:doctor_hunt/apps/features/patient/features/find_doctor/presentat
 import 'package:doctor_hunt/apps/features/patient/sharedwidget/widgets/doctor_list_view.dart';
 import 'package:doctor_hunt/apps/router/app_routers.dart';
 import 'package:doctor_hunt/generated/assets.gen.dart';
-import 'package:doctor_hunt/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 class FindDoctorsScreen extends StatefulWidget {
   final String? initialQuery;

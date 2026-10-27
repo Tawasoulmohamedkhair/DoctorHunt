@@ -26,7 +26,7 @@ class BookingSuccessDialog extends StatelessWidget {
     final t = Translations.of(context);
 
     return AlertDialog(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.white,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(context.r(20)),
       ),
@@ -67,7 +67,7 @@ class BookingSuccessDialog extends StatelessWidget {
               onPressed: onDone,
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primary,
-                foregroundColor: Colors.white,
+                foregroundColor: AppColors.white,
               ),
               child: Text(t.done),
             ),

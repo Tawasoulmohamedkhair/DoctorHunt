@@ -66,7 +66,7 @@ class _ClinicLocationSectionState extends State<ClinicLocationSection> {
               width: double.infinity,
               padding: EdgeInsets.all(context.w(12)),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: AppColors.white,
                 borderRadius: BorderRadius.circular(context.r(16)),
                 border: Border.all(
                   color: AppColors.darkgray.withValues(alpha: 0.15),

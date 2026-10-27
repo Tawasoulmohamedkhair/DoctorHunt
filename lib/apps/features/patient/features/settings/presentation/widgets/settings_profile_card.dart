@@ -22,7 +22,7 @@ class SettingsProfileCard extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(context.w(16)),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.white,
         borderRadius: BorderRadius.circular(context.r(16)),
         boxShadow: const [
           BoxShadow(

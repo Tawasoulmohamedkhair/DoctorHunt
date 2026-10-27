@@ -1,4 +1,5 @@
-﻿import 'package:flutter/material.dart';
+﻿import 'package:doctor_hunt/apps/core/themes/app_colors.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:latlong2/latlong.dart';
@@ -159,7 +160,7 @@ class _ClinicLocationPickerScreenState
                       height: 48,
                       child: const Icon(
                         Icons.location_pin,
-                        color: Colors.red,
+                        color: AppColors.red,
                         size: 44,
                       ),
                     ),
@@ -201,7 +202,7 @@ class _ClinicLocationPickerScreenState
                         ? t.addressUnavailable
                         : t.tapMapToSelectLocation,
                     textAlign: TextAlign.center,
-                    style: context.regular.copyWith(color: _hasAddressError ? Colors.red : Colors.grey[700]),
+                    style: context.regular.copyWith(color: _hasAddressError ? AppColors.red : AppColors.grey),
                   ),
                 const SizedBox(height: 12),
                 Text(

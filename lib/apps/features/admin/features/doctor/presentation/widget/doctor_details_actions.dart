@@ -40,7 +40,7 @@ class DoctorDetailsActions extends StatelessWidget {
             onPressed: onManageAvailability,
             style: OutlinedButton.styleFrom(
               foregroundColor: AppColors.success,
-              backgroundColor: Colors.white,
+              backgroundColor: AppColors.white,
               side: const BorderSide(color: AppColors.success),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(context.r(12)),

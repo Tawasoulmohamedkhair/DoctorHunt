@@ -250,7 +250,7 @@ class _AdminDoctorScheduleScreenState extends State<AdminDoctorScheduleScreen> {
           vertical: context.h(4),
         ),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppColors.white,
           borderRadius: BorderRadius.circular(14),
         ),
         child: Row(
@@ -313,7 +313,7 @@ class _AdminDoctorScheduleScreenState extends State<AdminDoctorScheduleScreen> {
             child: Text(
               t.publishedScheduleCannotSaveDraft,
               textAlign: TextAlign.center,
-              style: context.regular.copyWith(color: Colors.black54),
+              style: context.regular.copyWith(color: AppColors.black),
             ),
           ),
       ],
@@ -327,7 +327,7 @@ class _AdminDoctorScheduleScreenState extends State<AdminDoctorScheduleScreen> {
     return Container(
       padding: EdgeInsets.all(context.w(12)),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.white,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: AppColors.surfaceGreenAlt),
       ),
@@ -367,8 +367,8 @@ class _AdminDoctorScheduleScreenState extends State<AdminDoctorScheduleScreen> {
             ),
 
             daysOfWeekStyle:  DaysOfWeekStyle(
-              weekdayStyle: context.semiBoldPx11.copyWith(color: Colors.black54),
-              weekendStyle: context.semiBoldPx11.copyWith(color: Colors.black54),
+              weekdayStyle: context.semiBoldPx11.copyWith(color: AppColors.black),
+              weekendStyle: context.semiBoldPx11.copyWith(color: AppColors.black),
             ),
             calendarBuilders: CalendarBuilders<void>(
               defaultBuilder: (context, day, focusedDay) {
@@ -406,7 +406,7 @@ class _AdminDoctorScheduleScreenState extends State<AdminDoctorScheduleScreen> {
                 return Center(
                   child: Text(
                     weekdays[day.weekday - 1],
-                    style: context.semiBoldPx11.copyWith(color: Colors.black54),
+                    style: context.semiBoldPx11.copyWith(color: AppColors.black),
                   ),
                 );
               },
@@ -462,10 +462,10 @@ class _AdminDoctorScheduleScreenState extends State<AdminDoctorScheduleScreen> {
         : const Color(0xFFF3F8F5);
 
     final foregroundColor = isSelected
-        ? Colors.white
+        ? AppColors.white
         : isFriday
-        ? Colors.red.shade700
-        : const Color(0xFF26352D);
+        ? AppColors.danger
+        :  AppColors.black;
 
     return Container(
       margin: const EdgeInsets.all(3),
@@ -494,14 +494,14 @@ class _AdminDoctorScheduleScreenState extends State<AdminDoctorScheduleScreen> {
               Icon(
                 Icons.check_circle,
                 size: 8,
-                color: isSelected ? Colors.white : AppColors.successDark,
+                color: isSelected ? AppColors.white : AppColors.successDark,
               )
             else if (isClosed)
               Container(
                 width: 4,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: isSelected ? Colors.white : Colors.red.shade300,
+                  color: isSelected ? AppColors.white : AppColors.dangerMuted,
                   shape: BoxShape.circle,
                 ),
               )
@@ -517,7 +517,7 @@ class _AdminDoctorScheduleScreenState extends State<AdminDoctorScheduleScreen> {
     return Container(
       padding: EdgeInsets.all(context.w(12)),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.white,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
@@ -530,7 +530,7 @@ class _AdminDoctorScheduleScreenState extends State<AdminDoctorScheduleScreen> {
               isPublished
                   ? t.publishedScheduleProtected
                   : t.addWorkingDaysDraft,
-              style: context.regularPx12.copyWith(fontSize: context.sp(12), color: Colors.black87),
+              style: context.regularPx12.copyWith(fontSize: context.sp(12), color: AppColors.black),
             ),
           ),
         ],
@@ -562,7 +562,7 @@ class _AdminDoctorScheduleScreenState extends State<AdminDoctorScheduleScreen> {
     return Container(
       padding: EdgeInsets.all(context.w(12)),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.white,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: AppColors.surfaceGreenAlt),
       ),
@@ -646,7 +646,7 @@ class _AdminDoctorScheduleScreenState extends State<AdminDoctorScheduleScreen> {
               padding: EdgeInsets.only(top: 8),
               child: Text(
                 t.clinicClosed,
-                style: context.regularPx12.copyWith(color: Colors.black54),
+                style: context.regularPx12.copyWith(color: AppColors.black),
               ),
             ),
         ],
@@ -696,7 +696,7 @@ class _AdminDoctorScheduleScreenState extends State<AdminDoctorScheduleScreen> {
                     : null,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.success,
-                  foregroundColor: Colors.white,
+                  foregroundColor: AppColors.white,
                 ),
                 child: isPublishing
                     ? const SizedBox(
@@ -704,7 +704,7 @@ class _AdminDoctorScheduleScreenState extends State<AdminDoctorScheduleScreen> {
                         width: 18,
                         child: CircularProgressIndicator(
                           strokeWidth: 2,
-                          color: Colors.white,
+                          color: AppColors.white,
                         ),
                       )
                     : Text(t.publish),
@@ -717,7 +717,7 @@ class _AdminDoctorScheduleScreenState extends State<AdminDoctorScheduleScreen> {
           Text(
             t.saveChangesBeforePublishing,
             textAlign: TextAlign.center,
-            style: context.regularPx12.copyWith(color: Colors.black54),
+            style: context.regularPx12.copyWith(color: AppColors.black),
           ),
         ],
       ],
@@ -1087,7 +1087,7 @@ class _AdminDoctorScheduleScreenState extends State<AdminDoctorScheduleScreen> {
                         '${t.clinicHours}: '
                         '${_formatTime(shiftHours['start_time'])} – '
                         '${_formatTime(shiftHours['end_time'])}',
-                        style: context.regularPx12.copyWith(color: Colors.black54),
+                        style: context.regularPx12.copyWith(color: AppColors.black),
                       ),
                       const SizedBox(height: 12),
                       TextField(
@@ -1110,7 +1110,7 @@ class _AdminDoctorScheduleScreenState extends State<AdminDoctorScheduleScreen> {
                       const SizedBox(height: 8),
                       Text(
                         t.timeFormatHelp,
-                        style: context.regularPx11.copyWith(color: Colors.black54),
+                        style: context.regularPx11.copyWith(color: AppColors.black),
                       ),
                     ],
                   ),
@@ -1250,7 +1250,7 @@ class _AdminDoctorScheduleScreenState extends State<AdminDoctorScheduleScreen> {
                 ),
                 Text(
                   '$startTime – $endTime',
-                  style: context.regularPx12.copyWith(color: Colors.black54),
+                  style: context.regularPx12.copyWith(color: AppColors.black),
                 ),
                 Text(serviceName, style: context.regularPx12),
               ],
@@ -1314,7 +1314,7 @@ class _CalendarLegend extends StatelessWidget {
         const SizedBox(width: 5),
         Text(
           label,
-          style: context.regularPx10.copyWith(color: Colors.black54),
+          style: context.regularPx10.copyWith(color: AppColors.black),
         ),
       ],
     );

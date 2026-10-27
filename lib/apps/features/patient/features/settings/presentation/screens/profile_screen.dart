@@ -235,7 +235,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           HeaderAppBar(
             title: Translations.of(context).profile,
             showAction: false,
-            titleStyle: context.mediumPx20.copyWith(fontSize: context.sp(20), color: Colors.white),
+            titleStyle: context.mediumPx20.copyWith(fontSize: context.sp(20), color: AppColors.white),
             onBackPressed: () => Navigator.of(context).pop(),
           ),
           SizedBox(height: context.h(12)),

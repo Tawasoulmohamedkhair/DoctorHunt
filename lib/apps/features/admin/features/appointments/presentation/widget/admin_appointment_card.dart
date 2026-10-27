@@ -54,7 +54,7 @@ class AdminAppointmentCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.white,
         borderRadius: BorderRadius.circular(context.r(12)),
-        border: Border.all(color: Colors.grey.shade200),
+        border: Border.all(color: AppColors.lightgrey),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.04),
@@ -73,7 +73,7 @@ class AdminAppointmentCard extends StatelessWidget {
                 width: context.r(48),
                 height: context.r(48),
                 shape: AppImageShape.circle,
-                backgroundColor: Colors.grey.shade100,
+                backgroundColor: AppColors.lightGreys,
                 fallback: patientAvatar == null || patientAvatar.isEmpty
                     ? Icon(
                         Icons.person_outline,
@@ -99,7 +99,7 @@ class AdminAppointmentCard extends StatelessWidget {
                       '$doctorName · $specialtyName',
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      style: context.regularPx11.copyWith(fontSize: context.sp(11), color: Colors.grey.shade600),
+                      style: context.regularPx11.copyWith(fontSize: context.sp(11), color: AppColors.grey),
                     ),
                   ],
                 ),
@@ -109,7 +109,7 @@ class AdminAppointmentCard extends StatelessWidget {
             ],
           ),
           SizedBox(height: context.h(12)),
-          Divider(height: 1, color: Colors.grey.shade200),
+          Divider(height: 1, color: AppColors.lightGreys),
           SizedBox(height: context.h(12)),
           Row(
             children: [
@@ -144,8 +144,8 @@ class AdminAppointmentCard extends StatelessWidget {
                   child: OutlinedButton(
                     onPressed: onCancel,
                     style: OutlinedButton.styleFrom(
-                      foregroundColor: Colors.red,
-                      side: const BorderSide(color: Colors.red),
+                      foregroundColor: AppColors.red,
+                      side: const BorderSide(color: AppColors.red),
                       padding: EdgeInsets.symmetric(vertical: context.h(10)),
                     ),
                     child: Text(t.cancel),
@@ -157,7 +157,7 @@ class AdminAppointmentCard extends StatelessWidget {
                     onPressed: onComplete,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.cyan,
-                      foregroundColor: Colors.white,
+                      foregroundColor: AppColors.white,
                       padding: EdgeInsets.symmetric(vertical: context.h(10)),
                     ),
                     child: Text(t.complete),
@@ -208,7 +208,7 @@ class _InfoItem extends StatelessWidget {
       children: [
         Row(
           children: [
-            Icon(icon, size: context.r(14), color: Colors.grey.shade600),
+            Icon(icon, size: context.r(14), color: AppColors.grey),
             SizedBox(width: context.w(4)),
             Flexible(
               child: Text(
@@ -238,8 +238,8 @@ class _StatusBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final color = switch (status) {
-      'completed' => Colors.green,
-      'cancelled' => Colors.red,
+      'completed' => AppColors.cyan,
+      'cancelled' => AppColors.red,
       _ => AppColors.cyan,
     };
 

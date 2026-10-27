@@ -18,7 +18,7 @@ class AdminNavigationBar extends StatelessWidget {
       width: double.infinity,
       height: 64,
       padding: const EdgeInsets.symmetric(horizontal: 32),
-      decoration: const BoxDecoration(color: Colors.white),
+      decoration: const BoxDecoration(color: AppColors.white),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,

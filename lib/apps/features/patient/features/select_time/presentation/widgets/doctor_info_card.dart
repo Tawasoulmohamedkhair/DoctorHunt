@@ -20,7 +20,7 @@ class DoctorInfoCard extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(context.w(12)),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.white,
         borderRadius: BorderRadius.circular(14),
       ),
       child: Row(
@@ -45,7 +45,7 @@ class DoctorInfoCard extends StatelessWidget {
                 Text(
                   localizeSpecialty(context, doctor.specialtyName),
                   style: context.regularPx13.copyWith(
-                    color: Colors.grey.shade600,
+                    color: AppColors.borderMuted,
                   ),
                 ),
                 SizedBox(height: context.h(6)),

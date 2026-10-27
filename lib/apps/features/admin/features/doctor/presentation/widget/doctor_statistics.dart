@@ -41,12 +41,12 @@ class _StatisticCard extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(context.w(12)),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.white,
         borderRadius: BorderRadius.circular(context.r(16)),
-        border: Border.all(color: const Color(0xFFF1F5F9)),
+        border: Border.all(color: AppColors.white),
         boxShadow: const [
           BoxShadow(
-            color: Color(0x07000000),
+            color: AppColors.black,
             blurRadius: 8,
             offset: Offset(0, 2),
           ),
