@@ -1,5 +1,6 @@
 
-import 'package:doctor_hunt/apps/core/widget/custom_elevated_button.dart';
+import 'package:bloc_test/bloc_test.dart';
+import 'package:doctor_hunt/apps/core/widgets/custom_elevated_button.dart';
 import 'package:doctor_hunt/apps/features/common/auth/presentation/cubit/auth_cubit.dart';
 import 'package:doctor_hunt/apps/features/common/auth/presentation/cubit/auth_cubit_state.dart';
 import 'package:doctor_hunt/apps/features/common/auth/presentation/screens/signup_screen.dart';
@@ -9,7 +10,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-import '../../../../../core/helpers/mocks.dart';
+class MockAuthCubit extends MockCubit<AuthCubitState> implements AuthCubit {}
 
 void main() {
   late MockAuthCubit mockCubit;

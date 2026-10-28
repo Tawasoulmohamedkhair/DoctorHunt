@@ -1,6 +1,6 @@
 ﻿import 'package:doctor_hunt/apps/core/di/injection.dart';
 import 'package:doctor_hunt/apps/core/themes/app_colors.dart';
-import 'package:doctor_hunt/apps/core/widget/header_appbar.dart';
+import 'package:doctor_hunt/apps/core/widgets/header_appbar.dart';
 import 'package:doctor_hunt/apps/features/patient/features/appointments/presentation/cubit/appointment_cubit.dart';
 import 'package:doctor_hunt/apps/features/patient/features/appointments/presentation/cubit/appointment_state.dart';
 import 'package:doctor_hunt/apps/features/patient/features/appointments/presentation/widget/appointment_card.dart';

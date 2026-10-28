@@ -1,6 +1,6 @@
 import 'package:doctor_hunt/apps/core/extension/responsive_media_query.dart';
 import 'package:doctor_hunt/apps/core/themes/app_colors.dart';
-import 'package:doctor_hunt/apps/core/widget/header_appbar.dart';
+import 'package:doctor_hunt/apps/core/widgets/header_appbar.dart';
 import 'package:doctor_hunt/generated/assets.gen.dart';
 import 'package:doctor_hunt/generated/style_atoms.dart';
 import 'package:flutter/material.dart';

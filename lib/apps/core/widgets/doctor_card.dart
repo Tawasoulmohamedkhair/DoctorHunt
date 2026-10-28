@@ -2,8 +2,8 @@
 import 'package:doctor_hunt/apps/core/helper/specialty_localization.dart';
 import 'package:doctor_hunt/apps/core/models/doctor_model.dart';
 import 'package:doctor_hunt/apps/core/themes/app_colors.dart';
-import 'package:doctor_hunt/apps/core/widget/app_image.dart';
-import 'package:doctor_hunt/apps/core/widget/custom_elevated_button.dart';
+import 'package:doctor_hunt/apps/core/widgets/app_image.dart';
+import 'package:doctor_hunt/apps/core/widgets/custom_elevated_button.dart';
 import 'package:doctor_hunt/generated/style_atoms.dart';
 import 'package:doctor_hunt/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
@@ -190,36 +190,42 @@ class DoctorCard extends StatelessWidget {
                 ],
               ),
               SizedBox(height: context.h(8)),
+
               Row(
                 children: [
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: List.generate(5, (i) {
-                      final rating = doctor.rating.clamp(0.0, 5.0);
+                  Flexible(
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: List.generate(5, (i) {
+                        final rating = doctor.rating.clamp(0.0, 5.0);
 
-                      return Icon(
-                        i < rating.floor()
-                            ? Icons.star
-                            : i < rating
-                            ? Icons.star_half
-                            : Icons.star_border,
-                        color: AppColors.rating,
-                        size: context.sp(16),
-                      );
-                    }),
+                        return Icon(
+                          i < rating.floor()
+                              ? Icons.star
+                              : i < rating
+                              ? Icons.star_half
+                              : Icons.star_border,
+                          color: AppColors.rating,
+                          size: context.sp(16),
+                        );
+                      }),
+                    ),
                   ),
-                  const Spacer(),
                   if (showFee) ...[
-                    SizedBox(height: context.h(12)),
-                    Text(
-                      '\$${doctor.fee.toStringAsFixed(3)}/${t.hours}',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: context.light13textSub,
+                    SizedBox(width: context.w(4)),
+                    Flexible(
+                      child: Text(
+                        '\$${doctor.fee.toStringAsFixed(3)}/${t.hours}',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.end,
+                        style: context.light13textSub,
+                      ),
                     ),
                   ],
                 ],
               ),
+
               SizedBox(height: context.h(8)),
               SizedBox(
                 width: double.infinity,

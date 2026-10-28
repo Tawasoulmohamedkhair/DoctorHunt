@@ -1,8 +1,8 @@
 ﻿import 'package:doctor_hunt/apps/core/di/injection.dart';
 import 'package:doctor_hunt/apps/core/extension/responsive_media_query.dart';
 import 'package:doctor_hunt/apps/core/themes/app_colors.dart';
-import 'package:doctor_hunt/apps/core/widget/custom_outlined_action_button.dart';
-import 'package:doctor_hunt/apps/core/widget/logout_confirmation_dialog.dart';
+import 'package:doctor_hunt/apps/core/widgets/custom_outlined_action_button.dart';
+import 'package:doctor_hunt/apps/core/widgets/logout_confirmation_dialog.dart';
 import 'package:doctor_hunt/apps/features/common/auth/data/repository/auth_repo.dart';
 import 'package:doctor_hunt/apps/features/patient/features/settings/presentation/cubit/settings_cubit.dart';
 import 'package:doctor_hunt/apps/features/patient/features/settings/presentation/cubit/settings_state.dart';

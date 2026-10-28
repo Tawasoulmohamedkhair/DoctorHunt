@@ -2,8 +2,8 @@
 import 'package:doctor_hunt/apps/core/models/doctor_model.dart';
 import 'package:doctor_hunt/apps/core/helper/medical_service_localization.dart';
 import 'package:doctor_hunt/apps/core/themes/app_colors.dart';
-import 'package:doctor_hunt/apps/core/widget/doctor_card.dart';
-import 'package:doctor_hunt/apps/core/widget/header_appbar.dart';
+import 'package:doctor_hunt/apps/core/widgets/doctor_card.dart';
+import 'package:doctor_hunt/apps/core/widgets/header_appbar.dart';
 import 'package:doctor_hunt/apps/features/patient/features/doctor_details/presentation/cubit/doctordetails_cubit.dart';
 import 'package:doctor_hunt/apps/features/patient/features/doctor_details/presentation/cubit/doctordetails_state.dart';
 import 'package:doctor_hunt/apps/features/patient/features/doctor_details/presentation/widget/clinic_location_section.dart';

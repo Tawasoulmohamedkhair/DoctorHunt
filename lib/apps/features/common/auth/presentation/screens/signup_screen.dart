@@ -2,7 +2,7 @@ import 'package:doctor_hunt/apps/core/extension/responsive_media_query.dart';
 import 'package:doctor_hunt/apps/core/extension/validator_extension.dart';
 import 'package:doctor_hunt/apps/features/common/auth/presentation/cubit/auth_cubit.dart';
 import 'package:doctor_hunt/apps/features/common/auth/presentation/cubit/auth_cubit_state.dart';
-import 'package:doctor_hunt/apps/core/widget/custom_app_text_field.dart';
+import 'package:doctor_hunt/apps/core/widgets/custom_app_text_field.dart';
 import 'package:doctor_hunt/apps/features/common/auth/presentation/widgets/auth_background.dart';
 import 'package:doctor_hunt/apps/features/common/auth/presentation/widgets/auth_title_widget.dart';
 import 'package:doctor_hunt/apps/features/common/auth/presentation/widgets/language_switch_button.dart';
@@ -12,7 +12,7 @@ import 'package:doctor_hunt/apps/features/common/auth/presentation/widgets/socia
 import 'package:doctor_hunt/apps/features/common/choose_role/presentation/cubit/role_selection_state.dart';
 import 'package:doctor_hunt/apps/router/app_routers.dart';
 import 'package:doctor_hunt/apps/core/themes/app_colors.dart';
-import 'package:doctor_hunt/apps/core/widget/custom_elevated_button.dart';
+import 'package:doctor_hunt/apps/core/widgets/custom_elevated_button.dart';
 
 import 'package:doctor_hunt/generated/style_atoms.dart';
 import 'package:doctor_hunt/i18n/strings.g.dart';

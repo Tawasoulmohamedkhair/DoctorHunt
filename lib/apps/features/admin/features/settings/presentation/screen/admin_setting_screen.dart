@@ -1,12 +1,12 @@
-﻿import 'package:doctor_hunt/apps/core/widget/logout_confirmation_dialog.dart';
+﻿import 'package:doctor_hunt/apps/core/widgets/logout_confirmation_dialog.dart';
 import 'package:doctor_hunt/apps/features/admin/features/settings/presentation/cubit/adminsetting_cubit.dart';
 import 'package:doctor_hunt/apps/features/admin/features/settings/presentation/cubit/adminsetting_state.dart';
 import 'package:doctor_hunt/apps/features/admin/features/settings/presentation/widget/admin_information.dart';
 import 'package:doctor_hunt/apps/features/admin/features/settings/presentation/widget/admin_menu.dart';
 import 'package:doctor_hunt/apps/core/di/injection.dart';
 import 'package:doctor_hunt/apps/core/themes/app_colors.dart';
-import 'package:doctor_hunt/apps/core/widget/custom_elevated_button.dart';
-import 'package:doctor_hunt/apps/core/widget/header_appbar.dart';
+import 'package:doctor_hunt/apps/core/widgets/custom_elevated_button.dart';
+import 'package:doctor_hunt/apps/core/widgets/header_appbar.dart';
 import 'package:doctor_hunt/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

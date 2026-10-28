@@ -1,4 +1,4 @@
-import 'package:doctor_hunt/apps/core/widget/custom_elevated_button.dart';
+import 'package:doctor_hunt/apps/core/widgets/custom_elevated_button.dart';
 import 'package:flutter/material.dart';
 
 class AdminProfileSaveButton extends StatelessWidget {

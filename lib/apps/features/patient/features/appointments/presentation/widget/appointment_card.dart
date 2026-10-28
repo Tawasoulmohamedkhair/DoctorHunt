@@ -1,4 +1,4 @@
-import 'package:doctor_hunt/apps/core/widget/custom_outlined_action_button.dart';
+import 'package:doctor_hunt/apps/core/widgets/custom_outlined_action_button.dart';
 import 'package:doctor_hunt/apps/core/themes/app_colors.dart';
 import 'package:doctor_hunt/apps/core/helper/specialty_localization.dart';
 import 'package:doctor_hunt/apps/features/patient/features/appointments/data/model/appointment_model.dart';

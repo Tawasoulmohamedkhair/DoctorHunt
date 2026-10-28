@@ -3,7 +3,7 @@ import 'package:doctor_hunt/apps/features/common/auth/data/models/user_model.dar
 import 'package:doctor_hunt/apps/features/common/auth/data/repository/auth_repo.dart';
 import 'package:doctor_hunt/apps/features/common/auth/presentation/cubit/auth_cubit.dart';
 import 'package:doctor_hunt/apps/features/patient/features/settings/presentation/screens/profile_screen.dart';
-import 'package:doctor_hunt/apps/core/widget/custom_elevated_button.dart';
+import 'package:doctor_hunt/apps/core/widgets/custom_elevated_button.dart';
 import 'package:doctor_hunt/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

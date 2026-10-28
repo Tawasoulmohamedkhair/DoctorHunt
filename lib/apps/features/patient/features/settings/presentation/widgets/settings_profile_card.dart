@@ -1,6 +1,6 @@
 import 'package:doctor_hunt/apps/core/extension/responsive_media_query.dart';
 import 'package:doctor_hunt/apps/core/themes/app_colors.dart';
-import 'package:doctor_hunt/apps/core/widget/app_image.dart';
+import 'package:doctor_hunt/apps/core/widgets/app_image.dart';
 import 'package:doctor_hunt/apps/features/patient/features/settings/presentation/cubit/settings_state.dart';
 import 'package:doctor_hunt/generated/style_atoms.dart';
 import 'package:doctor_hunt/i18n/strings.g.dart';

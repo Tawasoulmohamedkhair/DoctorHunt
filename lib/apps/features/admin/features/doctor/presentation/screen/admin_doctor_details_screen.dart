@@ -1,7 +1,7 @@
 import 'package:doctor_hunt/apps/core/extension/responsive_media_query.dart';
 import 'package:doctor_hunt/apps/core/models/doctor_model.dart';
 import 'package:doctor_hunt/apps/core/themes/app_colors.dart';
-import 'package:doctor_hunt/apps/core/widget/header_appbar.dart';
+import 'package:doctor_hunt/apps/core/widgets/header_appbar.dart';
 import 'package:doctor_hunt/apps/features/admin/features/doctor/presentation/cubit/admindoctordetails_cubit.dart';
 import 'package:doctor_hunt/apps/features/admin/features/doctor/presentation/cubit/admindoctordetails_state.dart';
 import 'package:doctor_hunt/apps/features/admin/features/doctor/presentation/widget/doctor_details_actions.dart';

@@ -6,7 +6,7 @@ import 'package:doctor_hunt/apps/features/common/choose_role/presentation/cubit/
 import 'package:doctor_hunt/apps/features/common/choose_role/presentation/widget/role_card.dart';
 import 'package:doctor_hunt/apps/router/app_routers.dart';
 import 'package:doctor_hunt/apps/core/themes/app_colors.dart';
-import 'package:doctor_hunt/apps/core/widget/custom_elevated_button.dart';
+import 'package:doctor_hunt/apps/core/widgets/custom_elevated_button.dart';
 
 import 'package:doctor_hunt/generated/assets.gen.dart';
 import 'package:doctor_hunt/generated/style_atoms.dart';

@@ -1,6 +1,6 @@
 import 'package:doctor_hunt/apps/core/extension/responsive_media_query.dart';
 import 'package:doctor_hunt/apps/core/models/doctor_model.dart';
-import 'package:doctor_hunt/apps/core/widget/doctor_card.dart';
+import 'package:doctor_hunt/apps/core/widgets/doctor_card.dart';
 import 'package:flutter/material.dart';
 
 class DoctorListView extends StatelessWidget {

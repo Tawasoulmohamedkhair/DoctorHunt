@@ -2,7 +2,7 @@
 import 'package:doctor_hunt/apps/core/themes/app_colors.dart';
 
 import 'package:doctor_hunt/apps/core/extension/responsive_media_query.dart';
-import 'package:doctor_hunt/apps/core/widget/app_image.dart';
+import 'package:doctor_hunt/apps/core/widgets/app_image.dart';
 import 'package:doctor_hunt/generated/assets.gen.dart';
 import 'package:doctor_hunt/i18n/strings.g.dart';
 import 'package:flutter/material.dart';

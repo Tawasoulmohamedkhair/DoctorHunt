@@ -1,4 +1,4 @@
-import 'package:doctor_hunt/apps/core/widget/header_appbar.dart';
+import 'package:doctor_hunt/apps/core/widgets/header_appbar.dart';
 import 'package:doctor_hunt/apps/features/patient/features/home/presentation/cubit/home_cubit.dart';
 import 'package:doctor_hunt/apps/features/patient/features/home/presentation/cubit/home_state.dart';
 import 'package:doctor_hunt/apps/features/patient/features/favourites/presentation/cubit/favorites_cubit.dart';

@@ -14,11 +14,11 @@ extension Responsive on BuildContext {
   double get safeHeight => (height - _paddingVertical).clamp(0, height);
 
   // حسب تصميم 375 x 812 (mobile Figma reference)
-  // استخدم المساحات الآمنة كأساس للحسابات لتجنب قص المحتوى خلف الـ safe area
+
   double w(double value) => safeWidth * value / 375;
   double h(double value) => safeHeight * value / 812;
 
-  // نصوص: احترم textScaleFactor لكن احتفظ بنفس حدود القيمة السابقة
+ 
   double sp(double value) {
     final base = safeWidth * value / 375;
     final scaled = MediaQuery.textScalerOf(this).scale(base);

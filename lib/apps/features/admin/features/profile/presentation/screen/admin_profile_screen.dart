@@ -2,7 +2,7 @@
 import 'package:doctor_hunt/apps/core/themes/app_colors.dart';
 
 import 'package:doctor_hunt/apps/core/extension/responsive_media_query.dart';
-import 'package:doctor_hunt/apps/core/widget/header_appbar.dart';
+import 'package:doctor_hunt/apps/core/widgets/header_appbar.dart';
 import 'package:doctor_hunt/apps/features/admin/features/profile/presentation/cubit/adminprofile_cubit.dart';
 import 'package:doctor_hunt/apps/features/admin/features/profile/presentation/cubit/adminprofile_state.dart';
 import 'package:doctor_hunt/apps/features/admin/features/profile/presentation/widgets/admin_profile_fields.dart';

@@ -15,8 +15,8 @@ import 'package:doctor_hunt/apps/features/admin/features/appointments/presentati
 import 'package:doctor_hunt/apps/features/admin/features/doctor/presentation/screen/admin_doctors_screen.dart';
 import 'package:doctor_hunt/apps/features/admin/features/profile/presentation/cubit/adminprofile_cubit.dart';
 import 'package:doctor_hunt/apps/core/di/injection.dart';
-import 'package:doctor_hunt/apps/core/widget/admin_shell.dart';
-import 'package:doctor_hunt/apps/core/widget/patient_shell.dart';
+import 'package:doctor_hunt/apps/core/widgets/admin_shell.dart';
+import 'package:doctor_hunt/apps/core/widgets/patient_shell.dart';
 import 'package:doctor_hunt/apps/features/patient/features/find_doctor/presentation/cubit/finddoctor_cubit.dart';
 import 'package:doctor_hunt/apps/features/patient/features/find_doctor/presentation/screens/find_doctors_screen.dart';
 import 'package:doctor_hunt/apps/features/patient/features/popular/presentation/screens/popular_screen.dart';

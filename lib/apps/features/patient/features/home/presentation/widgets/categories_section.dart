@@ -8,6 +8,7 @@ class CategoriesSection extends StatelessWidget {
   CategoriesSection({super.key});
   final CategoriesData categories = CategoriesData();
   @override
+
   Widget build(BuildContext context) {
     // Use a horizontal scrollable list to avoid overflow on narrow screens.
     return Padding(

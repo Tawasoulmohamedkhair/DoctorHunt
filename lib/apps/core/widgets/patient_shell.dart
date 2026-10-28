@@ -1,6 +1,6 @@
 import 'package:doctor_hunt/apps/core/themes/app_colors.dart';
 import 'package:doctor_hunt/apps/core/extension/responsive_media_query.dart';
-import 'package:doctor_hunt/apps/core/widget/patient_drawer.dart';
+import 'package:doctor_hunt/apps/core/widgets/patient_drawer.dart';
 import 'package:doctor_hunt/apps/features/common/auth/presentation/cubit/auth_cubit.dart';
 import 'package:doctor_hunt/apps/features/patient/features/home/presentation/widgets/bottom_navbar.dart';
 import 'package:doctor_hunt/apps/router/app_routers.dart';

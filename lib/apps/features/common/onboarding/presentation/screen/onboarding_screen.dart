@@ -4,7 +4,7 @@ import 'package:doctor_hunt/apps/features/common/onboarding/presentation/cubit/o
 import 'package:doctor_hunt/apps/features/common/onboarding/presentation/widgets/onbarding_page.dart';
 import 'package:doctor_hunt/apps/router/app_routers.dart';
 import 'package:doctor_hunt/apps/core/themes/app_colors.dart';
-import 'package:doctor_hunt/apps/core/widget/custom_elevated_button.dart';
+import 'package:doctor_hunt/apps/core/widgets/custom_elevated_button.dart';
 
 import 'package:doctor_hunt/generated/style_atoms.dart';
 import 'package:doctor_hunt/i18n/strings.g.dart';

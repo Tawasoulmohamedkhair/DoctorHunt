@@ -1,7 +1,7 @@
 ﻿import 'package:doctor_hunt/apps/core/helper/specialty_localization.dart';
 import 'package:doctor_hunt/apps/core/models/doctor_model.dart';
 import 'package:doctor_hunt/apps/core/themes/app_colors.dart';
-import 'package:doctor_hunt/apps/core/widget/app_image.dart';
+import 'package:doctor_hunt/apps/core/widgets/app_image.dart';
 import 'package:flutter/material.dart';
 import 'package:doctor_hunt/generated/style_atoms.dart';
 
