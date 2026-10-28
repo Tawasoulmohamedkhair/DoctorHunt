@@ -36,7 +36,6 @@ class DoctorCard extends StatelessWidget {
       onTap: onTap,
       child: Container(
         width: double.infinity,
-        height: showButton ? context.h(170) : null,
         margin: EdgeInsets.only(bottom: context.h(12)),
         padding: EdgeInsets.all(context.w(showButton ? 12 : 11)),
         decoration: BoxDecoration(
@@ -158,6 +157,8 @@ class DoctorCard extends StatelessWidget {
         SizedBox(width: context.w(12)),
         Expanded(
           child: Column(
+            mainAxisSize: MainAxisSize.min,
+
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
