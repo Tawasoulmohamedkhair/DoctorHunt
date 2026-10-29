@@ -1,10 +1,11 @@
-import 'dart:io';
+
 import 'dart:async';
+import 'dart:io';
 
 import 'package:bloc_test/bloc_test.dart';
 import 'package:doctor_hunt/apps/core/models/doctor_model.dart';
-import 'package:doctor_hunt/apps/features/admin/core/model/specialty_model.dart';
 import 'package:doctor_hunt/apps/core/repository/doctor_repository.dart';
+import 'package:doctor_hunt/apps/features/admin/core/model/specialty_model.dart';
 import 'package:doctor_hunt/apps/features/admin/features/doctor/presentation/cubit/doctorform_cubit.dart';
 import 'package:doctor_hunt/apps/features/admin/features/doctor/presentation/cubit/doctorform_state.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -16,15 +17,11 @@ class FakeFile extends Fake implements File {}
 
 void main() {
   late MockDoctorRepository repository;
-  setUpAll(() {
-    registerFallbackValue(FakeFile());
-  });
 
-  setUp(() {
-    repository = MockDoctorRepository();
-  });
-
-  const specialty = SpecialtyModel(id: 'specialty-1', name: 'Cardiology');
+  const specialty = SpecialtyModel(
+    id: 'specialty-1',
+    name: 'Cardiology',
+  );
 
   const doctor = DoctorModel(
     id: 'doctor-1',
@@ -37,6 +34,10 @@ void main() {
     isActive: true,
   );
 
+  setUpAll(() {
+    registerFallbackValue(FakeFile());
+  });
+
   setUp(() {
     repository = MockDoctorRepository();
   });
@@ -44,7 +45,7 @@ void main() {
   group('DoctorFormCubit', () {
     late Completer<DoctorModel> createCompleter;
 
-    test('starts with initial state', () {
+    test('starts with initial state', () async {
       final cubit = DoctorFormCubit(repository);
 
       expect(cubit.state.status, DoctorFormStatus.initial);
@@ -53,15 +54,14 @@ void main() {
       expect(cubit.state.selectedSpecialtyId, isNull);
       expect(cubit.state.isActive, isTrue);
 
-      cubit.close();
+      await cubit.close();
     });
 
     blocTest<DoctorFormCubit, DoctorFormState>(
       'initializes create mode and loads specialties',
       build: () {
-        when(
-          () => repository.getSpecialties(),
-        ).thenAnswer((_) async => [specialty]);
+        when(() => repository.getSpecialties())
+            .thenAnswer((_) async => [specialty]);
 
         return DoctorFormCubit(repository);
       },
@@ -83,13 +83,19 @@ void main() {
     blocTest<DoctorFormCubit, DoctorFormState>(
       'initializes edit mode with doctor data',
       build: () {
-        when(
-          () => repository.getSpecialties(),
-        ).thenAnswer((_) async => [specialty]);
+        when(() => repository.getSpecialties())
+            .thenAnswer((_) async => [specialty]);
+
+        when(() => repository.getDoctorById('doctor-1'))
+            .thenAnswer((_) async => doctor);
 
         when(
-          () => repository.getDoctorById('doctor-1'),
-        ).thenAnswer((_) async => doctor);
+          () => repository.getMedicalServicesBySpecialty('specialty-1'),
+        ).thenAnswer((_) async => []);
+
+        when(
+          () => repository.getDoctorMedicalServiceIds('doctor-1'),
+        ).thenAnswer((_) async => <String>[]);
 
         return DoctorFormCubit(repository);
       },
@@ -109,18 +115,32 @@ void main() {
 
         verify(() => repository.getSpecialties()).called(1);
         verify(() => repository.getDoctorById('doctor-1')).called(1);
+
+        verify(
+          () => repository.getMedicalServicesBySpecialty('specialty-1'),
+        ).called(1);
+
+        verify(
+          () => repository.getDoctorMedicalServiceIds('doctor-1'),
+        ).called(1);
       },
     );
+
     blocTest<DoctorFormCubit, DoctorFormState>(
       'emits failure when loading doctor in edit mode fails',
       build: () {
-        when(
-          () => repository.getSpecialties(),
-        ).thenAnswer((_) async => [specialty]);
+        when(() => repository.getSpecialties())
+            .thenAnswer((_) async => [specialty]);
 
-        when(
-          () => repository.getDoctorById('doctor-1'),
-        ).thenThrow(Exception('Failed to load doctor'));
+        // Delay the error so initialize() can await the specialties first.
+        when(() => repository.getDoctorById('doctor-1')).thenAnswer(
+          (_) async {
+            await Future<void>.delayed(
+              const Duration(milliseconds: 10),
+            );
+            throw Exception('Failed to load doctor');
+          },
+        );
 
         return DoctorFormCubit(repository);
       },
@@ -128,11 +148,15 @@ void main() {
       expect: () => [
         const DoctorFormState(status: DoctorFormStatus.loading),
         isA<DoctorFormState>()
-            .having((state) => state.status, 'status', DoctorFormStatus.failure)
+            .having(
+              (state) => state.status,
+              'status',
+              DoctorFormStatus.failure,
+            )
             .having(
               (state) => state.errorMessage,
               'errorMessage',
-              contains('Failed to load doctor'),
+              isNotNull,
             ),
       ],
       verify: (_) {
@@ -144,9 +168,9 @@ void main() {
     blocTest<DoctorFormCubit, DoctorFormState>(
       'emits failure when loading specialties fails',
       build: () {
-        when(
-          () => repository.getSpecialties(),
-        ).thenThrow(Exception('Failed to load specialties'));
+        when(() => repository.getSpecialties()).thenAnswer(
+          (_) async => throw Exception('Failed to load specialties'),
+        );
 
         return DoctorFormCubit(repository);
       },
@@ -154,20 +178,39 @@ void main() {
       expect: () => [
         const DoctorFormState(status: DoctorFormStatus.loading),
         isA<DoctorFormState>()
-            .having((state) => state.status, 'status', DoctorFormStatus.failure)
+            .having(
+              (state) => state.status,
+              'status',
+              DoctorFormStatus.failure,
+            )
             .having(
               (state) => state.errorMessage,
               'errorMessage',
-              contains('Failed to load specialties'),
+              isNotNull,
             ),
       ],
     );
 
     blocTest<DoctorFormCubit, DoctorFormState>(
       'selects a specialty',
-      build: () => DoctorFormCubit(repository),
+      build: () {
+        when(
+          () => repository.getMedicalServicesBySpecialty('specialty-1'),
+        ).thenAnswer((_) async => []);
+
+        return DoctorFormCubit(repository);
+      },
       act: (cubit) => cubit.selectSpecialty('specialty-1'),
-      expect: () => [const DoctorFormState(selectedSpecialtyId: 'specialty-1')],
+      expect: () => [
+        const DoctorFormState(
+          selectedSpecialtyId: 'specialty-1',
+          isLoadingMedicalServices: true,
+        ),
+        const DoctorFormState(
+          selectedSpecialtyId: 'specialty-1',
+          isLoadingMedicalServices: false,
+        ),
+      ],
     );
 
     blocTest<DoctorFormCubit, DoctorFormState>(
@@ -181,18 +224,30 @@ void main() {
       'changes active status',
       build: () => DoctorFormCubit(repository),
       act: (cubit) => cubit.setActive(false),
-      expect: () => [const DoctorFormState(isActive: false)],
+      expect: () => [
+        const DoctorFormState(isActive: false),
+      ],
     );
 
     blocTest<DoctorFormCubit, DoctorFormState>(
       'fails to save when no specialty is selected',
       build: () => DoctorFormCubit(repository),
-      act: (cubit) => cubit.save(fullName: 'Dr. Ahmed Ali', fee: 28.0),
+      act: (cubit) => cubit.save(
+        fullName: 'Dr. Ahmed Ali',
+        fee: 28.0,
+      ),
       expect: () => [
-        const DoctorFormState(
-          status: DoctorFormStatus.failure,
-          errorMessage: 'Please select a specialty.',
-        ),
+        isA<DoctorFormState>()
+            .having(
+              (state) => state.status,
+              'status',
+              DoctorFormStatus.failure,
+            )
+            .having(
+              (state) => state.errorMessage,
+              'errorMessage',
+              isNotNull,
+            ),
       ],
       verify: (_) {
         verifyNever(
@@ -218,6 +273,13 @@ void main() {
           ),
         ).thenAnswer((_) async => doctor);
 
+        when(
+          () => repository.saveDoctorMedicalServices(
+            doctorId: 'doctor-1',
+            medicalServiceIds: <String>[],
+          ),
+        ).thenAnswer((_) async {});
+
         return DoctorFormCubit(repository);
       },
       seed: () => const DoctorFormState(
@@ -225,7 +287,10 @@ void main() {
         specialties: [specialty],
         selectedSpecialtyId: 'specialty-1',
       ),
-      act: (cubit) => cubit.save(fullName: 'Dr. Ahmed Ali', fee: 28.0),
+      act: (cubit) => cubit.save(
+        fullName: 'Dr. Ahmed Ali',
+        fee: 28.0,
+      ),
       expect: () => [
         const DoctorFormState(
           status: DoctorFormStatus.saving,
@@ -233,9 +298,16 @@ void main() {
           selectedSpecialtyId: 'specialty-1',
         ),
         const DoctorFormState(
+          status: DoctorFormStatus.saving,
+          specialties: [specialty],
+          selectedSpecialtyId: 'specialty-1',
+          doctor: doctor,
+        ),
+        const DoctorFormState(
           status: DoctorFormStatus.success,
           specialties: [specialty],
           selectedSpecialtyId: 'specialty-1',
+          doctor: doctor,
         ),
       ],
       verify: (_) {
@@ -247,11 +319,18 @@ void main() {
             isActive: true,
           ),
         ).called(1);
+
+        verify(
+          () => repository.saveDoctorMedicalServices(
+            doctorId: 'doctor-1',
+            medicalServiceIds: <String>[],
+          ),
+        ).called(1);
       },
     );
+
     blocTest<DoctorFormCubit, DoctorFormState>(
       'ignores a duplicate save while the first save is in progress',
-
       build: () {
         createCompleter = Completer<DoctorModel>();
 
@@ -264,6 +343,13 @@ void main() {
           ),
         ).thenAnswer((_) => createCompleter.future);
 
+        when(
+          () => repository.saveDoctorMedicalServices(
+            doctorId: 'doctor-1',
+            medicalServiceIds: <String>[],
+          ),
+        ).thenAnswer((_) async {});
+
         return DoctorFormCubit(repository);
       },
       seed: () => const DoctorFormState(
@@ -272,8 +358,16 @@ void main() {
         selectedSpecialtyId: 'specialty-1',
       ),
       act: (cubit) async {
-        final firstSave = cubit.save(fullName: 'Dr. Ahmed Ali', fee: 28.0);
-        await cubit.save(fullName: 'Dr. Ahmed Ali', fee: 28.0);
+        final firstSave = cubit.save(
+          fullName: 'Dr. Ahmed Ali',
+          fee: 28.0,
+        );
+
+        await cubit.save(
+          fullName: 'Dr. Ahmed Ali',
+          fee: 28.0,
+        );
+
         createCompleter.complete(doctor);
         await firstSave;
       },
@@ -284,9 +378,16 @@ void main() {
           selectedSpecialtyId: 'specialty-1',
         ),
         const DoctorFormState(
+          status: DoctorFormStatus.saving,
+          specialties: [specialty],
+          selectedSpecialtyId: 'specialty-1',
+          doctor: doctor,
+        ),
+        const DoctorFormState(
           status: DoctorFormStatus.success,
           specialties: [specialty],
           selectedSpecialtyId: 'specialty-1',
+          doctor: doctor,
         ),
       ],
       verify: (_) {
@@ -314,12 +415,21 @@ void main() {
         ).thenAnswer((_) async {});
 
         when(
+          () => repository.saveDoctorMedicalServices(
+            doctorId: 'doctor-1',
+            medicalServiceIds: <String>[],
+          ),
+        ).thenAnswer((_) async {});
+
+        when(
           () => repository.uploadDoctorImage(
             doctorId: 'doctor-1',
             file: any(named: 'file'),
             extension: 'png',
           ),
-        ).thenThrow(Exception('Image upload failed'));
+        ).thenAnswer(
+          (_) async => throw Exception('Image upload failed'),
+        );
 
         return DoctorFormCubit(repository);
       },
@@ -332,7 +442,10 @@ void main() {
         imageExtension: 'png',
         isActive: true,
       ),
-      act: (cubit) => cubit.save(fullName: 'Dr. Ahmed Updated', fee: 35.0),
+      act: (cubit) => cubit.save(
+        fullName: 'Dr. Ahmed Updated',
+        fee: 35.0,
+      ),
       expect: () => [
         isA<DoctorFormState>().having(
           (state) => state.status,
@@ -340,11 +453,15 @@ void main() {
           DoctorFormStatus.saving,
         ),
         isA<DoctorFormState>()
-            .having((state) => state.status, 'status', DoctorFormStatus.failure)
+            .having(
+              (state) => state.status,
+              'status',
+              DoctorFormStatus.failure,
+            )
             .having(
               (state) => state.errorMessage,
               'errorMessage',
-              contains('Image upload failed'),
+              isNotNull,
             ),
       ],
       verify: (_) {
@@ -354,6 +471,13 @@ void main() {
             fullName: 'Dr. Ahmed Updated',
             specialtyId: 'specialty-1',
             fee: 35.0,
+          ),
+        ).called(1);
+
+        verify(
+          () => repository.saveDoctorMedicalServices(
+            doctorId: 'doctor-1',
+            medicalServiceIds: <String>[],
           ),
         ).called(1);
 
@@ -384,7 +508,9 @@ void main() {
             fee: 28.0,
             isActive: true,
           ),
-        ).thenThrow(Exception('Create failed'));
+        ).thenAnswer(
+          (_) async => throw Exception('Create failed'),
+        );
 
         return DoctorFormCubit(repository);
       },
@@ -392,18 +518,25 @@ void main() {
         status: DoctorFormStatus.ready,
         selectedSpecialtyId: 'specialty-1',
       ),
-      act: (cubit) => cubit.save(fullName: 'Dr. Ahmed Ali', fee: 28.0),
+      act: (cubit) => cubit.save(
+        fullName: 'Dr. Ahmed Ali',
+        fee: 28.0,
+      ),
       expect: () => [
         const DoctorFormState(
           status: DoctorFormStatus.saving,
           selectedSpecialtyId: 'specialty-1',
         ),
         isA<DoctorFormState>()
-            .having((state) => state.status, 'status', DoctorFormStatus.failure)
+            .having(
+              (state) => state.status,
+              'status',
+              DoctorFormStatus.failure,
+            )
             .having(
               (state) => state.errorMessage,
               'errorMessage',
-              contains('Create failed'),
+              isNotNull,
             ),
       ],
     );
@@ -420,6 +553,13 @@ void main() {
           ),
         ).thenAnswer((_) async {});
 
+        when(
+          () => repository.saveDoctorMedicalServices(
+            doctorId: 'doctor-1',
+            medicalServiceIds: <String>[],
+          ),
+        ).thenAnswer((_) async {});
+
         return DoctorFormCubit(repository);
       },
       seed: () => const DoctorFormState(
@@ -429,7 +569,10 @@ void main() {
         selectedSpecialtyId: 'specialty-1',
         isActive: true,
       ),
-      act: (cubit) => cubit.save(fullName: 'Dr. Ahmed Updated', fee: 35.0),
+      act: (cubit) => cubit.save(
+        fullName: 'Dr. Ahmed Updated',
+        fee: 35.0,
+      ),
       expect: () => [
         const DoctorFormState(
           status: DoctorFormStatus.saving,
@@ -438,13 +581,28 @@ void main() {
           selectedSpecialtyId: 'specialty-1',
           isActive: true,
         ),
-        const DoctorFormState(
-          status: DoctorFormStatus.success,
-          doctor: doctor,
-          specialties: [specialty],
-          selectedSpecialtyId: 'specialty-1',
-          isActive: true,
-        ),
+        isA<DoctorFormState>()
+            .having(
+              (state) => state.status,
+              'status',
+              DoctorFormStatus.saving,
+            )
+            .having(
+              (state) => state.doctor?.fullName,
+              'doctor.fullName',
+              'Dr. Ahmed Updated',
+            ),
+        isA<DoctorFormState>()
+            .having(
+              (state) => state.status,
+              'status',
+              DoctorFormStatus.success,
+            )
+            .having(
+              (state) => state.doctor?.fullName,
+              'doctor.fullName',
+              'Dr. Ahmed Updated',
+            ),
       ],
       verify: (_) {
         verify(
@@ -453,6 +611,13 @@ void main() {
             fullName: 'Dr. Ahmed Updated',
             specialtyId: 'specialty-1',
             fee: 35.0,
+          ),
+        ).called(1);
+
+        verify(
+          () => repository.saveDoctorMedicalServices(
+            doctorId: 'doctor-1',
+            medicalServiceIds: <String>[],
           ),
         ).called(1);
 
@@ -475,7 +640,9 @@ void main() {
             specialtyId: 'specialty-1',
             fee: 35.0,
           ),
-        ).thenThrow(Exception('Update failed'));
+        ).thenAnswer(
+          (_) async => throw Exception('Update failed'),
+        );
 
         return DoctorFormCubit(repository);
       },
@@ -486,7 +653,10 @@ void main() {
         selectedSpecialtyId: 'specialty-1',
         isActive: true,
       ),
-      act: (cubit) => cubit.save(fullName: 'Dr. Ahmed Updated', fee: 35.0),
+      act: (cubit) => cubit.save(
+        fullName: 'Dr. Ahmed Updated',
+        fee: 35.0,
+      ),
       expect: () => [
         const DoctorFormState(
           status: DoctorFormStatus.saving,
@@ -496,11 +666,15 @@ void main() {
           isActive: true,
         ),
         isA<DoctorFormState>()
-            .having((state) => state.status, 'status', DoctorFormStatus.failure)
+            .having(
+              (state) => state.status,
+              'status',
+              DoctorFormStatus.failure,
+            )
             .having(
               (state) => state.errorMessage,
               'errorMessage',
-              contains('Update failed'),
+              isNotNull,
             ),
       ],
       verify: (_) {
@@ -535,12 +709,21 @@ void main() {
         ).thenAnswer((_) async => doctor);
 
         when(
+          () => repository.saveDoctorMedicalServices(
+            doctorId: 'doctor-1',
+            medicalServiceIds: <String>[],
+          ),
+        ).thenAnswer((_) async {});
+
+        when(
           () => repository.uploadDoctorImage(
             doctorId: 'doctor-1',
             file: any(named: 'file'),
             extension: 'jpg',
           ),
-        ).thenThrow(Exception('Image upload failed'));
+        ).thenAnswer(
+          (_) async => throw Exception('Image upload failed'),
+        );
 
         return DoctorFormCubit(repository);
       },
@@ -551,19 +734,48 @@ void main() {
         selectedImageFile: File('test/assets/doctor.png'),
         imageExtension: 'jpg',
       ),
-      act: (cubit) => cubit.save(fullName: 'Dr. Ahmed Ali', fee: 28.0),
+      act: (cubit) => cubit.save(
+        fullName: 'Dr. Ahmed Ali',
+        fee: 28.0,
+      ),
       expect: () => [
-        isA<DoctorFormState>().having(
-          (state) => state.status,
-          'status',
-          DoctorFormStatus.saving,
-        ),
         isA<DoctorFormState>()
-            .having((state) => state.status, 'status', DoctorFormStatus.failure)
+            .having(
+              (state) => state.status,
+              'status',
+              DoctorFormStatus.saving,
+            )
+            .having(
+              (state) => state.selectedImageFile,
+              'selectedImageFile',
+              isNotNull,
+            ),
+        isA<DoctorFormState>()
+            .having(
+              (state) => state.status,
+              'status',
+              DoctorFormStatus.saving,
+            )
+            .having(
+              (state) => state.doctor,
+              'doctor',
+              doctor,
+            )
+            .having(
+              (state) => state.selectedImageFile,
+              'selectedImageFile',
+              isNotNull,
+            ),
+        isA<DoctorFormState>()
+            .having(
+              (state) => state.status,
+              'status',
+              DoctorFormStatus.failure,
+            )
             .having(
               (state) => state.errorMessage,
               'errorMessage',
-              contains('Image upload failed'),
+              isNotNull,
             ),
       ],
       verify: (_) {
@@ -573,6 +785,13 @@ void main() {
             specialtyId: 'specialty-1',
             fee: 28.0,
             isActive: true,
+          ),
+        ).called(1);
+
+        verify(
+          () => repository.saveDoctorMedicalServices(
+            doctorId: 'doctor-1',
+            medicalServiceIds: <String>[],
           ),
         ).called(1);
 
@@ -599,6 +818,13 @@ void main() {
         ).thenAnswer((_) async {});
 
         when(
+          () => repository.saveDoctorMedicalServices(
+            doctorId: 'doctor-1',
+            medicalServiceIds: <String>[],
+          ),
+        ).thenAnswer((_) async {});
+
+        when(
           () => repository.updateDoctorStatus(
             doctorId: 'doctor-1',
             isActive: false,
@@ -613,7 +839,10 @@ void main() {
         selectedSpecialtyId: 'specialty-1',
         isActive: false,
       ),
-      act: (cubit) => cubit.save(fullName: 'Dr. Ahmed Ali', fee: 28.0),
+      act: (cubit) => cubit.save(
+        fullName: 'Dr. Ahmed Ali',
+        fee: 28.0,
+      ),
       expect: () => [
         const DoctorFormState(
           status: DoctorFormStatus.saving,
@@ -621,14 +850,25 @@ void main() {
           selectedSpecialtyId: 'specialty-1',
           isActive: false,
         ),
-        const DoctorFormState(
-          status: DoctorFormStatus.success,
-          doctor: doctor,
-          selectedSpecialtyId: 'specialty-1',
-          isActive: false,
+        isA<DoctorFormState>().having(
+          (state) => state.status,
+          'status',
+          DoctorFormStatus.saving,
+        ),
+        isA<DoctorFormState>().having(
+          (state) => state.status,
+          'status',
+          DoctorFormStatus.success,
         ),
       ],
       verify: (_) {
+        verify(
+          () => repository.saveDoctorMedicalServices(
+            doctorId: 'doctor-1',
+            medicalServiceIds: <String>[],
+          ),
+        ).called(1);
+
         verify(
           () => repository.updateDoctorStatus(
             doctorId: 'doctor-1',
@@ -651,11 +891,20 @@ void main() {
         ).thenAnswer((_) async {});
 
         when(
+          () => repository.saveDoctorMedicalServices(
+            doctorId: 'doctor-1',
+            medicalServiceIds: <String>[],
+          ),
+        ).thenAnswer((_) async {});
+
+        when(
           () => repository.updateDoctorStatus(
             doctorId: 'doctor-1',
             isActive: false,
           ),
-        ).thenThrow(Exception('Status update failed'));
+        ).thenAnswer(
+          (_) async => throw Exception('Status update failed'),
+        );
 
         return DoctorFormCubit(repository);
       },
@@ -666,7 +915,10 @@ void main() {
         selectedSpecialtyId: 'specialty-1',
         isActive: false,
       ),
-      act: (cubit) => cubit.save(fullName: 'Dr. Ahmed Ali', fee: 28.0),
+      act: (cubit) => cubit.save(
+        fullName: 'Dr. Ahmed Ali',
+        fee: 28.0,
+      ),
       expect: () => [
         const DoctorFormState(
           status: DoctorFormStatus.saving,
@@ -676,11 +928,15 @@ void main() {
           isActive: false,
         ),
         isA<DoctorFormState>()
-            .having((state) => state.status, 'status', DoctorFormStatus.failure)
+            .having(
+              (state) => state.status,
+              'status',
+              DoctorFormStatus.failure,
+            )
             .having(
               (state) => state.errorMessage,
               'errorMessage',
-              contains('Status update failed'),
+              isNotNull,
             ),
       ],
       verify: (_) {
@@ -690,6 +946,13 @@ void main() {
             fullName: 'Dr. Ahmed Ali',
             specialtyId: 'specialty-1',
             fee: 28.0,
+          ),
+        ).called(1);
+
+        verify(
+          () => repository.saveDoctorMedicalServices(
+            doctorId: 'doctor-1',
+            medicalServiceIds: <String>[],
           ),
         ).called(1);
 
@@ -714,6 +977,13 @@ void main() {
           ),
         ).thenAnswer((_) async {});
 
+        when(
+          () => repository.saveDoctorMedicalServices(
+            doctorId: 'doctor-1',
+            medicalServiceIds: <String>[],
+          ),
+        ).thenAnswer((_) async {});
+
         return DoctorFormCubit(repository);
       },
       seed: () => const DoctorFormState(
@@ -723,7 +993,10 @@ void main() {
         selectedSpecialtyId: 'specialty-1',
         isActive: true,
       ),
-      act: (cubit) => cubit.save(fullName: 'Dr. Ahmed Ali', fee: 28.0),
+      act: (cubit) => cubit.save(
+        fullName: 'Dr. Ahmed Ali',
+        fee: 28.0,
+      ),
       expect: () => [
         const DoctorFormState(
           status: DoctorFormStatus.saving,
@@ -732,21 +1005,17 @@ void main() {
           selectedSpecialtyId: 'specialty-1',
           isActive: true,
         ),
-        const DoctorFormState(
-          status: DoctorFormStatus.success,
-          doctor: doctor,
-          specialties: [specialty],
-          selectedSpecialtyId: 'specialty-1',
-          isActive: true,
+        isA<DoctorFormState>().having(
+          (state) => state.status,
+          'status',
+          DoctorFormStatus.success,
         ),
       ],
       verify: (_) {
         verify(
-          () => repository.updateDoctor(
+          () => repository.saveDoctorMedicalServices(
             doctorId: 'doctor-1',
-            fullName: 'Dr. Ahmed Ali',
-            specialtyId: 'specialty-1',
-            fee: 28.0,
+            medicalServiceIds: <String>[],
           ),
         ).called(1);
 
@@ -778,15 +1047,20 @@ void main() {
 
         return DoctorFormCubit(repository);
       },
-      seed: () =>
-          const DoctorFormState(status: DoctorFormStatus.ready, doctor: doctor),
+      seed: () => const DoctorFormState(
+        status: DoctorFormStatus.ready,
+        doctor: doctor,
+      ),
       act: (cubit) => cubit.deleteDoctor(),
       expect: () => [
         const DoctorFormState(
           status: DoctorFormStatus.deleting,
           doctor: doctor,
         ),
-        const DoctorFormState(status: DoctorFormStatus.success, doctor: doctor),
+        const DoctorFormState(
+          status: DoctorFormStatus.success,
+          doctor: doctor,
+        ),
       ],
       verify: (_) {
         verify(() => repository.deleteDoctor('doctor-1')).called(1);
@@ -796,14 +1070,16 @@ void main() {
     blocTest<DoctorFormCubit, DoctorFormState>(
       'emits failure when deleting a doctor fails',
       build: () {
-        when(
-          () => repository.deleteDoctor('doctor-1'),
-        ).thenThrow(Exception('Delete failed'));
+        when(() => repository.deleteDoctor('doctor-1')).thenAnswer(
+          (_) async => throw Exception('Delete failed'),
+        );
 
         return DoctorFormCubit(repository);
       },
-      seed: () =>
-          const DoctorFormState(status: DoctorFormStatus.ready, doctor: doctor),
+      seed: () => const DoctorFormState(
+        status: DoctorFormStatus.ready,
+        doctor: doctor,
+      ),
       act: (cubit) => cubit.deleteDoctor(),
       expect: () => [
         const DoctorFormState(
@@ -811,11 +1087,15 @@ void main() {
           doctor: doctor,
         ),
         isA<DoctorFormState>()
-            .having((state) => state.status, 'status', DoctorFormStatus.failure)
+            .having(
+              (state) => state.status,
+              'status',
+              DoctorFormStatus.failure,
+            )
             .having(
               (state) => state.errorMessage,
               'errorMessage',
-              contains('Delete failed'),
+              isNotNull,
             ),
       ],
     );

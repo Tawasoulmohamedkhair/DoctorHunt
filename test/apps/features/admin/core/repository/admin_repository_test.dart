@@ -7,9 +7,14 @@ import 'package:mocktail/mocktail.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class MockSupabaseClient extends Mock implements SupabaseClient {}
+
 class MockGoTrueClient extends Mock implements GoTrueClient {}
+
 class MockUser extends Mock implements User {}
+
 class MockAvatarStorageService extends Mock implements AvatarStorageService {}
+
+class FakeFile extends Fake implements File {}
 
 void main() {
   late MockSupabaseClient client;
@@ -18,15 +23,21 @@ void main() {
   late MockAvatarStorageService avatarStorage;
   late AdminRepository repository;
 
+  setUpAll(() {
+    registerFallbackValue(FakeFile());
+  });
+
   setUp(() {
     client = MockSupabaseClient();
     auth = MockGoTrueClient();
     user = MockUser();
     avatarStorage = MockAvatarStorageService();
+
     when(() => client.auth).thenReturn(auth);
     when(() => auth.currentUser).thenReturn(user);
     when(() => user.id).thenReturn('admin-1');
     when(() => user.email).thenReturn('admin@example.com');
+
     repository = AdminRepository(client, avatarStorage);
   });
 
@@ -35,6 +46,7 @@ void main() {
       when(() => auth.currentUser).thenReturn(null);
 
       await expectLater(repository.getAdmin(), throwsException);
+
       verifyNever(() => client.from(any()));
     });
   });
@@ -50,6 +62,7 @@ void main() {
         ),
         throwsException,
       );
+
       verifyNever(() => client.from(any()));
     });
   });
@@ -57,12 +70,14 @@ void main() {
   group('uploadProfileImage', () {
     test('rejects unauthenticated upload before storage access', () async {
       when(() => auth.currentUser).thenReturn(null);
+
       final file = File('unused-test-image.png');
 
       await expectLater(
         repository.uploadProfileImage(file: file, extension: 'png'),
         throwsException,
       );
+
       verifyNever(
         () => avatarStorage.upload(
           path: any(named: 'path'),
@@ -70,6 +85,7 @@ void main() {
           upsert: any(named: 'upsert'),
         ),
       );
+
       verifyNever(() => client.from(any()));
     });
   });
